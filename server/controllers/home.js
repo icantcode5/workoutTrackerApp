@@ -4,7 +4,8 @@ const Workout = require("../models/Workout")
 module.exports = {
   getHomePage : async (require, response) =>{
     try{
-      response.render("/home")
+      const workouts  = await Workout.find({})
+      response.json(workouts)
     }
     catch(err){
       console.log(err)
@@ -13,13 +14,14 @@ module.exports = {
   createWorkout : async (require, response) => {
     const {title, exercise, sets, reps}  = require.body
     try {
-      await Workout.Create({
+      await Workout.create({
         title : title,
         exercise : exercise,
         sets : sets,
         reps : reps,
       })
-      console.log("Workout has been added!")
+      console.log("Workout has been added to database")
+      //response.redirect("/")
     }catch(err){
       console.log(err)
     }

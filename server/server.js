@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const mongoose = require("mongoose");
 //const passport = require("passport");
 const session = require("express-session");
@@ -14,7 +15,7 @@ const mainRoutes = require("./routes/main");
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
-
+ 
 // Passport config
 //require("./config/passport")(passport);
 
@@ -22,7 +23,7 @@ require("dotenv").config({ path: "./config/.env" });
 connectDB(); 
 
 //Using EJS for views
-//app.set("view engine", "ejs");
+//app.set("view engine", "html"); //changed from ejs to html
 
 //Static Folder
 //app.use(express.static("public"));
@@ -30,6 +31,7 @@ connectDB();
 //Body Parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors())
 
 //Logging
 //app.use(logger("dev"));
