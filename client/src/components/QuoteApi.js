@@ -8,18 +8,14 @@ export function QuoteApi(){
   const [quote, setQuote] = useState([])
 
   useEffect(() => {
-    async function getQuote(){
-      const response = await Axios.get("https://type.fit/api/quotes")
-      setQuote(response.data)
-    }
-    getQuote()
+      Axios.get("https://type.fit/api/quotes")
+     .then((response) => setQuote(response.data[Math.floor(Math.random()* 1600)].text))
   },[])
 
-  
 
   return(
     <StyledQuoteApi>
-     
+      <p>{quote}</p> 
     </StyledQuoteApi>
   )
 }

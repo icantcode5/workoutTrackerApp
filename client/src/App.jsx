@@ -1,21 +1,18 @@
 import './App.css';
-import { Form } from './components/Form';
-import { Container } from './components/styles/Container.styled';
-import { Header } from './components/Header'
-import { GlobalStyles } from './components/styles/Global'
-import { QuoteApi } from './components/QuoteApi';
+import { Link, Routes, Route } from "react-router-dom"
+import { AddWorkout } from './pages/AddWorkout';
+import { Home } from './pages/Home'
+import { ViewWorkouts } from './pages/ViewWorkouts';
 
 function App() {
 
   return (
     <>
-    <GlobalStyles />
-    <Header />
-    <QuoteApi />
-    <Container>
-      <Form />
-    </Container>
-    
+    <Routes>
+      <Route path = '/addWorkout' element = {<AddWorkout />}/>
+      <Route path = "/home" element ={<Home />}/>
+      <Route path ="/viewWorkouts" element ={<ViewWorkouts />}/>
+    </Routes>
     </>
   );  
 }

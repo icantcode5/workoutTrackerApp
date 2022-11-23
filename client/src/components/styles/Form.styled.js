@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 export const StyledForm = styled.form`
-  margin-top: 30px;
-  padding: 30px 10px 0px 20px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 30px 10px 0px 10px;
   border-radius: 10px;
   background-color: black;
   

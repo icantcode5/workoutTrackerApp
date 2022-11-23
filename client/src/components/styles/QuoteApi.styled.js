@@ -1,13 +1,14 @@
 import styled  from "styled-components"
 
 export const StyledQuoteApi = styled.div`
-  width: 100%;
-  height : 300px;
-  border: solid 2px red;
+  
 
-  p{
-    display: inline-block:
-    width: 200px;
-    height: 200px;
+  p {
+    text-align : center;
+    margin: 25px 0px 0px 0px;
+    font-size: 26px;
+    display: inline-block;
+    width: 100%;
+    height: 100px;
   }
 `

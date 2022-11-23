@@ -1,9 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios"
 import { StyledForm } from "./styles/Form.styled";
 import { useNavigate, Routes, Route } from 'react-router-dom'
-
 
 export function Form(){
   const [title, setTitle] = useState(null)
@@ -19,10 +18,10 @@ export function Form(){
       exercise : exercise,
       sets : sets,
       reps : reps
-    }).then((response) => {console.log("Successfully added to the database from the front end!!!!") })
-    navigate('http://localhost:3000/home', {replace: true})
+    }).then((response) => {navigate('/') }) 
   }  
-
+  
+  
   return(
     <StyledForm>
       <label htmlFor ="workout">Workout</label>
