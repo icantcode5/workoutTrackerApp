@@ -26,5 +26,13 @@ module.exports = {
       console.log(err)
     }
   },
-    
+  getWorkouts : async (require,response) => {
+    try{
+      const workouts = await Workout.find({})
+      response.json(workouts)
+      console.log('Hello, this get method worked!')
+    }catch(err){
+      console.log(err)
+    }
+  }
 }
