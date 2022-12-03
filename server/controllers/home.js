@@ -2,7 +2,7 @@ const User = require("../models/User")
 const Workout = require("../models/Workout")
 
 module.exports = {
-  getHomePage : async (require, response) =>{
+  getHomePage : async (request, response) =>{
     try{
       const workouts  = await Workout.find({})
       response.json(workouts)
@@ -11,8 +11,8 @@ module.exports = {
       console.log(err)
     }
   },
-  createWorkout : async (require, response) => {
-    const {title, exercise, sets, reps}  = require.body
+  createWorkout : async (request, response) => {
+    const {title, exercise, sets, reps}  = request.body
     try {
       await Workout.create({
         title : title,
@@ -26,13 +26,25 @@ module.exports = {
       console.log(err)
     }
   },
-  getWorkouts : async (require,response) => {
+  getWorkouts : async (request,response) => {
     try{
-      const workouts = await Workout.find({})
+      const workouts = await Workout.find({}).sort({ created: "desc" }).lean();
       response.json(workouts)
       console.log('Hello, this get method worked!')
     }catch(err){
       console.log(err)
     }
+  },
+  deleteWorkout : async (request,response) => {
+    const { id } = request.params
+    try{
+      await Workout.findByIdAndDelete({_id : id})
+      console.log("Workout was deleted!")
+    }catch(err){
+      console.log(err) 
+    }
+  },
+  updateWorkout : async (request, response) => {
+
   }
 }

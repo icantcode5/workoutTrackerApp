@@ -6,6 +6,7 @@ const homeController = require('../controllers/home.js')
 router.get('/home', homeController.getHomePage)
 router.post('/home/createWorkout', homeController.createWorkout)
 router.get('/viewWorkouts', homeController.getWorkouts)
+router.delete('/viewWorkouts/deleteWorkout/:id', homeController.deleteWorkout)
 
 
 
