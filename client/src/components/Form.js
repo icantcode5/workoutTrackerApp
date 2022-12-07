@@ -1,8 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Axios from "axios"
 import { StyledForm } from "./styles/Form.styled";
-import { useNavigate, Routes, Route } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export function Form(){
   const [title, setTitle] = useState(null)
@@ -12,13 +12,14 @@ export function Form(){
   
   const navigate = useNavigate()
 
-  const storeWorkout =  () => {
-    Axios.post('http://localhost:5000/home/createWorkout', {
+  const storeWorkout = () => {
+    Axios.post('http://localhost:5000/workout/createWorkout', {
       title : title,
       exercise : exercise,
       sets : sets,
       reps : reps
-    }).then((response) => {navigate('/') }) 
+    })
+    navigate('/viewWorkouts')
   }  
   
   

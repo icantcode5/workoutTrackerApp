@@ -13,21 +13,18 @@ export function ViewWorkouts(){
   const [workouts, setWorkouts] = useState([])
   
   useEffect(() => {
-   axios.get("http://localhost:5000/viewWorkouts")
+   axios.get("http://localhost:5000/workout/viewWorkouts")
    .then(response => setWorkouts(response.data))
   },[])
 
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/viewWorkouts/deleteWorkout/${id}`)
+    axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`)
     //don't need a response because our backend successfully handles the delete method. Now we just need to set the workouts array to hold the new workouts minus the one deleted in order to trigger a re-render after we delete a document from the backend. 
     const newWorkouts = workouts.filter((workout) => workout._id !== id)
     setWorkouts(newWorkouts)
   }
 
-  const handleUpdate = () => {
-    
-  }
 
   function toHomePage(e){
     e.preventDefault()
@@ -55,7 +52,7 @@ export function ViewWorkouts(){
         <p>Reps completed: {workout.reps}</p>
         <p>Sets completed: {workout.sets}</p>
         <div>
-          <StyledButton color ="green">Edit Workout</StyledButton>
+          <StyledButton color ="green" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
           <StyledButton color = "red" onClick={() => handleDelete(workout._id)}>Delete Workout</StyledButton>
         </div>
         {/* <p>{workout._id}</p> */}

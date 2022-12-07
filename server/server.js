@@ -10,6 +10,7 @@ const MongoStore = require("connect-mongo")//(session); no longer need this in t
 //const logger = require("morgan");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
+const workoutRoutes = require("./routes/workout")
 // const postRoutes = require("./routes/posts");
 // const commentsRoutes = require("./routes/comments")
 
@@ -59,7 +60,7 @@ app.use(
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-// app.use("/post", postRoutes);
+app.use("/workout", workoutRoutes);
 // app.use("/comment", commentsRoutes)
 
 //Server Running

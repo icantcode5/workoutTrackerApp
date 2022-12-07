@@ -2,8 +2,7 @@ import styled from "styled-components"
 
 export const StyledBlock = styled.div`
   width : 1000px;
-  margin:auto;
-  border: solid 3px red;
+  margin: auto;
   display : flex;
   flex-wrap: wrap;
 `

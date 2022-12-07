@@ -6,5 +6,6 @@ export const StyledButton = styled.button`
   cursor: pointer;
   font-size: 16px;
   margin: auto;
+  padding : 2px 10px;
   background: ${({color}) => color};
 `

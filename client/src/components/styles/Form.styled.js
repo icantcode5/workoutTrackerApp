@@ -24,4 +24,10 @@ export const StyledForm = styled.form`
     font-size: 16px;
   }
 
+  input::placeholder{
+    
+    color : white;
+    opacity : .7;
+  }
+
 `
