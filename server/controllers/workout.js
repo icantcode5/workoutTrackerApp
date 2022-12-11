@@ -45,6 +45,9 @@ module.exports = {
             sets : sets,
             reps : reps
           },
+          {
+            new : true
+          }
         )
         response.json(updatedWorkout)
         console.log(request.body)

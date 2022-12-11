@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect, } from "react"
-import {useNavigate } from "react-router-dom"
+import {useNavigate, redirect } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled";
 import { Container } from "../components/styles/Container.styled";
@@ -12,7 +12,7 @@ import { GlobalStyles } from "../components/styles/Global";
 
 export function EditWorkout(){
   const { id } = useParams()
-  const [workout, setWorkout] = useState([])
+  const [workout, setWorkout] = useState({})
   const navigate = useNavigate()
 
   // const newTitle = useRef()
@@ -26,6 +26,7 @@ export function EditWorkout(){
     const getWorkout = async () => { 
       const response = await axios.get(`http://localhost:5000/workout/editWorkout/${id}`)
       setWorkout(response.data)
+      console.log("completed get request")
     }
     getWorkout()
   },[id])
@@ -36,17 +37,16 @@ export function EditWorkout(){
       exercise : exercise,
       sets : sets,
       reps : reps
+    }).then((response) => {
+      setWorkout(response.data)
+      setTitle(workout.title)
+      setExercise(workout.exercise)
+      setSets(workout.sets)
+      setReps(workout.reps)
     })
-    .then(response => console.log(response.data))
-
+    navigate('/viewWorkouts')
+    }
     //figure out how to re-render after navigating to the viewWorkouts page!!!
-    setTitle(title)
-    setExercise(exercise)
-    setReps(reps)
-    setSets(sets)
-      
-    navigate("/viewWorkouts")
-  }
 
   return(
     <>

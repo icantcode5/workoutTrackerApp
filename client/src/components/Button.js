@@ -1,13 +1,13 @@
 import React from "react";
 import { StyledButton } from "./styles/Button.styled";
 
-export function Button({text}){
+export function Button({children}){
 
 
 
   return(
     <StyledButton>
-      {text}
+      {children}
     </StyledButton>
   )
 }

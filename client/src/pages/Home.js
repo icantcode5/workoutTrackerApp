@@ -1,27 +1,20 @@
 import React from "react"
-import {useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
+import { Footer } from "../components/Footer"
 import { GlobalStyles } from "../components/styles/Global"
 
 export function Home(){
 
-  const navigate = useNavigate()
-
-  function toCreateAWorkoutPage(e){
-    e.preventDefault()
-    navigate('/addWorkout')
-  }
-
-  function toAddWorkoutPage(e){
-    e.preventDefault()
-    navigate('/viewWorkouts')
-  }
+  
 
   return(
     <>
     <GlobalStyles />
-    <div> Welcome to the home page. Here are your workouts from the past Week!</div>
-    <button onClick={toCreateAWorkoutPage}>Navigate to Create a Workout</button>
-    <button onClick={toAddWorkoutPage}>Navigate to view workouts from the past week!</button>
+    <h1>This is the Home Page!!! Should be login Page!!!</h1>
+    <Footer>
+      <Link to = "/addWorkout">Go to Add Workout Page</Link>
+      <Link to = "/viewWorkouts">Go to View Workouts Page</Link>
+    </Footer>
     </>
   )
 }

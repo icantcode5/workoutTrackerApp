@@ -5,7 +5,9 @@ import { StyledButton } from "../components/styles/Button.styled";
 import { StyledBlock } from "../components/styles/DisplayWorkout.styled";
 import { StyledDiv } from "../components/styles/Div.styled";
 import { StyledFooter } from "../components/styles/Footer.styled";
+import { GlobalStyles } from "../components/styles/Global";
 import { StyledHeader } from "../components/styles/Header.styled";
+import {Link} from "react-router-dom"
 
 export function ViewWorkouts(){
   const navigate = useNavigate()
@@ -26,19 +28,9 @@ export function ViewWorkouts(){
   }
 
 
-  function toHomePage(e){
-    e.preventDefault()
-    navigate('/home')
-  }
-
-  function toAddWorkoutPage(e){
-    e.preventDefault()
-    navigate('/addWorkout')
-  }
-
-
   return(
     <>
+    <GlobalStyles />
     <StyledHeader>
     <h1>Here is where we're are going to be able to view our workouts from the past week!</h1>
     </StyledHeader>
@@ -49,8 +41,8 @@ export function ViewWorkouts(){
         <h2>Workout : {workout.title}</h2>
         <p>Date completed : {new Date(workout.created).toDateString()}</p>
         <p>Exercise : {workout.exercise}</p>
-        <p>Reps completed: {workout.reps}</p>
         <p>Sets completed: {workout.sets}</p>
+        <p>Reps completed: {workout.reps}</p>
         <div>
           <StyledButton color ="green" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
           <StyledButton color = "red" onClick={() => handleDelete(workout._id)}>Delete Workout</StyledButton>
@@ -62,8 +54,8 @@ export function ViewWorkouts(){
     </StyledBlock>
 
     <StyledFooter>
-      <StyledButton onClick={toHomePage}> Go to Home Page</StyledButton>
-      <StyledButton onClick={toAddWorkoutPage}>Go to Add a workout Page</StyledButton>
+      <Link to = "/home">Go to Home Page</Link>
+      <Link to = "/addWorkout">Go to add Workout Page</Link>
     </StyledFooter>
     </>
   )

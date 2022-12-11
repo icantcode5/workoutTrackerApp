@@ -2,7 +2,8 @@ import styled from "styled-components"
 
 export const StyledHeader = styled.header`
   background-color : lightgrey;
-  padding: 10px 0;
+  padding: 10px 10px 70px 10px;
+  height : 180px;
 
    h1 {
     padding-top: 5px;
@@ -12,9 +13,10 @@ export const StyledHeader = styled.header`
 `
 export const Nav = styled.nav`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin : 20px 0px;
+  justify-content: space-around;
+  position : relative;
+  bottom : 15px;
+
 
   p{
     border-radius: 999px;

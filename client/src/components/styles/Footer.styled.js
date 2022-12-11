@@ -1,8 +1,23 @@
 import styled from 'styled-components'
 
 export const StyledFooter = styled.footer`
-  border : solid 3px red;
   width : 100%;
   height: 190px;
-  display : flex;
+  display: flex;
+  
+
+  a{
+    margin:auto;
+    font-size:18px;
+    text-decoration:none;
+  }
+
+  a:visited{
+    color : white;
+  }
+
+  a:hover{
+    color: red;
+  }
+
 `
