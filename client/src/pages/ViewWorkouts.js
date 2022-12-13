@@ -7,7 +7,7 @@ import { StyledDiv } from "../components/styles/Div.styled";
 import { StyledFooter } from "../components/styles/Footer.styled";
 import { GlobalStyles } from "../components/styles/Global";
 import { StyledHeader } from "../components/styles/Header.styled";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 export function ViewWorkouts(){
   const navigate = useNavigate()
@@ -47,7 +47,6 @@ export function ViewWorkouts(){
           <StyledButton color ="green" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
           <StyledButton color = "red" onClick={() => handleDelete(workout._id)}>Delete Workout</StyledButton>
         </div>
-        {/* <p>{workout._id}</p> */}
         </StyledDiv>
         )
       })}

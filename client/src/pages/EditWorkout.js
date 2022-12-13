@@ -13,12 +13,12 @@ import { GlobalStyles } from "../components/styles/Global";
 export function EditWorkout(){
   const { id } = useParams()
   const [workout, setWorkout] = useState({})
+  const [workouts, setWorkouts] = useState([])
   const navigate = useNavigate()
 
-  // const newTitle = useRef()
 
-  const [title, setTitle] = useState(null)
-  const [exercise, setExercise] = useState(null)
+  const [title, setTitle] = useState('')
+  const [exercise, setExercise] = useState('')
   const [sets, setSets] = useState(0)
   const [reps, setReps] = useState(0)
 
@@ -26,10 +26,17 @@ export function EditWorkout(){
     const getWorkout = async () => { 
       const response = await axios.get(`http://localhost:5000/workout/editWorkout/${id}`)
       setWorkout(response.data)
-      console.log("completed get request")
     }
     getWorkout()
   },[id])
+
+  //This method is to re render the current workout once the PUT method has been accomplished in order to show the updated workout.
+  function fetchWorkouts(){
+    axios.get("http://localhost:5000/workout/viewWorkouts")
+      .then((response)=> setWorkouts(response.data))
+      console.log("completed fetchWorkouts request")
+      console.log(workouts)
+  }
 
   const handleUpdate = (id) => {
     axios.put(`http://localhost:5000/workout/editWorkout/${id}`, {
@@ -38,25 +45,24 @@ export function EditWorkout(){
       sets : sets,
       reps : reps
     }).then((response) => {
-      setWorkout(response.data)
-      setTitle(workout.title)
-      setExercise(workout.exercise)
-      setSets(workout.sets)
-      setReps(workout.reps)
+      console.log(response.data)
     })
+    //I think since we're calling fetchWorkouts() outside of the PUT method, all the workouts are first fetched (GET) and stored in "workout" when we submit the PUT method. Then the PUT request resolves successfully which causes a State change (re-render) of setWorkout and another GET request is triggered since one of the workouts has been updated. Then we navigate to view Workouts which shows the up to date workouts! (Still sharing the setWorkout hook and it works here because we use it at first just to render the target document and then to hold the updated workouts. Updated, not sharing the hook anymore and it still works!)
+
+    fetchWorkouts()
     navigate('/viewWorkouts')
-    }
-    //figure out how to re-render after navigating to the viewWorkouts page!!!
+  }
 
   return(
     <>
     <GlobalStyles />
     <Container>
     <StyledForm>
+      {/* figure out how to show the current value of the workout we are viewing in the input field before we begin to make changes! */}
       <label htmlFor ="workout">Workout</label>
-      <input id="workout" type="text" name = "title"  placeholder={workout.title} onChange = {(event) => {setTitle(event.target.value)}}/>
+      <input id="workout" type="text" name = "title"  onChange = {(event) => setTitle(event.target.value)} placeholder={workout.title}/>
       <label htmlFor ="exercise" >Exercise</label>
-      <input id="exercise" type="text" name = "exercise" placeholder={workout.exercise}  onChange = {(event) => {setExercise(event.target.value)}}/>
+      <input id="exercise" type="text" name = "exercise" placeholder={workout.exercise}  onChange = {(event) => setExercise(event.target.value)}/>
       <label htmlFor ="sets" >Sets</label>
       <input id="sets" type="number" name = "sets" placeholder={workout.sets}  onChange = {(event) => {setSets(event.target.value)}}/>
       <label htmlFor="reps">Reps</label>
