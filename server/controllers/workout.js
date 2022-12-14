@@ -4,20 +4,23 @@ module.exports = {
   createWorkout : async (request, response) => {
     const {title, exercise, sets, reps}  = request.body
     try {
-      await Workout.create({
+      const workout = await Workout.create({
         title : title,
         exercise : exercise,
         sets : sets,
         reps : reps,
+        user : request.user.id
       })
       console.log("Workout has been added to database")
+      response.status(200).json(workout)
     }catch(err){
       console.log(err)
     }
   },
   getWorkouts : async (request,response) => {
     try{
-      const workouts = await Workout.find({}).sort({ created: "desc" }).lean();
+      // {user : request.user.id}
+      const workouts = await Workout.find().sort({ created: "desc" }).lean();
       response.json(workouts)
       console.log('Hello, this get method worked!')
     }catch(err){

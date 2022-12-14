@@ -9,10 +9,10 @@ const MongoStore = require("connect-mongo")//(session); no longer need this in t
 //const flash = require("express-flash"); 
 //const logger = require("morgan");
 const connectDB = require("./config/database");
-const mainRoutes = require("./routes/main");
+//const mainRoutes = require("./routes/main");
 const workoutRoutes = require("./routes/workout")
-// const postRoutes = require("./routes/posts");
-// const commentsRoutes = require("./routes/comments")
+const userRoutes = require("./routes/user");
+
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -59,9 +59,9 @@ app.use(
 //app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes);
+app.use("/users", userRoutes);
 app.use("/workout", workoutRoutes);
-// app.use("/comment", commentsRoutes)
+//app.use("/comment", commentsRoutes)
 
 //Server Running
 app.listen(process.env.PORT, () => {
