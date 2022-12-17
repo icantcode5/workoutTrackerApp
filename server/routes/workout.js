@@ -5,7 +5,7 @@ const { protect } = require("../middleware/auth")
 
 
 router.post('/createWorkout', protect, workoutController.createWorkout)
-router.get('/viewWorkouts',  workoutController.getWorkouts)
+router.get('/viewWorkouts', protect, workoutController.getWorkouts)
 router.get('/editWorkout/:id', workoutController.getWorkout)
 router.delete('/deleteWorkout/:id', workoutController.deleteWorkout)
 router.put('/editWorkout/:id', workoutController.updateWorkout)

@@ -31,3 +31,23 @@ export const StyledForm = styled.form`
   }
 
 `
+export const Form2 = styled(StyledForm)`
+
+width:60%;
+margin: 0 auto;
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-family: inherit;
+  font-size: 16px;
+}
+
+button {
+  width:100%;
+  border-radius: 5px;
+}
+`
