@@ -9,22 +9,34 @@ import { GlobalStyles } from "../components/styles/Global";
 import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
 
+
+
 export function ViewWorkouts(){
   const navigate = useNavigate()
 
   const [workouts, setWorkouts] = useState([])
   
   useEffect(() => {
-   axios.get("http://localhost:5000/workout/viewWorkouts")
+   axios.get("http://localhost:5000/workout/viewWorkouts",{
+    headers : {
+      authorization :localStorage.getItem("token")
+    } 
+   })
    .then(response => setWorkouts(response.data))
   },[])
 
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`)
+    axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`, {
+      headers : {
+        authorization: localStorage.getItem("token")
+      }
+    })
+    .then(response => {
+      const newWorkouts = workouts.filter((workout) => workout._id !== id)
+      setWorkouts(newWorkouts)
+    })
     //don't need a response because our backend successfully handles the delete method. Now we just need to set the workouts array to hold the new workouts minus the one deleted in order to trigger a re-render after we delete a document from the backend. 
-    const newWorkouts = workouts.filter((workout) => workout._id !== id)
-    setWorkouts(newWorkouts)
   }
 
 
@@ -32,7 +44,7 @@ export function ViewWorkouts(){
     <>
     <GlobalStyles />
     <StyledHeader>
-    <h1>Here is where we're are going to be able to view our workouts from the past week!</h1>
+    <h1>Here are your personally logged workouts</h1>
     </StyledHeader>
     <StyledBlock>
       {workouts.map((workout,i) => {

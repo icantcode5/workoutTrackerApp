@@ -11,5 +11,5 @@ export const Container2 = styled(Container)`
 width: 100%;
 max-width:960px;
 text-align: center;
-border: solid 2px red;
+//border: solid 2px red;
 `

@@ -17,6 +17,7 @@ module.exports = {
   //POST METHOD
   registerUser : async (request, response) => {
     try{
+      //might need password2 variable here too unless we only need to check for it in the front end
       const { name, email, password } = request.body
 
       if(!name || !email || !password){
@@ -27,9 +28,10 @@ module.exports = {
       //Check if user exists
 
       const userExists = await User.findOne({email})
+
       if(userExists){
         response.status(400)
-        throw new Error("User already exists")
+        throw new Error("User already exists, Please Login")
       }
 
       //hash password
@@ -76,7 +78,8 @@ module.exports = {
           _id : user.id,
           name : user.name,
           email : user.email,
-          token: generateToken(user._id)
+          token: generateToken(user._id),
+          authorized: true,
         })
       }else{
         response.status(400)

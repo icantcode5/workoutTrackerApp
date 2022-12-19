@@ -18,6 +18,10 @@ export function Form(){
       exercise : exercise,
       sets : sets,
       reps : reps
+    },{
+      headers : {
+        authorization : localStorage.getItem("token")
+      }
     })
     navigate('/viewWorkouts')
   }  

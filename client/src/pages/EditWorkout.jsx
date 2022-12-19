@@ -24,7 +24,11 @@ export function EditWorkout(){
 
   useEffect(() => {
     const getWorkout = async () => { 
-      const response = await axios.get(`http://localhost:5000/workout/editWorkout/${id}`)
+      const response = await axios.get(`http://localhost:5000/workout/editWorkout/${id}`,{
+        headers : {
+          authorization : localStorage.getItem("token")
+        }
+      })
       setWorkout(response.data)
     }
     getWorkout()
@@ -32,7 +36,11 @@ export function EditWorkout(){
 
   //This method is to re render the current workouts once the PUT method has been accomplished in order to show the updated workout as part of all the up to date workouts.
   function fetchWorkouts(){
-    axios.get("http://localhost:5000/workout/viewWorkouts")
+    axios.get("http://localhost:5000/workout/viewWorkouts", {
+      headers: {
+        authorization : localStorage.getItem("token")
+      }
+    })
       .then((response)=> setWorkouts(response.data))
       console.log("completed fetchWorkouts request")
       console.log(workouts)
@@ -44,9 +52,14 @@ export function EditWorkout(){
       exercise : exercise,
       sets : sets,
       reps : reps
+    },{
+      headers: {
+        authorization : localStorage.getItem("token")
+      }
     }).then((response) => {
       console.log(response.data)
     })
+
     //I think since we're calling fetchWorkouts() outside of the PUT method, all the workouts are first fetched (GET) and stored in "workouts" when we submit the PUT method. Then the PUT request resolves successfully which causes a State change (re-render) of setWorkouts and another GET request is triggered since one of the workouts has been updated. Then we navigate to view Workouts which shows the up to date workouts! (Still sharing the setWorkout hook and it works here because we use it at first just to render the target document and then to hold the updated workouts. Update, not sharing the hook anymore and it still works!)
 
     fetchWorkouts()
