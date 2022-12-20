@@ -3,8 +3,11 @@ import { useState } from "react";
 import Axios from "axios"
 import { StyledForm } from "./styles/Form.styled";
 import { useNavigate } from 'react-router-dom'
+import axios from "axios"
 
 export function Form(){
+
+  const [workouts, setWorkouts] = useState([])
   const [title, setTitle] = useState(null)
   const [exercise, setExercise] = useState(null)
   const [sets, setSets] = useState(0)
@@ -23,8 +26,17 @@ export function Form(){
         authorization : localStorage.getItem("token")
       }
     })
+    fetchWorkouts()
     navigate('/viewWorkouts')
   }  
+
+  function fetchWorkouts(){
+    axios.get("http://localhost:5000/workout/viewWorkouts", {
+      headers: {
+        authorization : localStorage.getItem("token")
+      }
+    }).then((response)=> setWorkouts(response.data))
+  }
   
   
   return(

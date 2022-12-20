@@ -5,6 +5,7 @@ import { Container2 } from "../components/styles/Container.styled";
 import { Form2 } from "../components/styles/Form.styled";
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
+import { HomeHeader } from "../components/HomeHeader";
 
 export function Register(){
 
@@ -13,6 +14,7 @@ export function Register(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
+
 
 
   const onSubmit = (e) => {
@@ -39,6 +41,7 @@ export function Register(){
   
   return(
     <>
+    <HomeHeader />
     <Container2>
     <section>
       <h1> <FaUser /> Register </h1>

@@ -9,7 +9,9 @@ border-bottom: 1px solid white;
 
 
 h1 {
-  margin-left: 10px;
+  margin-left: 15px;
+  position: relative;
+  left:500px;
 }
 //display the line items inside unordered list as flex and remove bullet point
  ul {

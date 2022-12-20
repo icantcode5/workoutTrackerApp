@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { StyledButton } from "../components/styles/Button.styled";
 import { StyledBlock } from "../components/styles/DisplayWorkout.styled";
 import { StyledDiv } from "../components/styles/Div.styled";
-import { StyledFooter } from "../components/styles/Footer.styled";
+import {Footer} from "../components/Footer"
 import { GlobalStyles } from "../components/styles/Global";
 import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
@@ -39,12 +39,18 @@ export function ViewWorkouts(){
     //don't need a response because our backend successfully handles the delete method. Now we just need to set the workouts array to hold the new workouts minus the one deleted in order to trigger a re-render after we delete a document from the backend. 
   }
 
+  const logoutHandler = () =>{
+    localStorage.removeItem("token")
+    navigate('/login')
+  }
+
 
   return(
     <>
     <GlobalStyles />
     <StyledHeader>
     <h1>Here are your personally logged workouts</h1>
+    <Link to = "/login"> <StyledButton color ="navy" onClick = {logoutHandler}>Logout</StyledButton> </Link>
     </StyledHeader>
     <StyledBlock>
       {workouts.map((workout,i) => {
@@ -56,7 +62,7 @@ export function ViewWorkouts(){
         <p>Sets completed: {workout.sets}</p>
         <p>Reps completed: {workout.reps}</p>
         <div>
-          <StyledButton color ="green" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
+          <StyledButton color ="limegreen" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
           <StyledButton color = "red" onClick={() => handleDelete(workout._id)}>Delete Workout</StyledButton>
         </div>
         </StyledDiv>
@@ -64,10 +70,10 @@ export function ViewWorkouts(){
       })}
     </StyledBlock>
 
-    <StyledFooter>
-      <Link to = "/home">Go to Home Page</Link>
-      <Link to = "/addWorkout">Go to add Workout Page</Link>
-    </StyledFooter>
+    <Footer>
+      <Link to = "/home"><StyledButton color="navy">Go to Home Page</StyledButton></Link>
+      <Link to = "/addWorkout"> <StyledButton color="navy">Go to add Workout Page</StyledButton></Link>
+    </Footer>
     </>
   )
 }

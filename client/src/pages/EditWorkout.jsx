@@ -40,10 +40,7 @@ export function EditWorkout(){
       headers: {
         authorization : localStorage.getItem("token")
       }
-    })
-      .then((response)=> setWorkouts(response.data))
-      console.log("completed fetchWorkouts request")
-      console.log(workouts)
+    }).then((response)=> setWorkouts(response.data))
   }
 
   const handleUpdate = (id) => {

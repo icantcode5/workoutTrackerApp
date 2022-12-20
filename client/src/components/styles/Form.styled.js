@@ -19,9 +19,10 @@ export const StyledForm = styled.form`
   button{
     border-radius : 999px;
     margin: 10px 0px 20px 0px;
-    padding: 5px 7px;
+    padding: 7px 7px;
     cursor: pointer;
     font-size: 16px;
+    width: 100%;
   }
 
   input::placeholder{

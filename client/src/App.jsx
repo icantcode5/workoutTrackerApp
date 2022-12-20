@@ -5,13 +5,11 @@ import { ViewWorkouts } from './pages/ViewWorkouts';
 import { EditWorkout } from './pages/EditWorkout'
 import { Login } from "./pages/Login"
 import { Register } from "./pages/Register"
-import { HomeHeader } from "./components/HomeHeader";
  
 function App() {
 
   return (
     <>
-    <HomeHeader/>
     <Routes>
       <Route path = "/register" element = {<Register />} />
       <Route path = "/login"  element = {<Login />}/>

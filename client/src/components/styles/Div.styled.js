@@ -8,10 +8,12 @@ padding-bottom: 10px;
 
 p{
   margin-left: 10px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 h2{
   margin-left: 10px;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
 }
 
 
