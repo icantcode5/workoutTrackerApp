@@ -48,10 +48,12 @@ export function ViewWorkouts(){
   return(
     <>
     <GlobalStyles />
+
     <StyledHeader>
     <h1>Here are your personally logged workouts</h1>
     <Link to = "/login"> <StyledButton color ="navy" onClick = {logoutHandler}>Logout</StyledButton> </Link>
     </StyledHeader>
+    
     <StyledBlock>
       {workouts.map((workout,i) => {
         return(

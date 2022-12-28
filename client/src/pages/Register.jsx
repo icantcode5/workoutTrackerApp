@@ -25,6 +25,7 @@ export function Register(){
   const registerHandler = () => {
 
     if(password !== password2){
+      alert("Passwords do not Match!")
       throw new Error("Passwords Must Match")
     }else{
     axios.post("http://localhost:5000/users/",{
@@ -33,7 +34,7 @@ export function Register(){
       password : password
     }).then((response) => {
       console.log(response.data)
-      localStorage.setItem("token",response.data.token)
+      localStorage.setItem("token", response.data.token)
       navigate("/viewWorkouts")
     })
     }

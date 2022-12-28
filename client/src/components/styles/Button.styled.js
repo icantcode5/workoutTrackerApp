@@ -8,5 +8,5 @@ export const StyledButton = styled.button`
   margin: auto;
   padding : 6px 10px;
   font-family:Verdana, Geneva, Tahoma, sans-serif;
-  background: ${({color}) => color};
+  background: ${({color}) => color  || "#00162A" };
 `

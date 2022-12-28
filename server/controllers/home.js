@@ -11,3 +11,5 @@ module.exports = {
     }
   },
 }
+
+// https://pijyfwxezzdkoegqreqn.supabase.co
