@@ -11,4 +11,4 @@ router.delete('/deleteWorkout/:id', protect, workoutController.deleteWorkout)
 router.put('/editWorkout/:id', protect, workoutController.updateWorkout)
 
 
-module.exports = router 
+module.exports = router   

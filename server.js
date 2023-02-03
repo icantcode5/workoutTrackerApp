@@ -60,7 +60,7 @@ app.use(
 //app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("https://workouttrackerapp-production.up.railway.app",testRoute)
+app.use("/",testRoute)
 app.use("/users", userRoutes);
 app.use("/workout", workoutRoutes);
 //app.use("/comment", commentsRoutes)
