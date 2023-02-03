@@ -12,6 +12,7 @@ const connectDB = require("./config/database");
 //const mainRoutes = require("./routes/main");
 const workoutRoutes = require("./routes/workout")
 const userRoutes = require("./routes/user");
+const testRoute = require("./routes/test")
 
 
 //Use .env file in config folder
@@ -59,6 +60,7 @@ app.use(
 //app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
+app.use("https://workouttrackerapp-production.up.railway.app",testRoute)
 app.use("/users", userRoutes);
 app.use("/workout", workoutRoutes);
 //app.use("/comment", commentsRoutes)
