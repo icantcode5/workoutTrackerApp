@@ -73,8 +73,8 @@ export function ViewWorkouts(){
     </StyledBlock>
 
     <Footer>
-      <Link to = "/home"><StyledButton color="navy">Go to Home Page</StyledButton></Link>
-      <Link to = "/addWorkout"> <StyledButton color="navy">Go to add Workout Page</StyledButton></Link>
+      <Link to = "/home"><StyledButton color="white">Go to Home Page</StyledButton></Link>
+      <Link to = "/addWorkout"> <StyledButton color="white">Go to add Workout Page</StyledButton></Link>
     </Footer>
     </>
   )

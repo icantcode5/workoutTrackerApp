@@ -5,7 +5,7 @@ export const StyledForm = styled.form`
   margin-top: 10px;
   padding: 30px 10px 0px 10px;
   border-radius: 10px;
-  background-color: black;
+  background-color: white;
   
   input {
     display : inline-block;

@@ -2,8 +2,9 @@ import styled from "styled-components"
 
 export const StyledDiv = styled.div`
 width: 32.8%;
-border: solid 2px blue;
+border: solid 2px black;
 margin-bottom: 10px;
+margin-right: 5px;
 padding-bottom: 10px;
 
 p{
