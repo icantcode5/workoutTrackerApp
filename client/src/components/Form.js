@@ -37,10 +37,14 @@ export function Form(){
       }
     }).then((response)=> setWorkouts(response.data))
   }
+
+  function handleSubmit(event){
+    event.preventDefault()
+  }
   
   
   return(
-    <StyledForm>
+    <StyledForm onSubmit={handleSubmit}>
       <label htmlFor ="workout">Workout</label>
       <input id="workout" type="text" name = "title" onChange = {(event) => {setTitle(event.target.value)}}/>
       <label htmlFor ="exercise" >Exercise</label>

@@ -13,14 +13,16 @@ import { GlobalStyles } from "../components/styles/Global";
 export function EditWorkout(){
   const { id } = useParams()
   const [workout, setWorkout] = useState({})
+
   const [workouts, setWorkouts] = useState([])
   const navigate = useNavigate()
 
 
-  const [title, setTitle] = useState('')
+  const [title, setTitle] = useState(workout.title)
   const [exercise, setExercise] = useState('')
   const [sets, setSets] = useState(0)
   const [reps, setReps] = useState(0)
+  console.log(title)
 
   useEffect(() => {
     const getWorkout = async () => { 
@@ -29,7 +31,7 @@ export function EditWorkout(){
           authorization : localStorage.getItem("token")
         }
       })
-      setWorkout(response.data)
+      setWorkout(response.data) 
     }
     getWorkout()
   },[id])
@@ -40,7 +42,10 @@ export function EditWorkout(){
       headers: {
         authorization : localStorage.getItem("token")
       }
-    }).then((response)=> setWorkouts(response.data))
+    }).then((response)=> {
+      setWorkouts(response.data)
+
+    })
   }
 
   const handleUpdate = (id) => {
@@ -68,9 +73,9 @@ export function EditWorkout(){
     <GlobalStyles />
     <Container>
     <StyledForm>
-      {/* figure out how to show the current value of the workout we are viewing in the input field before we begin to make changes! */}
+      {/* figure out how to show the current value of the workout we are viewing in the input field before we begin to make changes! AKA make it a controlled state where react is telling the input box its state instead of the input telling React what its state it. The way to solve this is to not have each input tag manage its own state, instead we want React to manage its state  so we need one handler function to update the states of these inputs. The input's value depends on the state variable managed by React*/}
       <label htmlFor ="workout">Workout</label>
-      <input id="workout" type="text" name = "title"  onChange = {(event) => setTitle(event.target.value)} placeholder={workout.title}/>
+      <input id="workout" type="text" name = "title"  placeholder = {workout.title}  onChange = {(event) => setTitle(event.target.value)}  />
       <label htmlFor ="exercise" >Exercise</label>
       <input id="exercise" type="text" name = "exercise" placeholder={workout.exercise}  onChange = {(event) => setExercise(event.target.value)}/>
       <label htmlFor ="sets" >Sets</label>

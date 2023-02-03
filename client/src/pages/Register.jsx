@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom"
 import axios from "axios"
 import { HomeHeader } from "../components/HomeHeader";
 
+
 export function Register(){
 
   const navigate = useNavigate()
@@ -34,6 +35,7 @@ export function Register(){
       password : password
     }).then((response) => {
       console.log(response.data)
+
       localStorage.setItem("token", response.data.token)
       navigate("/viewWorkouts")
     })
