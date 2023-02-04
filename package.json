@@ -4,7 +4,9 @@
   "description": "App to track workout progress",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "start" : "node server.js",
+    "build" : "cd client && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Carlos Sosa",

@@ -13,6 +13,7 @@ const connectDB = require("./config/database");
 const workoutRoutes = require("./routes/workout")
 const userRoutes = require("./routes/user");
 const testRoute = require("./routes/test")
+const path = require("path")
 
 
 //Use .env file in config folder
@@ -28,7 +29,11 @@ connectDB();
 //app.set("view engine", "html"); //changed from ejs to html
 
 //Static Folder
-//app.use(express.static("public"));
+if(process.env.NODE_ENV === "production"){
+  app.use(express.static("./client/build"));
+}
+
+
 
 //Body Parsing
 app.use(express.urlencoded({ extended: true }));
@@ -60,10 +65,16 @@ app.use(
 //app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/",testRoute)
+app.use("/", testRoute)
 app.use("/users", userRoutes);
 app.use("/workout", workoutRoutes);
 //app.use("/comment", commentsRoutes)
+
+if (process.env.NODE_ENV === "production"){
+  app.get("*", (req,res) => {
+    res.sendFile(path.join(__dirname, "./client/build/index.html"))
+  })
+}
 
 //Server Running
 app.listen(process.env.PORT, () => {
