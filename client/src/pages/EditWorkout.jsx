@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect, } from "react"
-import {useNavigate, redirect } from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled";
 import { Container } from "../components/styles/Container.styled";
@@ -43,6 +43,7 @@ export function EditWorkout(){
         authorization : localStorage.getItem("token")
       }
     }).then((response)=> {
+      
       setWorkouts(response.data)
 
     })
