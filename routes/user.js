@@ -1,6 +1,6 @@
-const express = require('express')
+const express = require("express")
 const router = express.Router()
-const userController = require('../controllers/user')
+const userController = require("../controllers/user")
 const { protect } = require("../middleware/auth")
 
 //These are the routes for users to Sign up, Login and request User info

@@ -4,7 +4,7 @@ import { StyledForm } from "./styles/Form.styled"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
-export function Form() {
+export function Form({ workouts, setWorkouts }) {
 	const navigate = useNavigate()
 
 	const [workout, setWorkout] = useState({
@@ -32,7 +32,10 @@ export function Form() {
 					authorization: localStorage.getItem("token"),
 				},
 			})
-			.then(() => {
+			.then((response) => {
+				setWorkouts((prevArr) => {
+					return [response.data, ...prevArr]
+				})
 				navigate("/viewWorkouts")
 			})
 	}

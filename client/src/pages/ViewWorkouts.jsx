@@ -23,12 +23,10 @@ export function ViewWorkouts({workouts, setWorkouts}){
         })
       })
     })
-    //don't need a response because our backend successfully handles the delete method. Now we just need to set the workouts array to hold the new workouts minus the one deleted in order to trigger a re-render after we delete a document from the backend. 
   }
 
   const logoutHandler = () =>{
     localStorage.removeItem("token")
-    navigate('/login')
   }
 
   const currentWorkouts = workouts.map((workout,i) => {

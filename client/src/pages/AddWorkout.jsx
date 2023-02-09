@@ -7,14 +7,14 @@ import { Footer } from "../components/Footer"
 import { Link } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled"
 
-export function AddWorkout(){
+export function AddWorkout({workouts,setWorkouts}){
 
   return(
     <>
       <Header />
       <Container>
         <QuoteApi />
-        <Form />
+        <Form workouts = {workouts} setWorkouts = {setWorkouts}/>
         <Footer>
           <Link to = "/home"><StyledButton color="white">Go to Home Page</StyledButton></Link>
           <Link to = "/viewWorkouts"> <StyledButton color="white">Go to View Workouts Page</StyledButton></Link>
