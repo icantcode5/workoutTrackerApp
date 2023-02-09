@@ -1,93 +1,79 @@
 import React from "react"
 import { useState } from "react"
-import Axios from "axios"
 import { StyledForm } from "./styles/Form.styled"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 export function Form() {
-	const [workouts, setWorkouts] = useState([])
-	const [title, setTitle] = useState(null)
-	const [exercise, setExercise] = useState(null)
-	const [sets, setSets] = useState(0)
-	const [reps, setReps] = useState(0)
-
 	const navigate = useNavigate()
 
-	const storeWorkout = () => {
-		Axios.post(
-			"http://localhost:5000/workout/createWorkout",
-			{
-				title: title,
-				exercise: exercise,
-				sets: sets,
-				reps: reps,
-			},
-			{
-				headers: {
-					authorization: localStorage.getItem("token"),
-				},
+	const [workout, setWorkout] = useState({
+		title: "",
+		exercise: "",
+		sets: "",
+		reps: "",
+	})
+
+	function handleChange(event) {
+		const { name, value } = event.target
+		setWorkout((prevWorkout) => {
+			return {
+				...prevWorkout,
+				[name]: value,
 			}
-		)
-		fetchWorkouts()
-		navigate("/viewWorkouts")
+		})
 	}
 
-	function fetchWorkouts() {
+	const handleSubmit = (event) => {
+		event.preventDefault()
 		axios
-			.get("http://localhost:5000/workout/viewWorkouts", {
+			.post("http://localhost:5000/workout/createWorkout", workout, {
 				headers: {
 					authorization: localStorage.getItem("token"),
 				},
 			})
-			.then((response) => setWorkouts(response.data))
-	}
-
-	function handleSubmit(event) {
-		event.preventDefault()
+			.then(() => {
+				navigate("/viewWorkouts")
+			})
 	}
 
 	return (
 		<StyledForm onSubmit={handleSubmit}>
-			<label htmlFor="workout">Workout</label>
+			<label htmlFor="workout">Body-Part</label>
 			<input
 				id="workout"
 				type="text"
 				name="title"
-				onChange={(event) => {
-					setTitle(event.target.value)
-				}}
+				onChange={handleChange}
+				value={workout.title}
 			/>
+
 			<label htmlFor="exercise">Exercise</label>
 			<input
 				id="exercise"
 				type="text"
 				name="exercise"
-				onChange={(event) => {
-					setExercise(event.target.value)
-				}}
+				value={workout.exercise}
+				onChange={handleChange}
 			/>
 			<label htmlFor="sets">Sets</label>
 			<input
 				id="sets"
 				type="number"
 				name="sets"
-				onChange={(event) => {
-					setSets(event.target.value)
-				}}
+				value={workout.sets}
+				onChange={handleChange}
 			/>
+
 			<label htmlFor="reps">Reps</label>
 			<input
 				id="reps"
 				type="number"
 				name="reps"
-				onChange={(event) => {
-					setReps(event.target.value)
-				}}
+				value={workout.reps}
+				onChange={handleChange}
 			/>
-			<button type="submit" onClick={storeWorkout}>
-				Store Workout
-			</button>
+			<button>Store Workout</button>
 		</StyledForm>
 	)
 }

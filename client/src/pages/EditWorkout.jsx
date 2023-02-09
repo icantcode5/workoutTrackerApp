@@ -6,23 +6,28 @@ import { useParams } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled";
 import { Container } from "../components/styles/Container.styled";
 import { StyledForm } from "../components/styles/Form.styled";
-import { GlobalStyles } from "../components/styles/Global";
 
 
 
 export function EditWorkout(){
   const { id } = useParams()
-  const [workout, setWorkout] = useState({})
 
   const [workouts, setWorkouts] = useState([])
   const navigate = useNavigate()
 
 
-  const [title, setTitle] = useState(workout.title)
-  const [exercise, setExercise] = useState('')
-  const [sets, setSets] = useState(0)
-  const [reps, setReps] = useState(0)
-  console.log(title)
+  // const [title, setTitle] = useState(workout.title)
+  // const [exercise, setExercise] = useState('')
+  // const [sets, setSets] = useState(0)
+  // const [reps, setReps] = useState(0)
+  // console.log(title)
+
+  const [workout, setWorkout] = useState({
+    title: '',
+    exercise:'',
+    sets: '',
+    reps: ''
+  })
 
   useEffect(() => {
     const getWorkout = async () => { 
@@ -31,11 +36,22 @@ export function EditWorkout(){
           authorization : localStorage.getItem("token")
         }
       })
-      setWorkout(response.data) 
+      console.log(response.data)
+      setWorkout(response.data)
     }
     getWorkout()
   },[id])
 
+
+  const handleChange = (e) => {
+    const [value, name] = e.target
+    setWorkout((prevWorkout) => {
+      return {
+        ...prevWorkout,
+        [name] : value
+      }
+    })
+  }
   //This method is to re render the current workouts once the PUT method has been accomplished in order to show the updated workout as part of all the up to date workouts.
   function fetchWorkouts(){
     axios.get("http://localhost:5000/workout/viewWorkouts", {
@@ -49,13 +65,9 @@ export function EditWorkout(){
     })
   }
 
-  const handleUpdate = (id) => {
-    axios.put(`http://localhost:5000/workout/editWorkout/${id}`, {
-      title : title,
-      exercise : exercise,
-      sets : sets,
-      reps : reps
-    },{
+  const handleUpdate = (event, id) => {
+    event.preventDefault()
+    axios.put(`http://localhost:5000/workout/editWorkout/${id}`, workout,{
       headers: {
         authorization : localStorage.getItem("token")
       }
@@ -71,19 +83,21 @@ export function EditWorkout(){
 
   return(
     <>
-    <GlobalStyles />
     <Container>
-    <StyledForm>
-      {/* figure out how to show the current value of the workout we are viewing in the input field before we begin to make changes! AKA make it a controlled state where react is telling the input box its state instead of the input telling React what its state it. The way to solve this is to not have each input tag manage its own state, instead we want React to manage its state  so we need one handler function to update the states of these inputs. The input's value depends on the state variable managed by React*/}
-      <label htmlFor ="workout">Workout</label>
-      <input id="workout" type="text" name = "title"  placeholder = {workout.title}  onChange = {(event) => setTitle(event.target.value)}  />
+    <StyledForm onSubmit={(event) => handleUpdate(workout._id)}>
+      <label htmlFor ="workout">Body-Part</label>
+      <input id="workout" type="text" name = "title"  value = {workout.title}  onChange = {handleChange}  />
+
       <label htmlFor ="exercise" >Exercise</label>
-      <input id="exercise" type="text" name = "exercise" placeholder={workout.exercise}  onChange = {(event) => setExercise(event.target.value)}/>
+      <input id="exercise" type="text" name = "exercise" value={workout.exercise}  onChange = {handleChange}/>
+
       <label htmlFor ="sets" >Sets</label>
-      <input id="sets" type="number" name = "sets" placeholder={workout.sets}  onChange = {(event) => {setSets(event.target.value)}}/>
+      <input id="sets" type="number" name = "sets" value={workout.sets}  onChange = {handleChange}/>
+
       <label htmlFor="reps">Reps</label>
-      <input id="reps" type="number" name = "reps" placeholder={workout.reps} onChange = {(event) => {setReps(event.target.value)}}/>
-      <StyledButton color = "blue" onClick = {() => handleUpdate(workout._id)}>Submit</StyledButton>
+      <input id="reps" type="number" name = "reps" value={workout.reps} onChange = {handleChange}/>
+      
+      <StyledButton color = "blue">Submit</StyledButton>
     </StyledForm>
     </Container>
     </>
