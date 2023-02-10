@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FaUser } from "react-icons/fa"
 import { Container2 } from "../components/styles/Container.styled";
 import { Form2 } from "../components/styles/Form.styled";
@@ -57,7 +57,7 @@ export function Register(){
         <input type="email" placeholder="Enter email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
         <input type="password" placeholder="Enter password" name ="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
         <input type="password" placeholder="Confirm Password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
-        <button onClick = {registerHandler}> Submit</button>
+        <button onClick = {registerHandler}>Submit</button>
       </Form2>
     </section>
     </Container2>

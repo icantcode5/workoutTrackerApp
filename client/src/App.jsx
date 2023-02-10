@@ -7,6 +7,7 @@ import { ViewWorkouts } from './pages/ViewWorkouts';
 import { EditWorkout } from './pages/EditWorkout'
 import { Login } from "./pages/Login"
 import { Register } from "./pages/Register"
+import styles from "./App.module.css"
 
 function App() {
 

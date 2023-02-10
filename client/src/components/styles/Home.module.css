@@ -1,0 +1,60 @@
+.main{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  /* border: solid 2px red; */
+  margin-top: 30px;
+  /* justify-content: space-around; */
+}
+
+.imageOne{
+  margin-left: 50px;
+  max-width: 300px;
+  max-height: 400px;
+  border-radius: 10px;
+}
+.imageTwo{
+  margin-left: 30px;
+  max-width: 300px;
+  max-height: 190px;
+  border-radius: 10px;
+}
+.imageThree{
+  margin-left: 30px;
+  max-width: 300px;
+  max-height: 190px;
+  border-radius: 10px;
+}
+
+.imagesContainer{
+  display: flex;
+  /* align-items: center; */
+  /* margin-top: 40px; */
+}
+
+.imagesTwoThreeContainer{
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.section{
+  /* border: 2px solid blue; */
+  max-width: 400px;
+  min-height: 300px;
+  margin-left: 200px;
+}
+
+/* .backgroundImage{
+  min-height: 1000px;
+  background-image: url("../../assets/workoutImage1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position-x: center;
+  background-position-y:center ;
+  /* background-attachment: fixed; */
+  /* margin-top: 50px;
+  opacity: .9; */
+/* }  */
+
