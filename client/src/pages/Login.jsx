@@ -10,41 +10,45 @@ import { HomeHeader } from "../components/HomeHeader";
 export function Login(){
 
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [user, setUser] = useState({
+  email:"",
+  password:""
+ })
 
 
-  const loginHandler = () => {
-    axios.post("http://localhost:5000/users/login",{
-      email : email,
-      password : password
-    }).then((response) => {
+  function handleSubmit(event){
+    event.preventDefault()
+    axios.post("http://localhost:5000/users/login", user)
+    .then((response) => {
       console.log(response.data)
-      localStorage.setItem("token", response.data.token)
+      localStorage.setItem("token", response.data.token) //store as string
       navigate("/viewWorkouts")
+    }).catch(err => {
+      console.log(err)
     })
-    }
+  }
   
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  function handleChange(event){
+    const {name, value} = event.target
+    setUser((user) => {
+      return {
+        ...user,
+        [name]: value
+      }
+    })
   }
 
   return(
     <>
-    <HomeHeader />
+    <HomeHeader/>
     <Container2>
-    <section>
-      <p> <FaSignInAlt /> Login </p>
-    </section>
-
-    <section>
-      <Form2 onSubmit={onSubmit}>
-        <input type="email" placeholder="Enter email" value={email} name="email" onChange={(e)=> setEmail(e.target.value)}/>
-        <input type="password" placeholder="Enter Password" autoComplete="off" value={password} name="password" onChange={(e)=>setPassword(e.target.value)}/>
-        <button onClick={loginHandler}>Login</button>
+      <p><FaSignInAlt/> Login </p>
+      <Form2 onSubmit={handleSubmit}>
+        <input type="email" placeholder="Enter email" value={user.email} name="email" onChange={handleChange}/>
+        <input type="password" placeholder="Enter Password" autoComplete="off" value={user.password} name="password" onChange={handleChange}/>
+        <button>Login</button>
       </Form2>
-    </section>
     </Container2>
   </>
   )

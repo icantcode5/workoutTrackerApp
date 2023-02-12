@@ -45,6 +45,8 @@ export function EditWorkout({workouts, setWorkouts}){
         })
       })
       navigate('/viewWorkouts')
+    }).catch(err => {
+      console.log(err)
     })
   }
 

@@ -15,12 +15,17 @@ function App() {
   const [workouts, setWorkouts] = useState([])
 
   useEffect(() => {
-   axios.get("http://localhost:5000/workout/viewWorkouts",{
-    headers : {
+    if(localStorage.getItem("token")){
+      axios.get("http://localhost:5000/workout/viewWorkouts",{
+      headers : {
       authorization : localStorage.getItem("token")
     } 
    })
-   .then(response => setWorkouts(response.data)) 
+   .then(response => setWorkouts(response.data))
+   .catch(err => {
+    console.log(err)
+   })
+  }
   },[])
 
   return (

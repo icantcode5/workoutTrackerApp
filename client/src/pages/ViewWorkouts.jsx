@@ -22,6 +22,8 @@ export function ViewWorkouts({workouts, setWorkouts}){
           return workout._id !== id
         })
       })
+    }).catch(err => {
+      console.log(err)
     })
   }
 

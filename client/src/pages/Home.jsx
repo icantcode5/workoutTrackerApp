@@ -6,6 +6,9 @@ import image2 from "../assets/workoutImage2.jpg"
 import image3 from "../assets/workoutImage3.jpg"
 import styles from "../components/styles/Home.module.css"
 import {HomeHeader} from "../components/HomeHeader.js"
+import {GiBackwardTime} from "react-icons/gi"
+import {GrUpdate} from "react-icons/gr"
+import {MdOutlineFitnessCenter} from "react-icons/md"
 
 
 export function Home(){
@@ -24,7 +27,10 @@ export function Home(){
       </div>
 
       <section className={styles.section}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit corporis deleniti nemo facilis rem, inventore recusandae eligendi obcaecati accusamus itaque saepe dolorum aliquam omnis voluptate exercitationem hic id quo.
+        <h2>Never forget how much weight you lifted or how many reps you accomplished. Track it all now.</h2>
+        <p>Easily Log your workouts, sets and reps</p>
+        <p>Make any adjustments as you go with updating functionality</p>
+        <p>Keep track of your past workouts for days, months and year to come</p>
       </section>
 
     </main>

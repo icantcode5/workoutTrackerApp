@@ -12,18 +12,21 @@
   max-width: 300px;
   max-height: 400px;
   border-radius: 10px;
+  box-shadow: 10px 10px 5px rgb(173, 172, 172);
 }
 .imageTwo{
   margin-left: 30px;
   max-width: 300px;
   max-height: 190px;
   border-radius: 10px;
+  box-shadow: 10px 10px 5px rgb(173, 172, 172);
 }
 .imageThree{
   margin-left: 30px;
   max-width: 300px;
   max-height: 190px;
   border-radius: 10px;
+  box-shadow: 10px 10px 5px rgb(173, 172, 172);
 }
 
 .imagesContainer{
@@ -43,18 +46,34 @@
   max-width: 400px;
   min-height: 300px;
   margin-left: 200px;
+  display: flex;
+  flex-flow: column;
+  /* align-items: center; */
+}
+.section h2{
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
-/* .backgroundImage{
-  min-height: 1000px;
-  background-image: url("../../assets/workoutImage1.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-position-x: center;
-  background-position-y:center ;
-  /* background-attachment: fixed; */
-  /* margin-top: 50px;
-  opacity: .9; */
-/* }  */
+.section p{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1rem;
+  background-color: black;
+  color: white;
+  min-height: 50px;
+  max-width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* .section svg{
+  color: white;
+  background-color:black;
+  border-radius: 50%;
+  max-width: 80px;
+  min-height:20px;
+  font-size: 2rem;
+} */
 
