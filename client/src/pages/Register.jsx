@@ -11,33 +11,37 @@ import { HomeHeader } from "../components/HomeHeader";
 export function Register(){
 
   const navigate = useNavigate()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [password2, setPassword2] = useState('')
 
+  const [user, setUser] = useState({
+    name:"",
+    email:"",
+    password:"",
+    confirmPassword:""
+  })
 
-
-  const onSubmit = (e) => {
-    e.preventDefault()
+  function handleChange(event){
+    const {name, value} = event.target
+    setUser((user) => {
+      return {
+        ...user,
+        [name] : value
+      }
+    })
   }
 
-
-  const registerHandler = () => {
-
-    if(password !== password2){
+  function handleSubmit(event){
+    event.preventDefault()
+    if(user.password !== user.confirmPassword){
       alert("Passwords do not Match!")
-      throw new Error("Passwords Must Match")
     }else{
-    axios.post("http://localhost:5000/users/",{
-      name : name,
-      email : email,
-      password : password
-    }).then((response) => {
+    axios.post("http://localhost:5000/users/", user)
+    .then((response) => {
       console.log(response.data)
-
-      localStorage.setItem("token", response.data.token)
+      localStorage.setItem("token", response.data.token) //HAVE TO SAVE THE TOKEN AS STRING (JSON.stringify() method)
+      //JSON.parse() method to retriever token from local storage as a value
       navigate("/viewWorkouts")
+    }).catch(err => {
+      console.log(err)
     })
     }
   }
@@ -47,17 +51,17 @@ export function Register(){
     <HomeHeader />
     <Container2>
     <section>
-      <h1> <FaUser /> Register </h1>
+      <h1><FaUser/> Register</h1>
       <p>Please Create an Account</p>
     </section>
 
     <section>
-      <Form2 onSubmit={onSubmit}>
-        <input type="text" placeholder="Enter name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-        <input type="email" placeholder="Enter email" name="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-        <input type="password" placeholder="Enter password" name ="password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-        <input type="password" placeholder="Confirm Password" name="password2" value={password2} onChange={(e) => setPassword2(e.target.value)}/>
-        <button onClick = {registerHandler}>Submit</button>
+      <Form2 onSubmit={handleSubmit}>
+        <input type="text" placeholder="Enter name" name="name" value={user.name} onChange={handleChange} />
+        <input type="email" placeholder="Enter email" name="email" value={user.email} onChange={handleChange}/>
+        <input type="password" placeholder="Enter password" name ="password" value={user.password} onChange={handleChange}/>
+        <input type="password" placeholder="Confirm Password" name="confirmPassword" value={user.confirmPassword} onChange={handleChange}/>
+        <button>Submit</button>
       </Form2>
     </section>
     </Container2>

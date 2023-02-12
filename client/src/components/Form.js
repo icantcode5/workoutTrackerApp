@@ -38,6 +38,9 @@ export function Form({ workouts, setWorkouts }) {
 				})
 				navigate("/viewWorkouts")
 			})
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	return (
