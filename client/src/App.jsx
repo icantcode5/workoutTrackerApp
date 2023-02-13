@@ -8,6 +8,7 @@ import { EditWorkout } from './pages/EditWorkout'
 import { Login } from "./pages/Login"
 import { Register } from "./pages/Register"
 import styles from "./App.module.css"
+import {ToastContainer} from "react-toastify"
 
 function App() {
 
@@ -15,15 +16,16 @@ function App() {
   const [workouts, setWorkouts] = useState([])
 
   useEffect(() => {
-    if(localStorage.getItem("token")){
+    if(localStorage.getItem("user")){
+      let token = JSON.parse(localStorage.getItem("user")).token
       axios.get("http://localhost:5000/workout/viewWorkouts",{
       headers : {
-      authorization : localStorage.getItem("token")
+      authorization : token
     } 
    })
    .then(response => setWorkouts(response.data))
    .catch(err => {
-    console.log(err)
+    console.log(err) 
    })
   }
   },[])
@@ -38,6 +40,7 @@ function App() {
       <Route path ="/viewWorkouts" element ={<ViewWorkouts workouts = {workouts} setWorkouts = {setWorkouts}/>}/>
       <Route path ="/editWorkout/:id" element ={<EditWorkout workouts = {workouts} setWorkouts = {setWorkouts}/>}/>
     </Routes>
+    <ToastContainer />
     </>
   );  
 }

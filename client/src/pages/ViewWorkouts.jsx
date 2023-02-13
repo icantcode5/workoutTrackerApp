@@ -28,7 +28,7 @@ export function ViewWorkouts({workouts, setWorkouts}){
   }
 
   const logoutHandler = () =>{
-    localStorage.removeItem("token")
+    localStorage.removeItem("user")
   }
 
   const currentWorkouts = workouts.map((workout,i) => {
