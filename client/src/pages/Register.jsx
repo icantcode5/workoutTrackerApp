@@ -1,16 +1,36 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa"
 import { Container2 } from "../components/styles/Container.styled";
 import { Form2 } from "../components/styles/Form.styled";
 import {useNavigate} from "react-router-dom"
-import axios from "axios"
 import { HomeHeader } from "../components/HomeHeader";
+//Redux imports
+import {useSelector, useDispatch} from "react-redux"
+import {register, reset} from "../features/auth/authSlice"
+import {toast} from "react-toastify"
 
 
 export function Register(){
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {userData, isLoading , isError, isSuccess, message} = useSelector((state)=> {
+    return state.auth
+  }) 
+
+  useEffect(() => {
+    if(isError){
+      toast.error(message)
+    }
+
+    if(isSuccess || userData){
+      navigate("/viewWorkouts")
+    }
+
+    dispatch(reset())
+  },[userData, isError, isSuccess, message, navigate, dispatch])
 
   const [user, setUser] = useState({
     name:"",
@@ -31,19 +51,26 @@ export function Register(){
 
   function handleSubmit(event){
     event.preventDefault()
+    
     if(user.password !== user.confirmPassword){
-      alert("Passwords do not Match!")
+      toast.error("Passwords do not match!")
     }else{
-    axios.post("http://localhost:5000/users/", user)
-    .then((response) => {
-      console.log(response.data)
-      localStorage.setItem("token", response.data.token) //HAVE TO SAVE THE TOKEN AS STRING (JSON.stringify() method)
-      //JSON.parse() method to retriever token from local storage as a value
-      navigate("/viewWorkouts")
-    }).catch(err => {
-      console.log(err)
-    })
+      dispatch(register(user)) 
+
+    // axios.post("http://localhost:5000/users/", user)
+    // .then((response) => {
+    //   console.log(response.data)
+    //   localStorage.setItem("token", response.data.token) //HAVE TO SAVE THE TOKEN AS STRING (JSON.stringify() method)
+    //   //JSON.parse() method to retriever token from local storage as a value
+    //   navigate("/viewWorkouts")
+    // }).catch(err => {
+    //   console.log(err)
+    // })
     }
+  }
+
+  if(isLoading){
+    console.log("Insert spinner component here")
   }
   
   return(
