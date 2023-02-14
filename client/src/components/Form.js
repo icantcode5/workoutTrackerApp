@@ -1,11 +1,22 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useState } from "react"
 import { StyledForm } from "./styles/Form.styled"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 
-export function Form({ workouts, setWorkouts }) {
+//import redux state manage.
+import { useDispatch, useSelector } from "react-redux"
+import { createWorkout } from "../features/workouts/workoutsSlice"
+
+export function Form() {
+	//removed the state props being passed down from parent component
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
+	const { workouts, isLoading, isSuccess, isError, message } = useSelector(
+		(state) => {
+			return state.workouts
+		}
+	)
 
 	const [workout, setWorkout] = useState({
 		title: "",
@@ -26,22 +37,18 @@ export function Form({ workouts, setWorkouts }) {
 
 	const handleSubmit = (event) => {
 		event.preventDefault()
-		axios
-			.post("http://localhost:5000/workout/createWorkout", workout, {
-				headers: {
-					authorization: localStorage.getItem("token"),
-				},
-			})
-			.then((response) => {
-				setWorkouts((prevArr) => {
-					return [response.data, ...prevArr]
-				})
-				navigate("/viewWorkouts")
-			})
-			.catch((err) => {
-				console.log(err)
-			})
+		dispatch(createWorkout(workout))
 	}
+
+	useEffect(() => {
+		if (isSuccess) {
+			navigate("/viewWorkouts")
+		}
+
+		if (isError) {
+			console.log(message)
+		}
+	}, [navigate, isSuccess, isError, message])
 
 	return (
 		<StyledForm onSubmit={handleSubmit}>

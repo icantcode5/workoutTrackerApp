@@ -14,6 +14,7 @@ function App() {
 
   //brough up state to share with children one level down
   const [workouts, setWorkouts] = useState([])
+  const [loggedIn, setLoggedIn] = useState(false) // this didnt work, I think the dipatch method is taking longer than the useEffect in our Login component
 
   useEffect(() => {
     if(localStorage.getItem("user")){
@@ -23,18 +24,21 @@ function App() {
       authorization : token
     } 
    })
-   .then(response => setWorkouts(response.data))
-   .catch(err => {
-    console.log(err) 
+   .then(response =>{
+    setWorkouts(response.data)
+    setLoggedIn(true)
+   })
+   .catch(err =>{
+    console.log(err)
    })
   }
-  },[])
+  },[loggedIn])
 
   return (
     <>
     <Routes>
       <Route path = "/register" element = {<Register />} />
-      <Route path = "/login"  element = {<Login />}/>
+      <Route path = "/login"  element = {<Login loggedIn = {loggedIn} setLoggedIn = {setLoggedIn} />}/>
       <Route path = '/addWorkout' element = {<AddWorkout workouts={workouts} setWorkouts = {setWorkouts}/>}/>
       <Route path = "/" element ={<Home />}/>
       <Route path ="/viewWorkouts" element ={<ViewWorkouts workouts = {workouts} setWorkouts = {setWorkouts}/>}/>
