@@ -10,8 +10,7 @@ module.exports = {
 			try {
 				//Get token from the header.authorization property which is sent along with the request if a user is logged in
 
-				token = request.headers.authorization //.split(' ')[1]
-
+				token = request.headers.authorization //.split(" ")[1]
 				//Verify token
 				const decoded = jwt.verify(token, process.env.JWT_SECRET)
 				console.log(decoded)

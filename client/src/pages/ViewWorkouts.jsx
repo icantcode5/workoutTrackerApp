@@ -13,7 +13,7 @@ export function ViewWorkouts({workouts, setWorkouts}){
   const handleDelete = (id) => {
     axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`, {
       headers : {
-        authorization: localStorage.getItem("token")
+        authorization: localStorage.getItem("user")
       },
     }
     ).then((response)=> {
@@ -29,6 +29,8 @@ export function ViewWorkouts({workouts, setWorkouts}){
 
   const logoutHandler = () =>{
     localStorage.removeItem("user")
+    navigate('/login')
+    console.log("logged out")
   }
 
   const currentWorkouts = workouts.map((workout,i) => {
@@ -52,7 +54,7 @@ export function ViewWorkouts({workouts, setWorkouts}){
     <>
     <StyledHeader>
     <h1>Here are your personally logged workouts</h1>
-    <Link to = "/login"> <StyledButton color ="navy" onClick = {logoutHandler}>Logout</StyledButton> </Link>
+    <StyledButton color ="navy" onClick = {logoutHandler}>Logout</StyledButton>
     </StyledHeader>
     
     <StyledBlock>

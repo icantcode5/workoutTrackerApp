@@ -27,7 +27,7 @@ module.exports = {
 				.sort({ created: "desc" })
 				.lean()
 
-			//send the workouts found in response
+			//send the workouts found in response as an array of objects
 			response.json(workouts)
 
 			console.log("Hello, this get method worked!")
