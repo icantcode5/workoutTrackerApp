@@ -6,11 +6,28 @@ import { useParams } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled";
 import { Container } from "../components/styles/Container.styled";
 import { StyledForm } from "../components/styles/Form.styled";
+//import redux state
+import {useDispatch, useSelector} from "react-redux"
+import { editWorkout } from "../features/workouts/workoutsSlice";
+import { useEffect } from "react";
 
 
-export function EditWorkout({workouts, setWorkouts}){
+export function EditWorkout(){
   const { id } = useParams()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const {workouts, isError, isSuccess, message} = useSelector((state) => {
+    return state.workouts
+  })
+
+  useEffect(()=> {
+    if(isError){
+      console.log("Firing isError " + message)
+    }
+    if(isSuccess){
+      navigate("/viewWorkouts")
+    }
+  },[isError, message, isSuccess, navigate])
 
   const currentWorkout = workouts.filter(workout => {
     return workout._id === id
@@ -30,24 +47,8 @@ export function EditWorkout({workouts, setWorkouts}){
 
   const handleUpdate = (event, id) => {
     event.preventDefault()
-    axios.put(`http://localhost:5000/workout/editWorkout/${id}`, workout,{
-      headers: {
-        authorization : localStorage.getItem("token")
-      }
-    }).then((response) => {
-      setWorkouts(prevArr => {
-        return prevArr.map(workoutObj => {
-          if(workoutObj._id === id){
-            return workout
-          }else{
-            return workoutObj
-          }
-        })
-      })
-      navigate('/viewWorkouts')
-    }).catch(err => {
-      console.log(err)
-    })
+    //pass the arguments that the PUT request needs (id, and workout object) in array because THUNK function only takes in one argument. We can also pass in an object and then destructure the obj or array in the THUNK function's source code
+    dispatch(editWorkout([id, workout]))
   }
 
   return(

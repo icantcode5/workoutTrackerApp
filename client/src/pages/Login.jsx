@@ -10,7 +10,7 @@ import {useSelector, useDispatch} from "react-redux"
 import {login, reset} from "../features/auth/authSlice"
 import {toast} from "react-toastify"
 
-export function Login({setLoggedIn}){
+export function Login(){
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -41,7 +41,6 @@ export function Login({setLoggedIn}){
   function handleSubmit(event){
     event.preventDefault()
     dispatch(login(user))
-    setLoggedIn(true)
   }
   
 

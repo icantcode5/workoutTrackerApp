@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useNavigate } from 'react-router-dom'
 import { StyledButton } from "../components/styles/Button.styled";
 import { StyledBlock } from "../components/styles/DisplayWorkout.styled";
@@ -6,71 +5,63 @@ import { StyledDiv } from "../components/styles/Div.styled";
 import {Footer} from "../components/Footer"
 import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
+import { Workout } from '../components/Workout';
 //redux components
 import {useDispatch, useSelector} from "react-redux"
-import { deleteWorkout } from "../features/workouts/workoutsSlice"
+import { getWorkouts, deleteWorkout, reset } from "../features/workouts/workoutsSlice"
 import { useEffect } from "react";
 
-export function ViewWorkouts({workouts, setWorkouts}){
+export function ViewWorkouts(){
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {isLoading, isError, isSuccessful, message} = useSelector((state) => {
+  const {workouts, isLoading, isError, message} = useSelector((state) => {
     return state.workouts
   })
+
+  useEffect(() => {
+    if(localStorage.getItem("user")){
+      dispatch(getWorkouts())
+    }
+
+    if(!localStorage.getItem("user")){
+      navigate('/login')
+    }
+
+  },[dispatch, navigate])
 
   useEffect(()=> {
     if(isError){
       console.log(message)
     }
 
-    if(isSuccessful){
-      console.log("Success!")
-    }
-
-},[isError, message, isSuccessful])
+    dispatch(reset()) // reset state here in order to properly be able to navigate to /viewWorkouts after the workout is updated
+  },[isError, message, dispatch])
 
   const handleDelete = (id) => {
     dispatch(deleteWorkout(id))
-    // axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`, {
-    //   headers : {
-    //     authorization: localStorage.getItem("user")
-    //   },
-    // }
-    // ).then((response)=> {
-    //   setWorkouts(() => {
-    //     return workouts.filter(workout => {
-    //       return workout._id !== id
-    //     })
-    //   })
-    // }).catch(err => {
-    //   console.log(err)
-    // })
   }
 
   const logoutHandler = () =>{
     localStorage.removeItem("user")
-    navigate('/login')
-    console.log("logged out")
+    // navigate("/login")
   }
 
   if(isLoading){
-    console.log("...Loading")
+    console.log("Loading Workouts...")
   }
 
   const currentWorkouts = workouts.map((workout,i) => {
     return(
-      <StyledDiv key = {i}>
-        <h2>Workout : {workout.title}</h2>
-        <p>Date completed : {new Date(workout.created).toDateString()}</p>
-        <p>Exercise : {workout.exercise}</p>
-        <p>Sets completed: {workout.sets}</p>
-        <p>Reps completed: {workout.reps}</p>
-      <div>
-      <StyledButton color ="limegreen" onClick={() => navigate(`/editWorkout/${workout._id}`)}>Edit Workout</StyledButton>
-      <StyledButton color = "red" onClick={() => handleDelete(workout._id)}>Delete Workout</StyledButton>
-    </div>
-    </StyledDiv>
+      <Workout 
+      key = {workout._id}
+      title = {workout.title} 
+      created = {workout.created} 
+      exercise = {workout.exercise} 
+      sets = {workout.sets}
+      reps = {workout.reps} 
+      workoutId = {workout._id}
+      handleDelete = {handleDelete}/>
     )
   })
 
@@ -79,7 +70,7 @@ export function ViewWorkouts({workouts, setWorkouts}){
     <>
     <StyledHeader>
     <h1>Here are your personally logged workouts</h1>
-    <StyledButton color ="navy" onClick = {logoutHandler}>Logout</StyledButton>
+    <StyledButton color ="white" onClick = {logoutHandler}>Logout</StyledButton>
     </StyledHeader>
     
     <StyledBlock>
