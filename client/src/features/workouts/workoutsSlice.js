@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import axios from "axios"
 import workoutsService from "./workoutsService"
 
 const initialState = {
@@ -14,10 +15,30 @@ export const createWorkout = createAsyncThunk(
 	"workouts/createWorkout",
 	async (workoutData, thunkAPI) => {
 		try {
-			//we are getting the current userState's token which we saved in our "auth" state. We can also get the token from our localStorage too!
+			//we are getting the current userState's token which we saved in our "auth's" state. We can also get the token from our localStorage too!
 			const token = thunkAPI.getState().auth.userData.token
-			console.log(token)
+			// console.log(thunkAPI.getState())
 			return await workoutsService.createWorkout(workoutData, token)
+		} catch (error) {
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString()
+			return thunkAPI.rejectWithValue(message)
+		}
+	}
+)
+
+//Delete a workout
+export const deleteWorkout = createAsyncThunk(
+	"workouts/delete",
+	async (workoutId, thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.userData.token
+
+			return await workoutsService.deleteWorkout(workoutId, token)
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -51,6 +72,23 @@ export const workoutsSlice = createSlice({
 				state.workouts = [action.payload, ...state.workouts]
 			})
 			.addCase(createWorkout.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
+				state.message = action.payload
+			})
+			.addCase(deleteWorkout.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(deleteWorkout.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
+				state.workouts = state.workouts.filter(
+					(workout) => action.payload._id !== workout._id
+				)
+			})
+			.addCase(deleteWorkout.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user

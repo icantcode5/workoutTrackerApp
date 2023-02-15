@@ -12,11 +12,9 @@ export function Form() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const { workouts, isLoading, isSuccess, isError, message } = useSelector(
-		(state) => {
-			return state.workouts
-		}
-	)
+	const { isLoading, isSuccess, isError, message } = useSelector((state) => {
+		return state.workouts
+	})
 
 	const [workout, setWorkout] = useState({
 		title: "",
@@ -49,6 +47,10 @@ export function Form() {
 			console.log(message)
 		}
 	}, [navigate, isSuccess, isError, message])
+
+	if (isLoading) {
+		console.log("...Loading")
+	}
 
 	return (
 		<StyledForm onSubmit={handleSubmit}>
