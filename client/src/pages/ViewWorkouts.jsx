@@ -6,31 +6,56 @@ import { StyledDiv } from "../components/styles/Div.styled";
 import {Footer} from "../components/Footer"
 import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
+//redux components
+import {useDispatch, useSelector} from "react-redux"
+import { deleteWorkout } from "../features/workouts/workoutsSlice"
+import { useEffect } from "react";
 
 export function ViewWorkouts({workouts, setWorkouts}){
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const {isLoading, isError, isSuccessful, message} = useSelector((state) => {
+    return state.workouts
+  })
+
+  useEffect(()=> {
+    if(isError){
+      console.log(message)
+    }
+
+    if(isSuccessful){
+      console.log("Success!")
+    }
+
+},[isError, message, isSuccessful])
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`, {
-      headers : {
-        authorization: localStorage.getItem("user")
-      },
-    }
-    ).then((response)=> {
-      setWorkouts(() => {
-        return workouts.filter(workout => {
-          return workout._id !== id
-        })
-      })
-    }).catch(err => {
-      console.log(err)
-    })
+    dispatch(deleteWorkout(id))
+    // axios.delete(`http://localhost:5000/workout/deleteWorkout/${id}`, {
+    //   headers : {
+    //     authorization: localStorage.getItem("user")
+    //   },
+    // }
+    // ).then((response)=> {
+    //   setWorkouts(() => {
+    //     return workouts.filter(workout => {
+    //       return workout._id !== id
+    //     })
+    //   })
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
 
   const logoutHandler = () =>{
     localStorage.removeItem("user")
     navigate('/login')
     console.log("logged out")
+  }
+
+  if(isLoading){
+    console.log("...Loading")
   }
 
   const currentWorkouts = workouts.map((workout,i) => {
