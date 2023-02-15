@@ -101,7 +101,6 @@ module.exports = {
 			console.log("Succesfully updated!")
 		} catch (err) {
 			console.log(err)
-			console.log("now this shit isn't working")
 		}
 	},
 	getWorkout: async (request, response) => {

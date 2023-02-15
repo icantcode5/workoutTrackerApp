@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
 import workoutsService from "./workoutsService"
 
 const initialState = {
@@ -9,6 +8,26 @@ const initialState = {
 	isError: false,
 	message: "",
 }
+
+//Get workouts
+export const getWorkouts = createAsyncThunk(
+	"workouts/getWorkouts",
+	async (_, thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.userData.token
+
+			return await workoutsService.getWorkouts(token)
+		} catch (error) {
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString()
+			return thunkAPI.rejectWithValue(message)
+		}
+	}
+)
 
 //Create a new workout
 export const createWorkout = createAsyncThunk(
@@ -31,10 +50,33 @@ export const createWorkout = createAsyncThunk(
 	}
 )
 
+//Edit a workout
+export const editWorkout = createAsyncThunk(
+	"workouts/editWorkout",
+	async ([...rest], thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.userData.token
+			const [workoutId, workoutData] = rest
+
+			return await workoutsService.editWorkout(workoutId, workoutData, token)
+		} catch (error) {
+			console.log(error)
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString()
+			return thunkAPI.rejectWithValue(message)
+		}
+	}
+)
+
 //Delete a workout
 export const deleteWorkout = createAsyncThunk(
 	"workouts/delete",
 	async (workoutId, thunkAPI) => {
+		console.log(workoutId)
 		try {
 			const token = thunkAPI.getState().auth.userData.token
 
@@ -51,16 +93,20 @@ export const deleteWorkout = createAsyncThunk(
 	}
 )
 
-//holds the inital state, any changes we want to make to the state such as using the reset function to reset multiple states. Then we have the extra reducers which handle the asynchronous promises state and their responses. We can choose to change our state based on the response we get under "action.payload"
+//holds the inital state, any changes we want to make to the state such as using the reset function to reset multiple states. Then we have the extra reducers which handle the asynchronous promises state and their responses. We can change our state based on the response we get under "action.payload." Redux also lets us mutate our state here unlike React
 export const workoutsSlice = createSlice({
 	name: "workouts",
 	initialState,
 	reducers: {
 		reset: (state) => {
-			return initialState
+			state.isLoading = false
+			state.isError = false
+			state.isSuccess = false
+			state.message = ""
 		},
 	},
 	extraReducers: (builder) => {
+		//builder cases take care of the return from the thunk function's promise. Whether it rejects or fulfills the promise.
 		builder
 			.addCase(createWorkout.pending, (state) => {
 				state.isLoading = true
@@ -69,6 +115,7 @@ export const workoutsSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
+				// console.log(action.payload)
 				state.workouts = [action.payload, ...state.workouts]
 			})
 			.addCase(createWorkout.rejected, (state, action) => {
@@ -89,6 +136,42 @@ export const workoutsSlice = createSlice({
 				)
 			})
 			.addCase(deleteWorkout.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
+				state.message = action.payload
+			})
+			.addCase(getWorkouts.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(getWorkouts.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
+				state.workouts = action.payload
+			})
+			.addCase(getWorkouts.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
+				state.message = action.payload
+			})
+			.addCase(editWorkout.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(editWorkout.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
+				state.workouts = state.workouts.map((workout) => {
+					if (workout._id === action.payload._id) {
+						return action.payload
+					} else {
+						return workout
+					}
+				})
+			})
+			.addCase(editWorkout.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user

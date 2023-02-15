@@ -2,19 +2,19 @@ import React from "react"
 import { Header } from "../components/Header"
 import { Container } from "../components/styles/Container.styled"
 import { QuoteApi } from "../components/QuoteApi"
-import { Form } from "../components/Form"
+import { WorkoutForm } from "../components/WorkoutForm"
 import { Footer } from "../components/Footer"
 import { Link } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled"
 
-export function AddWorkout({workouts,setWorkouts}){
+export function AddWorkout(){
 
   return(
     <>
       <Header />
       <Container>
         <QuoteApi />
-        <Form workouts = {workouts} setWorkouts = {setWorkouts}/>
+        <WorkoutForm />
         <Footer>
           <Link to = "/home"><StyledButton color="white">Go to Home Page</StyledButton></Link>
           <Link to = "/viewWorkouts"> <StyledButton color="white">Go to View Workouts Page</StyledButton></Link>

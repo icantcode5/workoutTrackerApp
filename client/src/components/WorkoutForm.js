@@ -4,17 +4,13 @@ import { StyledForm } from "./styles/Form.styled"
 import { useNavigate } from "react-router-dom"
 
 //import redux state manage.
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { createWorkout } from "../features/workouts/workoutsSlice"
 
-export function Form() {
+export function WorkoutForm() {
 	//removed the state props being passed down from parent component
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-
-	const { isLoading, isSuccess, isError, message } = useSelector((state) => {
-		return state.workouts
-	})
 
 	const [workout, setWorkout] = useState({
 		title: "",
@@ -36,20 +32,7 @@ export function Form() {
 	const handleSubmit = (event) => {
 		event.preventDefault()
 		dispatch(createWorkout(workout))
-	}
-
-	useEffect(() => {
-		if (isSuccess) {
-			navigate("/viewWorkouts")
-		}
-
-		if (isError) {
-			console.log(message)
-		}
-	}, [navigate, isSuccess, isError, message])
-
-	if (isLoading) {
-		console.log("...Loading")
+		navigate("/viewWorkouts")
 	}
 
 	return (
