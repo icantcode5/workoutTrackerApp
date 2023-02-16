@@ -56,16 +56,6 @@ export function Register(){
       toast.error("Passwords do not match!")
     }else{
       dispatch(register(user)) 
-
-    // axios.post("http://localhost:5000/users/", user)
-    // .then((response) => {
-    //   console.log(response.data)
-    //   localStorage.setItem("token", response.data.token) //HAVE TO SAVE THE TOKEN AS STRING (JSON.stringify() method)
-    //   //JSON.parse() method to retriever token from local storage as a value
-    //   navigate("/viewWorkouts")
-    // }).catch(err => {
-    //   console.log(err)
-    // })
     }
   }
 
