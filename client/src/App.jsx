@@ -8,6 +8,7 @@ import { Register } from "./pages/Register"
 import styles from "./App.module.css"
 //redux imports
 import {ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 function App() {
   

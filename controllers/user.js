@@ -79,7 +79,7 @@ module.exports = {
 					authorized: true,
 				})
 			} else {
-				response.status(400)
+				response.status(400) //client error, request will not be completed
 				throw new Error("User was not found")
 			}
 		} catch (err) {

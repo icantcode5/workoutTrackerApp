@@ -57,6 +57,13 @@ export const authSlice = createSlice({
 			state.isError = false
 			state.message = ""
 		},
+		removeUserData: (state) => {
+			state.isLoading = false
+			state.isSuccess = false
+			state.isError = false
+			state.message = ""
+			state.userData = null
+		},
 	},
 	// place for thunk functions/async calls
 	extraReducers: (builder) => {
@@ -83,6 +90,7 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = action.payload
+				console.log(action.payload)
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false
@@ -96,5 +104,5 @@ export const authSlice = createSlice({
 
 //When we have a reducer inside our slice, such as the reset reducer, we have
 //to export it from "authSlice.actions" which is how we have to write it in redux since it's opiniated. We can use the reset reducer in all our app now
-export const { reset } = authSlice.actions
+export const { reset, removeUserData } = authSlice.actions
 export default authSlice.reducer

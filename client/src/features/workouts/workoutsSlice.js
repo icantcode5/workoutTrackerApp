@@ -56,6 +56,7 @@ export const editWorkout = createAsyncThunk(
 	async ([...rest], thunkAPI) => {
 		try {
 			const token = thunkAPI.getState().auth.userData.token
+			// console.log(thunkAPI.getState().auth)
 			const [workoutId, workoutData] = rest
 
 			return await workoutsService.editWorkout(workoutId, workoutData, token)
