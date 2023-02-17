@@ -16,7 +16,7 @@ export function AddWorkout(){
         <QuoteApi />
         <WorkoutForm />
         <Footer>
-          <Link to = "/home"><StyledButton color="white">Go to Home Page</StyledButton></Link>
+          <Link to = "/"><StyledButton color="white">Go to Home Page</StyledButton></Link>
           <Link to = "/viewWorkouts"> <StyledButton color="white">Go to View Workouts Page</StyledButton></Link>
         </Footer>
       </Container>

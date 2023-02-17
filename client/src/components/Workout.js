@@ -2,28 +2,40 @@ import React from "react"
 import { useNavigate } from "react-router-dom"
 import { StyledButton } from "./styles/Button.styled"
 import { StyledDiv } from "./styles/Div.styled"
+import styles from "./styles/Workout.module.css"
+
 export function Workout(props) {
 	const navigate = useNavigate()
 
 	return (
-		<StyledDiv>
+		<div className={styles.workoutContainer}>
 			<h2>Workout : {props.title}</h2>
-			<p>Date completed : {new Date(props.created).toDateString()}</p>
-			<p>Exercise : {props.exercise}</p>
-			<p>Sets completed: {props.sets}</p>
-			<p>Reps completed: {props.reps}</p>
-			<div>
-				<StyledButton
-					color="limegreen"
+			<p>
+				Date completed : <span>{new Date(props.created).toDateString()}</span>
+			</p>
+			<p>
+				Exercise : <span>{props.exercise}</span>
+			</p>
+			<p>
+				Sets completed: <span>{props.sets}</span>
+			</p>
+			<p>
+				Reps completed: <span>{props.reps}</span>
+			</p>
+
+			<div className={styles.btnContainer}>
+				<button
+					className={styles.btn}
 					onClick={() => navigate(`/editWorkout/${props.workoutId}`)}>
 					Edit Workout
-				</StyledButton>
-				<StyledButton
-					color="red"
+				</button>
+
+				<button
+					className={styles.btn}
 					onClick={() => props.handleDelete(props.workoutId)}>
 					Delete Workout
-				</StyledButton>
+				</button>
 			</div>
-		</StyledDiv>
+		</div>
 	)
 }
