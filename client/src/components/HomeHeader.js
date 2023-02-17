@@ -4,12 +4,19 @@ import { Link } from "react-router-dom"
 import { FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa"
 import { useState } from "react"
 import styles from "./styles/HomeHeader.module.css"
+//redux imports
+import { useSelector, useDispatch } from "react-redux"
+import { removeUserData } from "../features/auth/authSlice"
+import { useNavigate } from "react-router-dom"
 
-export function HomeHeader({ children }) {
+export function HomeHeader() {
+	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
 	const logoutHandler = () => {
-		if (localStorage.getItem("user")) {
-			localStorage.removeItem("user")
-		}
+		localStorage.removeItem("user")
+		dispatch(removeUserData())
+		navigate("/login")
 	}
 
 	return (

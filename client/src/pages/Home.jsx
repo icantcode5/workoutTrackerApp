@@ -27,7 +27,7 @@ export function Home(){
       </div>
 
       <section className={styles.section}>
-        <h2>Never forget how much weight you lifted or how many reps you accomplished. Track it all now.</h2>
+        <h2>Never forget how much weight you've lifted or how many reps you've accomplished. Track it all now.</h2>
         <p>Easily Log your workouts, sets and reps</p>
         <p>Make any adjustments as you go with updating functionality</p>
         <p>Keep track of your past workouts for days, months and year to come</p>

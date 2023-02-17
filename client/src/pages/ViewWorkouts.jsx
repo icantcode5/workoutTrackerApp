@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { StyledButton } from "../components/styles/Button.styled";
-import { StyledBlock } from "../components/styles/DisplayWorkout.styled";
 import {Footer} from "../components/Footer"
 import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
@@ -11,15 +10,21 @@ import { getWorkouts, deleteWorkout, reset } from "../features/workouts/workouts
 import {removeUserData} from "../features/auth/authSlice"
 import { useEffect } from "react";
 import Spinner from '../components/Spinner';
+import styles from "../components/styles/ViewWorkouts.module.css"
 
 export function ViewWorkouts(){
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  // const [loggedIn, setLoggedIn] = useState(!!!localStorage.getItem("user"))
 
+  const { userData } = useSelector((state) => state.auth)
   const {workouts, isLoading, isError, message, isSuccess} = useSelector((state) => {
     return state.workouts
   })
+
+  //Capitalize First letter of first and last name. Will probably move this to happen elsewhere
+  const name = userData.name.split(' ').map(el => {
+    return el[0].toUpperCase() + el.substring(1)
+  }).join(' ')
 
   useEffect(() => {
     dispatch(getWorkouts())
@@ -66,16 +71,16 @@ export function ViewWorkouts(){
   return(
     <>
     <StyledHeader>
-    <h1>Hello, {} Here are your personally logged workouts</h1>
+    <h1>Hello, {name}, here are your personally logged workouts</h1>
     <StyledButton color ="white" onClick = {logoutHandler}>Logout</StyledButton>
     </StyledHeader>
-    
-    <StyledBlock>
+
+    <div className={styles.workoutsFlex}>
       {currentWorkouts}
-    </StyledBlock>
+    </div>
 
     <Footer>
-      <Link to = "/home"><StyledButton color="white">Go to Home Page</StyledButton></Link>
+      <Link to = "/"><StyledButton color="white">Go to Home Page</StyledButton></Link>
       <Link to = "/addWorkout"> <StyledButton color="white">Go to add Workout Page</StyledButton></Link>
     </Footer>
     </>
