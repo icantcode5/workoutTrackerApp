@@ -8,7 +8,7 @@ import styles from "../components/styles/Home.module.css"
 import {HomeHeader} from "../components/HomeHeader.js"
 import {GiBackwardTime} from "react-icons/gi"
 import {GrUpdate} from "react-icons/gr"
-import {MdOutlineFitnessCenter} from "react-icons/md"
+import { HomePoints } from "../components/HomePoints"
 
 
 export function Home(){
@@ -27,10 +27,7 @@ export function Home(){
       </div>
 
       <section className={styles.section}>
-        <h2>Never forget how much weight you've lifted or how many reps you've accomplished. Track it all now.</h2>
-        <p>Easily Log your workouts, sets and reps</p>
-        <p>Make any adjustments as you go with updating functionality</p>
-        <p>Keep track of your past workouts for days, months and year to come</p>
+        <HomePoints />
       </section>
 
     </main>

@@ -1,11 +1,10 @@
 import React from "react"
-import { HomeHeaderStyled } from "./styles/HomeHeader.styled"
 import { Link } from "react-router-dom"
 import { FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa"
-import { useState } from "react"
-import styles from "./styles/HomeHeader.module.css"
+import styles from "./styles/Home.module.css"
+import { MdOutlineFitnessCenter } from "react-icons/md"
 //redux imports
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { removeUserData } from "../features/auth/authSlice"
 import { useNavigate } from "react-router-dom"
 
@@ -23,28 +22,29 @@ export function HomeHeader() {
 		<>
 			<header className={styles.header}>
 				<h1 className={styles.titleText}>
-					Welcome To Your Personal Workout Tracker
+					Welcome To Your Personal Workout Tracker <MdOutlineFitnessCenter />
 				</h1>
 				<ul>
 					{localStorage.getItem("user") ? (
-						<li>
-							{" "}
-							<Link to="/login" onClick={logoutHandler}>
-								{" "}
-								<FaSignOutAlt /> Logout
-							</Link>
-						</li>
+						<>
+							<li>
+								<Link to="/viewWorkouts">View Workouts</Link>
+							</li>
+							<li>
+								<Link to="/login" onClick={logoutHandler}>
+									<FaSignOutAlt /> Logout
+								</Link>
+							</li>
+						</>
 					) : (
 						<>
 							<li>
 								<Link to="/login">
-									{" "}
 									<FaSignInAlt /> Login
 								</Link>
 							</li>
 							<li>
 								<Link to="/register">
-									{" "}
 									<FaUser /> Register
 								</Link>
 							</li>

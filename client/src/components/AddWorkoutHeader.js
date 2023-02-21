@@ -1,19 +1,18 @@
-import { StyledHeader, Nav } from "./styles/Header.styled"
+import styles from "./styles/AddWorkout.module.css"
 
-export function Header() {
+export function AddWorkoutHeader() {
 	const date = new Date()
 	let [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()]
 	month++
 
 	return (
-		<StyledHeader>
+		<header className={styles.header}>
 			<h1>Add Today's Workout</h1>
-			<Nav>
-				<p>Hello, Welcome Carlos</p>
+			<div className={styles.dateDiv}>
 				<p>
 					{month}/{day}/{year}
 				</p>
-			</Nav>
-		</StyledHeader>
+			</div>
+		</header>
 	)
 }

@@ -1,11 +1,9 @@
-import axios from "axios";
 import React from "react";
 import { useState} from "react"
 import {useNavigate} from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { StyledButton } from "../components/styles/Button.styled";
-import { Container } from "../components/styles/Container.styled";
-import { StyledForm } from "../components/styles/Form.styled";
+import styles from "../components/styles/EditWorkout.module.css"
 //import redux state
 import {useDispatch, useSelector} from "react-redux"
 import { editWorkout } from "../features/workouts/workoutsSlice";
@@ -52,9 +50,9 @@ export function EditWorkout(){
   }
 
   return(
-    <>
-    <Container>
-    <StyledForm onSubmit={(event) => handleUpdate(event, workout._id)}>
+   <div className={styles.container}>
+    <h1 className={styles.heading}>Edit Current Workout</h1>
+    <form className={styles.form} onSubmit={(event) => handleUpdate(event, workout._id)}>
       <label htmlFor ="workout">Body-Part</label>
       <input id="workout" type="text" name = "title"  value = {workout.title}  onChange = {handleChange}  />
 
@@ -67,9 +65,8 @@ export function EditWorkout(){
       <label htmlFor="reps">Reps</label>
       <input id="reps" type="number" name = "reps" value={workout.reps} onChange = {handleChange}/>
       
-      <StyledButton color = "blue">Submit</StyledButton>
-    </StyledForm>
-    </Container>
-    </>
+      <StyledButton color = "black">Submit</StyledButton>
+    </form>
+  </div> 
   )
 }
