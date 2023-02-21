@@ -1,15 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { FaSignInAlt } from "react-icons/fa"
-import { Container2 } from "../components/styles/Container.styled";
-import { Form2 } from "../components/styles/Form.styled";
 import { useNavigate } from "react-router-dom";
 import { HomeHeader } from "../components/HomeHeader";
+import styles from "../components/styles/Login.module.css"
 //redux imports
 import {useSelector, useDispatch} from "react-redux"
 import {login, reset} from "../features/auth/authSlice"
 import {toast} from "react-toastify"
 import Spinner from '../components/Spinner'
+
 
 export function Login(){
 
@@ -29,7 +29,8 @@ export function Login(){
  //If the user successfully signs in and the token in stored in the localStorage from the dispatch(login()) function, the useEffect fires and the user can see his/her workouts or the "toast" error is displayed. Otherwise the dispatch function is called to reset all the state 
  useEffect(() => {
   if(isError){
-    console.log("error")
+    console.log(isError)
+    
     toast.error(message, {
       position: "top-right",
       autoClose: 5000,
@@ -42,8 +43,18 @@ export function Login(){
     })
   }
 
-  if(userData || isSuccess){
+  if(isSuccess){
     navigate('/viewWorkouts')
+     toast.success("Successfuly signed in!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    })
   }
 
   dispatch(reset())
@@ -52,17 +63,6 @@ export function Login(){
   function handleSubmit(event){
     event.preventDefault()
     dispatch(login(user))
-
-    // toast.success("Successfuly signed in!", {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    // })
   }
   
 
@@ -83,14 +83,14 @@ export function Login(){
   return(
     <>
     <HomeHeader/>
-    <Container2>
-      <p><FaSignInAlt/> Login </p>
-      <Form2 onSubmit={handleSubmit}>
-        <input type="email" placeholder="Enter email" value={user.email} name="email" onChange={handleChange}/>
-        <input type="password" placeholder="Enter Password" autoComplete="off" value={user.password} name="password" onChange={handleChange}/>
-        <button>Login</button>
-      </Form2>
-    </Container2>
-  </>
+    <section className={styles.formSection}>
+        <p className={styles.loginFormSymbol}><FaSignInAlt/> Login </p>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input type="email" placeholder="Enter email" value={user.email} name="email" onChange={handleChange}/>
+          <input type="password" placeholder="Enter Password" autoComplete="off" value={user.password} name="password" onChange={handleChange}/>
+          <button>Login</button>
+        </form>
+      </section>
+    </>
   )
 }

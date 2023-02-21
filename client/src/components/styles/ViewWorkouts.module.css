@@ -1,5 +1,138 @@
+/* Container for Workout Component */
 .workoutsFlex{
   display: flex;
   flex-flow: column;
   align-items: center;
 }
+
+/* Header Component */
+.header{
+	background-color: black;
+	height: 140px;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.header h1 {
+	padding-top: 5px;
+	font-size: 28px;
+	text-align: center;
+	color: white;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.header button {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1rem;
+	font-weight: 600;
+	width: 100px;
+	margin: 0px;
+	border-radius: 50px;
+	padding: 10px 12px;
+	border: none;
+	background-color: white;
+	color: black;
+  box-shadow:0 0 20px 4px rgba(255, 0, 0, 0.2);
+} 
+/* End Of Header component */
+
+/* main button container */
+.mainBtnContainer{
+  min-height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  top:0; 
+  position: sticky;
+  background-color: rgb(105, 105, 105);
+}
+
+.mainBtnContainer button{
+  border-radius: 50px;
+	border:none;
+	cursor: pointer;
+	font-size: 16px;
+	margin: auto;
+	padding: 6px 10px;
+  background-color: rgb(255, 251, 251);
+}
+.mainBtnContainer a{
+  padding: 0;
+  background-color:rgb(105, 105, 105);
+}
+
+
+.mainBtnContainer button:hover{
+  box-shadow:0 0 20px 4px rgba(0, 0, 0, .2);
+}
+/* End of main button container */
+
+/* Workout Component */
+.workoutContainer{
+  width: 90%;
+  min-height: 200px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 30px;
+  /* overflow: auto; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow: 10px 10px 5px rgb(173, 172, 172);
+}
+
+.workoutContainer:last-child{
+  margin-bottom: 20px;
+}
+
+.workoutContainer h2{
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin: 0px 10px 5px 10px;
+  padding-top: 10px;
+  color: black;
+}
+.workoutContainer p{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1rem;
+  margin: 5px;
+  color: black;
+}
+
+.workoutContainer p span{
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
+
+.btnContainer{
+  margin-bottom: 10px;
+  /* border: 2px solid purple; */
+  width: 95%;
+  min-height: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items:center;
+}
+
+.btn{
+  border-radius: 50px;
+	border: none;
+	cursor: pointer;
+	font-size: 1rem;
+	padding: 8px 12px;
+	font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
+  color: white;
+  font-size: .95rem;
+}
+
+.btn:hover{
+  box-shadow:0 0 20px 4px rgba(0, 0, 0, .2);
+}
+
+/* End of Workout Component */

@@ -1,21 +1,18 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import  Axios  from "axios"
-import { StyledQuoteApi } from "./styles/QuoteApi.styled"
+import axios from "axios"
+import styles from "./styles/AddWorkout.module.css"
 
-export function QuoteApi(){
+export function QuoteApi() {
+	const [quote, setQuote] = useState([])
 
-  const [quote, setQuote] = useState([])
+	useEffect(() => {
+		axios
+			.get("https://type.fit/api/quotes")
+			.then((response) =>
+				setQuote(response.data[Math.floor(Math.random() * 1600)].text)
+			)
+	}, [])
 
-  useEffect(() => {
-      Axios.get("https://type.fit/api/quotes")
-     .then((response) => setQuote(response.data[Math.floor(Math.random()* 1600)].text))
-  },[])
-
-
-  return(
-    <StyledQuoteApi>
-      <p>{quote}</p> 
-    </StyledQuoteApi>
-  )
+	return <p className={styles.quote}>{quote}</p>
 }

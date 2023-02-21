@@ -77,7 +77,6 @@ export const editWorkout = createAsyncThunk(
 export const deleteWorkout = createAsyncThunk(
 	"workouts/delete",
 	async (workoutId, thunkAPI) => {
-		console.log(workoutId)
 		try {
 			const token = thunkAPI.getState().auth.userData.token
 

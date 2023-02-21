@@ -1,8 +1,7 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useState } from "react"
-import { StyledForm } from "./styles/Form.styled"
 import { useNavigate } from "react-router-dom"
-
+import styles from "./styles/AddWorkout.module.css"
 //import redux state manage.
 import { useDispatch } from "react-redux"
 import { createWorkout } from "../features/workouts/workoutsSlice"
@@ -36,7 +35,7 @@ export function WorkoutForm() {
 	}
 
 	return (
-		<StyledForm onSubmit={handleSubmit}>
+		<form className={styles.form} onSubmit={handleSubmit}>
 			<label htmlFor="workout">Body-Part</label>
 			<input
 				id="workout"
@@ -44,6 +43,7 @@ export function WorkoutForm() {
 				name="title"
 				onChange={handleChange}
 				value={workout.title}
+				autoComplete="off"
 			/>
 
 			<label htmlFor="exercise">Exercise</label>
@@ -53,25 +53,28 @@ export function WorkoutForm() {
 				name="exercise"
 				value={workout.exercise}
 				onChange={handleChange}
+				autoComplete="off"
 			/>
-			<label htmlFor="sets">Sets</label>
+			<label htmlFor="sets"># of Sets</label>
 			<input
 				id="sets"
-				type="number"
+				type="telephone"
 				name="sets"
 				value={workout.sets}
 				onChange={handleChange}
+				autoComplete="off"
 			/>
 
-			<label htmlFor="reps">Reps</label>
+			<label htmlFor="reps"># of Reps</label>
 			<input
 				id="reps"
-				type="number"
+				type="telephone"
 				name="reps"
 				value={workout.reps}
 				onChange={handleChange}
+				autoComplete="off"
 			/>
-			<button>Store Workout</button>
-		</StyledForm>
+			<button>Add Workout +</button>
+		</form>
 	)
 }

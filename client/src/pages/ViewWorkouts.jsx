@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { StyledButton } from "../components/styles/Button.styled";
-import {Footer} from "../components/Footer"
-import { StyledHeader } from "../components/styles/Header.styled";
+// import { StyledHeader } from "../components/styles/Header.styled";
 import { Link } from "react-router-dom"
 import { Workout } from '../components/Workout';
 //redux components
@@ -17,7 +16,7 @@ export function ViewWorkouts(){
   const dispatch = useDispatch()
 
   const { userData } = useSelector((state) => state.auth)
-  const {workouts, isLoading, isError, message, isSuccess} = useSelector((state) => {
+  const {workouts, isLoading, isError, message} = useSelector((state) => {
     return state.workouts
   })
 
@@ -70,19 +69,19 @@ export function ViewWorkouts(){
 
   return(
     <>
-    <StyledHeader>
+    <header className={styles.header}>
     <h1>Hello, {name}, here are your personally logged workouts</h1>
     <StyledButton color ="white" onClick = {logoutHandler}>Logout</StyledButton>
-    </StyledHeader>
+    </header>
+
+    <section className={styles.mainBtnContainer}>
+        <Link to = "/"><button color="white">Go to Home Page</button></Link>
+        <Link to = "/addWorkout"><button color="white">Add a Workout +</button></Link>
+    </section>
 
     <div className={styles.workoutsFlex}>
       {currentWorkouts}
     </div>
-
-    <Footer>
-      <Link to = "/"><StyledButton color="white">Go to Home Page</StyledButton></Link>
-      <Link to = "/addWorkout"> <StyledButton color="white">Go to add Workout Page</StyledButton></Link>
-    </Footer>
     </>
   )
 }

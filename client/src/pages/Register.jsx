@@ -1,10 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { FaUser } from "react-icons/fa"
-import { Container2 } from "../components/styles/Container.styled";
-import { Form2 } from "../components/styles/Form.styled";
 import {useNavigate} from "react-router-dom"
 import { HomeHeader } from "../components/HomeHeader";
+import styles from "../components/styles/Register.module.css"
 //Redux imports
 import {useSelector, useDispatch} from "react-redux"
 import {register, reset} from "../features/auth/authSlice"
@@ -16,7 +15,7 @@ export function Register(){
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const {userData, isLoading , isError, isSuccess, message} = useSelector((state)=> {
+  const {userData, isError, isSuccess, message} = useSelector((state)=> {
     return state.auth
   }) 
 
@@ -58,30 +57,22 @@ export function Register(){
       dispatch(register(user)) 
     }
   }
-
-  if(isLoading){
-    console.log("Insert spinner component here")
-  }
   
   return(
     <>
     <HomeHeader />
-    <Container2>
-    <section>
+    <section className={styles.formSection}>
       <h1><FaUser/> Register</h1>
       <p>Please Create an Account</p>
-    </section>
 
-    <section>
-      <Form2 onSubmit={handleSubmit}>
-        <input type="text" placeholder="Enter name" name="name" value={user.name} onChange={handleChange} />
-        <input type="email" placeholder="Enter email" name="email" value={user.email} onChange={handleChange}/>
-        <input type="password" placeholder="Enter password" name ="password" value={user.password} onChange={handleChange}/>
-        <input type="password" placeholder="Confirm Password" name="confirmPassword" value={user.confirmPassword} onChange={handleChange}/>
-        <button>Submit</button>
-      </Form2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <input type="text" placeholder="Enter name" name="name" value={user.name} required onChange={handleChange} />
+        <input type="email" placeholder="Enter email" name="email" value={user.email} required onChange={handleChange}/>
+        <input type="password" placeholder="Enter password" name ="password" value={user.password} required onChange={handleChange}/>
+        <input type="password" placeholder="Confirm Password" name="confirmPassword" value={user.confirmPassword} required onChange={handleChange}/>
+        <button>Register</button>
+      </form>
     </section>
-    </Container2>
     </>
   )
 }

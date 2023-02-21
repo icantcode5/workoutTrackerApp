@@ -1,8 +1,6 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import { StyledButton } from "./styles/Button.styled"
-import { StyledDiv } from "./styles/Div.styled"
-import styles from "./styles/Workout.module.css"
+import styles from "./styles/ViewWorkouts.module.css"
 
 export function Workout(props) {
 	const navigate = useNavigate()
