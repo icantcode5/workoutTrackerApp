@@ -52,6 +52,7 @@ export function EditWorkout(){
   return(
    <div className={styles.container}>
     <h1 className={styles.heading}>Edit Current Workout</h1>
+
     <form className={styles.form} onSubmit={(event) => handleUpdate(event, workout._id)}>
       <label htmlFor ="workout">Body-Part</label>
       <input id="workout" type="text" name = "title"  value = {workout.title}  onChange = {handleChange}  />
@@ -64,6 +65,9 @@ export function EditWorkout(){
 
       <label htmlFor="reps">Reps</label>
       <input id="reps" type="number" name = "reps" value={workout.reps} onChange = {handleChange}/>
+
+      <label htmlFor="lbs">Reps</label>
+      <input id="lbs" type="telephone" name = "lbs" value={workout.lbs} onChange = {handleChange}/>
       
       <StyledButton color = "black">Submit</StyledButton>
     </form>
