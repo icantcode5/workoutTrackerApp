@@ -3,13 +3,14 @@ const User = require("../models/User")
 
 module.exports = {
 	createWorkout: async (request, response) => {
-		const { title, exercise, sets, reps } = request.body
+		const { title, exercise, sets, reps, lbs } = request.body
 		try {
 			const workout = await Workout.create({
 				title: title,
 				exercise: exercise,
 				sets: sets,
 				reps: reps,
+				lbs: lbs,
 				user: request.user.id,
 			})
 			console.log("Workout has been added to database")
@@ -63,7 +64,7 @@ module.exports = {
 	},
 	updateWorkout: async (request, response) => {
 		const { id } = request.params
-		const { title, exercise, sets, reps } = request.body
+		const { title, exercise, sets, reps, lbs } = request.body
 		try {
 			//find single workout based on workout unique id grabbed from the URL parameter
 			const workout = await Workout.findById(id)
@@ -92,6 +93,7 @@ module.exports = {
 					exercise: exercise,
 					sets: sets,
 					reps: reps,
+					lbs: lbs,
 				},
 				{
 					new: true,

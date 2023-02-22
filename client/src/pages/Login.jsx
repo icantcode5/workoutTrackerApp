@@ -30,7 +30,7 @@ export function Login(){
  useEffect(() => {
   if(isError){
     console.log(isError)
-    
+
     toast.error(message, {
       position: "top-right",
       autoClose: 5000,
@@ -84,7 +84,7 @@ export function Login(){
     <>
     <HomeHeader/>
     <section className={styles.formSection}>
-        <p className={styles.loginFormSymbol}><FaSignInAlt/> Login </p>
+        <p className={styles.loginFormSymbol}><FaSignInAlt/> Login</p>
         <form className={styles.form} onSubmit={handleSubmit}>
           <input type="email" placeholder="Enter email" value={user.email} name="email" onChange={handleChange}/>
           <input type="password" placeholder="Enter Password" autoComplete="off" value={user.password} name="password" onChange={handleChange}/>

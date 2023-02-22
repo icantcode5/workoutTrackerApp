@@ -12,9 +12,11 @@ export function HomePoints() {
 			<div className={styles.points}>
 				<p>Easily Log your workouts, sets and reps</p>
 			</div>
+
 			<div className={styles.points}>
 				<p>Make any adjustments as you go with updating functionality</p>
 			</div>
+
 			<div className={styles.points}>
 				<p>
 					Keep track of your past workouts for days, months and years to come

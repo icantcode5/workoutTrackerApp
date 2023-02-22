@@ -16,6 +16,7 @@ export function WorkoutForm() {
 		exercise: "",
 		sets: "",
 		reps: "",
+		lbs: "",
 	})
 
 	function handleChange(event) {
@@ -71,6 +72,15 @@ export function WorkoutForm() {
 				type="telephone"
 				name="reps"
 				value={workout.reps}
+				onChange={handleChange}
+				autoComplete="off"
+			/>
+			<label htmlFor="lbs">lbs</label>
+			<input
+				id="lbs"
+				type="telephone"
+				name="lbs"
+				value={workout.lbs}
 				onChange={handleChange}
 				autoComplete="off"
 			/>

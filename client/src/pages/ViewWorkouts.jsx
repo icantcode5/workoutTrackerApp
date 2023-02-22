@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { StyledButton } from "../components/styles/Button.styled";
-// import { StyledHeader } from "../components/styles/Header.styled";
+import { FaSignOutAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { Workout } from '../components/Workout';
 //redux components
@@ -60,7 +59,8 @@ export function ViewWorkouts(){
       created = {workout.created} 
       exercise = {workout.exercise} 
       sets = {workout.sets}
-      reps = {workout.reps} 
+      reps = {workout.reps}
+      lbs = {workout.lbs} 
       workoutId = {workout._id}
       handleDelete = {handleDelete}/>
     )
@@ -71,12 +71,18 @@ export function ViewWorkouts(){
     <>
     <header className={styles.header}>
     <h1>Hello, {name}, here are your personally logged workouts</h1>
-    <StyledButton color ="white" onClick = {logoutHandler}>Logout</StyledButton>
+    <ul>
+      <li>
+		  	<Link to="/login" onClick={logoutHandler}>
+		  		<FaSignOutAlt /> Logout
+		  	</Link>
+		  </li>
+    </ul>
     </header>
 
     <section className={styles.mainBtnContainer}>
-        <Link to = "/"><button color="white">Go to Home Page</button></Link>
-        <Link to = "/addWorkout"><button color="white">Add a Workout +</button></Link>
+      <Link to = "/"><button color="white">Go to Home Page</button></Link>
+      <Link to = "/addWorkout"><button color="white">Add a Workout +</button></Link>
     </section>
 
     <div className={styles.workoutsFlex}>
