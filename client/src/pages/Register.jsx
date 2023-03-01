@@ -24,8 +24,9 @@ export function Register(){
       toast.error(message)
     }
 
-    if(isSuccess || userData){
+    if(isSuccess && userData){
       navigate("/viewWorkouts")
+      toast.success("Successfully Registered")
     }
 
     dispatch(reset())

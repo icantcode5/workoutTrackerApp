@@ -29,8 +29,6 @@ export function Login(){
  //If the user successfully signs in and the token in stored in the localStorage from the dispatch(login()) function, the useEffect fires and the user can see his/her workouts or the "toast" error is displayed. Otherwise the dispatch function is called to reset all the state 
  useEffect(() => {
   if(isError){
-    console.log(isError)
-
     toast.error(message, {
       position: "top-right",
       autoClose: 5000,
@@ -43,7 +41,7 @@ export function Login(){
     })
   }
 
-  if(isSuccess){
+  if(isSuccess && userData){
     navigate('/viewWorkouts')
      toast.success("Successfuly signed in!", {
       position: "top-right",

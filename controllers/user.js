@@ -28,7 +28,7 @@ module.exports = {
 			const userExists = await User.findOne({ email })
 
 			if (userExists) {
-				response.status(400)
+				response.status(400).send("Email already exists")
 				throw new Error("User already exists, Please Login")
 			}
 
@@ -53,7 +53,7 @@ module.exports = {
 					token: generateToken(user._id),
 				})
 			} else {
-				response.status(400)
+				response.status(400).send("Invalid User, Please try again")
 				throw new Error("Invalid User")
 			}
 
@@ -79,10 +79,13 @@ module.exports = {
 					authorized: true,
 				})
 			} else {
-				response.status(400) //client error, request will not be completed
-				throw new Error("User was not found")
+				response
+					.status(400)
+					.send("Please make sure email and password are correct") //client error, request will not be completed
+				throw new Error("User Not Found")
 			}
 		} catch (err) {
+			response.status(400)
 			console.log(err)
 		}
 	},

@@ -4,13 +4,14 @@ const User = require("../models/User")
 module.exports = {
 	protect: async (request, response, next) => {
 		let token
-
-		if (request.headers.authorization) {
-			// request.headers.authorization.startsWith("Bearer")
+		//convention is to send token with the word "Bearer" before it to identify the type of authorization we are sending
+		if (
+			request.headers.authorization &&
+			request.headers.authorization.startsWith("Bearer")
+		) {
 			try {
 				//Get token from the header.authorization property which is sent along with the request if a user is logged in
-
-				token = request.headers.authorization //.split(" ")[1]
+				token = request.headers.authorization.split(" ")[1]
 				//Verify token
 				const decoded = jwt.verify(token, process.env.JWT_SECRET)
 				console.log(decoded)

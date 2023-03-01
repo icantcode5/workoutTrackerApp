@@ -21,12 +21,7 @@ export const register = createAsyncThunk(
 			//the return is call the payload which is what we set our user state to once the async function's promise succeeds
 			return await authService.register(user)
 		} catch (error) {
-			const message =
-				(error.response &&
-					error.response.data &&
-					error.response.data.message) ||
-				error.message ||
-				error.toString()
+			const message = error.response.data || error.message || error.toString()
 			//when the promise fails, we return with the message which is defined above as an error message.
 			return thunkAPI.rejectWithValue(message)
 		}
@@ -38,10 +33,7 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 	try {
 		return await authService.login(user)
 	} catch (error) {
-		const message =
-			(error.response && error.response.data && error.response.data.message) ||
-			error.message ||
-			error.toString()
+		const message = error.response.data || error.message || error.toString()
 		return thunkAPI.rejectWithValue(message)
 	}
 })

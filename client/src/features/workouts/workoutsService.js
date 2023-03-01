@@ -4,7 +4,7 @@ import axios from "axios"
 const getWorkouts = async (token) => {
 	const config = {
 		headers: {
-			authorization: token,
+			authorization: `Bearer ${token}`,
 		},
 	}
 
@@ -19,7 +19,7 @@ const getWorkouts = async (token) => {
 const createWorkout = async (workoutData, token) => {
 	const config = {
 		headers: {
-			authorization: token,
+			authorization: `Bearer ${token}`,
 		},
 	}
 
@@ -36,7 +36,7 @@ const createWorkout = async (workoutData, token) => {
 const editWorkout = async (workoutId, workoutData, token) => {
 	const config = {
 		headers: {
-			authorization: token,
+			authorization: `Bearer ${token}`,
 		},
 	}
 
@@ -52,7 +52,7 @@ const editWorkout = async (workoutId, workoutData, token) => {
 const deleteWorkout = async (workoutId, token) => {
 	const config = {
 		headers: {
-			authorization: token,
+			authorization: `Bearer ${token}`,
 		},
 	}
 

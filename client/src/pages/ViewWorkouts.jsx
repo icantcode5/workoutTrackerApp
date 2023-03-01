@@ -21,7 +21,7 @@ export function ViewWorkouts(){
 
   //Capitalize First letter of first and last name. Will probably move this to happen elsewhere
   const name = userData.name.split(' ').map(el => {
-    return el[0].toUpperCase() + el.substring(1)
+    return el[0].toUpperCase() + el.substring(1).toLowerCase()
   }).join(' ')
 
   useEffect(() => {
@@ -82,11 +82,11 @@ export function ViewWorkouts(){
 
     <section className={styles.mainBtnContainer}>
       <Link to = "/"><button color="white">Go to Home Page</button></Link>
-      <Link to = "/addWorkout"><button color="white">Add a Workout +</button></Link>
+      <Link to = "/addWorkout"><button color="white">Add a Workout +</button></Link> 
     </section>
 
     <div className={styles.workoutsFlex}>
-      {currentWorkouts}
+      {currentWorkouts.length ? currentWorkouts : <h2 className={styles.noWorkouts}>Add a workout to start tracking!</h2>}
     </div>
     </>
   )
