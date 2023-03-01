@@ -44,7 +44,7 @@ export function EditWorkout(){
   const handleUpdate = (event, id) => {
     event.preventDefault()
     //pass the arguments that the PUT request needs (id, and workout object) in array because THUNK function only takes in one argument. We can also pass in an object and then destructure the obj or array in the THUNK function's source code
-    dispatch(editWorkout([id, workout])) // dispatch method is synchonous
+    dispatch(editWorkout([id, workout])) // dispatch method is synchronous
     
     navigate("/viewWorkouts") // ended up putting navigate here instead of in useEffect because since we are fetching the workouts in viewWorkouts, the isSuccess state persists as successful while logged in.
   }
