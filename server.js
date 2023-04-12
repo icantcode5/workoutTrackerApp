@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === "production") {
 	app.use(express.static("./client/build"))
 }
 
-//Body Parsing
+//Body Parsing, data in body is sent as a string so we need to parse it to json
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cors())
@@ -42,7 +42,6 @@ app.use(
 app.use("/", testRoute)
 app.use("/users", userRoutes)
 app.use("/workout", workoutRoutes)
-//app.use("/comment", commentsRoutes)
 
 if (process.env.NODE_ENV === "production") {
 	app.get("*", (req, res) => {

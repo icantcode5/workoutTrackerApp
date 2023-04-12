@@ -45,6 +45,7 @@ export function WorkoutForm() {
 				onChange={handleChange}
 				value={workout.title}
 				autoComplete="off"
+				required
 			/>
 
 			<label htmlFor="exercise">Exercise</label>
@@ -55,9 +56,11 @@ export function WorkoutForm() {
 				value={workout.exercise}
 				onChange={handleChange}
 				autoComplete="off"
+				required
 			/>
 			<label htmlFor="sets"># of Sets</label>
 			<input
+				required
 				id="sets"
 				type="telephone"
 				name="sets"
@@ -68,6 +71,7 @@ export function WorkoutForm() {
 
 			<label htmlFor="reps"># of Reps</label>
 			<input
+				required
 				id="reps"
 				type="telephone"
 				name="reps"
@@ -77,6 +81,7 @@ export function WorkoutForm() {
 			/>
 			<label htmlFor="lbs">lbs</label>
 			<input
+				required
 				id="lbs"
 				type="telephone"
 				name="lbs"
