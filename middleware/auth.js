@@ -26,14 +26,14 @@ module.exports = {
 				next()
 			} catch (err) {
 				console.log(err)
-				response.status(401)
+				response.status(401).send("Not Authorized")
 				throw new Error("Not Authorized!")
 			}
 		}
 
 		if (!token) {
 			console.log(request.headers.authorization)
-			response.status(400)
+			response.status(400).send("No token found, not Authorized")
 			throw new Error("No Token found, Not Authorized")
 		}
 	},

@@ -16,5 +16,3 @@ root.render(
 		</Provider>
 	</>
 )
-
-// serviceWorker.unregister()

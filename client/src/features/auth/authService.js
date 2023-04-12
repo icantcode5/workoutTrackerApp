@@ -2,7 +2,12 @@ import axios from "axios"
 
 //Register user
 const register = async (userData) => {
-	const response = await axios.post("http://localhost:5000/users/", userData)
+	let response
+	if (process.env.NODE_ENV === "development") {
+		response = await axios.post("http://localhost:5000/users", userData)
+	} else {
+		response = await axios.post("https://fitfocus.onrender.com/users", userData)
+	}
 
 	if (response.data) {
 		localStorage.setItem("user", JSON.stringify(response.data))
@@ -13,10 +18,14 @@ const register = async (userData) => {
 
 //Login user
 const login = async (userData) => {
-	const response = await axios.post(
-		"http://localhost:5000/users/login",
-		userData
-	)
+	let response
+
+	if (process.env.NODE_ENV === "development") {
+		response = await axios.post("http://localhost:5000/users/login", userData)
+	} else {
+		//prettier-ignore
+		response = await axios.post("https://fitfocus.onrender.com/users/login", userData)
+	}
 
 	if (response.data) {
 		localStorage.setItem("user", JSON.stringify(response.data))
