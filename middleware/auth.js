@@ -14,9 +14,8 @@ module.exports = {
 				token = request.headers.authorization.split(" ")[1]
 				//Verify token
 				const decoded = jwt.verify(token, process.env.JWT_SECRET)
-				console.log(decoded)
 
-				//Get user from the token bc we signed the token with the user who logged
+				//Get user from the token bc we signed the token with the user id who logged
 				//we are finding the user by what's in the token which we set up the generateToken function to take in the unique user id (could set it up to take in the user name or anything else. We can grab this in the "decoded" object)
 				//we don't want the password from the token function so we use the method .select() and pass in the password in a string
 

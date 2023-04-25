@@ -34,7 +34,7 @@ export const createWorkout = createAsyncThunk(
 	"workouts/createWorkout",
 	async (workoutData, thunkAPI) => {
 		try {
-			//we are getting the current userState's token which we saved in our "auth's" state. We can also get the token from our localStorage too!
+			//we are getting the current userState's token which we saved in our "auth's" state. We can also get the token from our localeStorage too!
 			const token = thunkAPI.getState().auth.userData.token
 			// console.log(thunkAPI.getState())
 			return await workoutsService.createWorkout(workoutData, token)
@@ -149,6 +149,7 @@ export const workoutsSlice = createSlice({
 				state.isSuccess = true
 				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
 				state.workouts = action.payload
+				console.log(typeof action.payload[1].created)
 			})
 			.addCase(getWorkouts.rejected, (state, action) => {
 				state.isLoading = false

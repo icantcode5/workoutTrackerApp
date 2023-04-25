@@ -1,14 +1,12 @@
 const express = require("express")
 const app = express()
 const cors = require("cors")
-const mongoose = require("mongoose")
 const session = require("express-session")
 const MongoStore = require("connect-mongo") //(session); no longer need this in the new version of MongoStore
 const connectDB = require("./config/database")
 //const mainRoutes = require("./routes/main");
 const workoutRoutes = require("./routes/workout")
 const userRoutes = require("./routes/user")
-const testRoute = require("./routes/test")
 const path = require("path")
 
 //Use .env file in config folder
@@ -39,7 +37,6 @@ app.use(
 )
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", testRoute)
 app.use("/users", userRoutes)
 app.use("/workout", workoutRoutes)
 
@@ -51,5 +48,5 @@ if (process.env.NODE_ENV === "production") {
 
 //Server Running
 app.listen(process.env.PORT, () => {
-	console.log("Server is running, you better catch it!")
+	console.log("Server is running")
 })
