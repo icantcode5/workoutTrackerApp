@@ -1,12 +1,12 @@
 /* Header Component */
-.header{
+.header {
 	background-color: black;
 	height: 140px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 
-  padding: 0 10px;
+	padding: 0 10px;
 }
 
 .header h1 {
@@ -18,149 +18,152 @@
 }
 
 ul {
-  display: flex;
-  list-style: none;
+	display: flex;
+	list-style: none;
 }
 
 ul li {
-  margin-left: 20px;
-  margin-right: 10px;
+	margin-left: 20px;
+	margin-right: 10px;
 }
 
 a {
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  text-decoration: none;
-  color: black;
-  line-height: 2.2;
-  background-color: white;
-  border-radius: 15px;
-  padding: 0px 7px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 600;
+	text-decoration: none;
+	color: black;
+	line-height: 2.2;
+	background-color: white;
+	border-radius: 15px;
+	padding: 0px 7px;
 }
 
 ul li a {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 /* move icons just a bit away from the word next to them */
 ul li a svg {
-  margin-right: 5px;
+	margin-right: 5px;
 }
 
 /* Main button container */
-.mainBtnContainer{
-  margin-top: 20px;
-  min-height: 50px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  top:0; 
-  position: sticky;
-  background-color: rgb(105, 105, 105);
+.mainBtnContainer {
+	/* margin-top: 20px; */
+	min-height: 50px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	top: 0;
+	position: sticky;
+	background-color: #171717;
 }
 
-.mainBtnContainer button{
-  border-radius: 50px;
-	border:none;
+.mainBtnContainer button {
+	border-radius: 50px;
+	border: none;
 	cursor: pointer;
 	font-size: 16px;
 	margin: auto;
 	padding: 6px 10px;
-  background-color: rgb(255, 251, 251);
+	background-color: rgb(255, 251, 251);
 }
-.mainBtnContainer a{
-  padding: 0;
-  /* background-color:rgb(105, 105, 105); */
+.mainBtnContainer a {
+	padding: 0;
+	/* background-color:rgb(105, 105, 105); */
+}
+.mainBtnContainer button:hover {
+	box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.2);
 }
 
-
-.mainBtnContainer button:hover{
-  box-shadow:0 0 20px 4px rgba(0, 0, 0, .2);
+.mainBtnContainer .addworkout span {
+	font-size: 1.2rem;
+	text-align: center;
 }
 
 /* Container for Workout Component */
-.workoutsFlex{
-  display: flex;
-  flex-flow: column;
-  align-items: center;
+.workoutsFlex {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
 }
 
-.workoutsFlex .noWorkouts{
-  position: relative;
-  top: 200px;
-  font-family: Arial, Helvetica, sans-serif;
-  border-radius: 8px;
-  border: solid 2px black;
-  background-color: black;
-  color:white;
-  margin: 0;
-  padding: 5px 5px;
+.workoutsFlex .noWorkouts {
+	position: relative;
+	top: 200px;
+	font-family: Arial, Helvetica, sans-serif;
+	border-radius: 8px;
+	border: solid 2px black;
+	background-color: black;
+	color: white;
+	margin: 0;
+	padding: 5px 5px;
 }
 
 /* Workout Component */
-.workoutContainer{
-  width: 90%;
-  min-height: 200px;
-  border: 2px solid black;
-  background-color: white;
-  border-radius: 10px;
-  margin-top: 30px;
-  /* overflow: auto; */
+.workoutContainer {
+	width: 90%;
+	min-height: 200px;
+	border: 2px solid black;
+	background-color: white;
+	border-radius: 10px;
+	margin-top: 30px;
+	/* overflow: auto; */
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  box-shadow: 10px 10px 5px rgb(173, 172, 172);
+	box-shadow: 10px 10px 5px rgb(173, 172, 172);
 }
 
-.workoutContainer:last-child{
-  margin-bottom: 20px;
+.workoutContainer:last-child {
+	margin-bottom: 20px;
 }
 
-.workoutContainer h2{
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
-  font-size: 1.8rem;
-  margin: 0px 10px 5px 10px;
-  padding-top: 10px;
-  color: black;
+.workoutContainer h2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	font-size: 1.8rem;
+	margin: 0px 10px 5px 10px;
+	padding-top: 10px;
+	color: black;
 }
-.workoutContainer p{
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.1rem;
-  margin: 5px;
-  color: black;
-}
-
-.workoutContainer p span{
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 700;
+.workoutContainer p {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.1rem;
+	margin: 5px;
+	color: black;
 }
 
-.btnContainer{
-  margin-bottom: 10px;
-  /* border: 2px solid purple; */
-  width: 95%;
-  min-height: 50px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items:center;
+.workoutContainer p span {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 700;
 }
 
-.btn{
-  border-radius: 50px;
+.btnContainer {
+	margin-bottom: 10px;
+	/* border: 2px solid purple; */
+	width: 95%;
+	min-height: 50px;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.btn {
+	border-radius: 50px;
 	border: none;
 	cursor: pointer;
 	font-size: 1rem;
 	padding: 8px 12px;
 	font-family: Arial, Helvetica, sans-serif;
-  background-color: black;
-  color: white;
-  font-size: .95rem;
+	background-color: black;
+	color: white;
+	font-size: 0.95rem;
 }
 
-.btn:hover{
-  box-shadow:0 0 20px 4px rgba(0, 0, 0, .2);
+.btn:hover {
+	box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.2);
 }

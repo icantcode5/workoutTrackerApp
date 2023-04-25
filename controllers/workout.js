@@ -3,7 +3,9 @@ const User = require("../models/User")
 
 module.exports = {
 	createWorkout: async (request, response) => {
-		const { title, exercise, sets, reps, lbs } = request.body
+		const { title, exercise, sets, reps, lbs, date } = request.body
+		console.log(date)
+		console.log(typeof date)
 		try {
 			const workout = await Workout.create({
 				title: title,
@@ -11,9 +13,10 @@ module.exports = {
 				sets: sets,
 				reps: reps,
 				lbs: lbs,
+				created: date,
 				user: request.user.id,
 			})
-			console.log("Workout has been added to database")
+
 			response.status(200).json(workout)
 		} catch (err) {
 			console.log(err)
@@ -30,8 +33,6 @@ module.exports = {
 
 			//send the workouts found in response as an array of objects
 			response.json(workouts)
-
-			console.log("Hello, this get method worked!")
 		} catch (err) {
 			console.log(err)
 		}
@@ -56,7 +57,7 @@ module.exports = {
 			}
 
 			await Workout.findByIdAndDelete(id)
-			console.log("Workout was deleted!")
+
 			response.status(200).json(workout)
 		} catch (err) {
 			console.log(err)
@@ -100,7 +101,6 @@ module.exports = {
 				}
 			)
 			response.json(updatedWorkout)
-			console.log("Succesfully updated!")
 		} catch (err) {
 			console.log(err)
 		}
@@ -114,7 +114,6 @@ module.exports = {
 			const workout = await Workout.findById({ _id: id })
 
 			response.json(workout)
-			console.log("sent edit comment page")
 		} catch (err) {
 			console.log(err)
 		}

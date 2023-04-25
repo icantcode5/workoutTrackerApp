@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt") // hash password to be unknown to anyone
 
 //generate an encrypted token to keep logged in user online for x amount of days before destroying the token and logging them out. Also keep registered users logged in too
-//takes in unique user id as the payload to verify user I think
 function generateToken(id) {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
 		expiresIn: "7d",
@@ -56,8 +55,6 @@ module.exports = {
 				response.status(400).send("Invalid User, Please try again")
 				throw new Error("Invalid User")
 			}
-
-			//response.json({message: "Succesfully created new User"})
 		} catch (err) {
 			console.log(err)
 		}

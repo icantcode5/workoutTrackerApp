@@ -6,8 +6,10 @@ import styles from "./styles/AddWorkout.module.css"
 import { useDispatch } from "react-redux"
 import { createWorkout } from "../features/workouts/workoutsSlice"
 
-export function WorkoutForm() {
-	//removed the state props being passed down from parent component
+//In AddWorkout Page, remove react-calendar and add it to view workouts to start implementing a "view workouts by date" feature.
+//Look over add workouts css
+
+export function WorkoutForm(props) {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
@@ -17,6 +19,7 @@ export function WorkoutForm() {
 		sets: "",
 		reps: "",
 		lbs: "",
+		date: "",
 	})
 
 	function handleChange(event) {
@@ -88,6 +91,15 @@ export function WorkoutForm() {
 				value={workout.lbs}
 				onChange={handleChange}
 				autoComplete="off"
+			/>
+			<label htmlFor="date">Date</label>
+			<input
+				id="date"
+				required
+				type="date"
+				name="date"
+				value={workout.date}
+				onChange={handleChange}
 			/>
 			<button>Add Workout +</button>
 		</form>
