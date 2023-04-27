@@ -6,7 +6,7 @@ import Calendar from "react-calendar"
 import "react-calendar/dist/Calendar.css"
 import styles from "../components/styles/AddWorkout.module.css"
 
-export function AddWorkout() {
+export function AddWorkout(props) {
 	const [date, setDate] = useState(new Date())
 
 	const onChange = (date) => {
@@ -16,10 +16,10 @@ export function AddWorkout() {
 
 	return (
 		<>
-			<AddWorkoutHeader />
+			<AddWorkoutHeader date={props.date} />
 			<QuoteApi />
 			{/* <div className={styles.formandcalendar}> */}
-			<WorkoutForm date={date} />
+			<WorkoutForm date={props.date} />
 			{/* <div>
 					<Calendar onChange={onChange} value={date} />
 				</div> */}

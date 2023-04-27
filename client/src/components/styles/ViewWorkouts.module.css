@@ -51,7 +51,7 @@ ul li a svg {
 /* Main button container */
 .mainBtnContainer {
 	/* margin-top: 20px; */
-	min-height: 50px;
+	min-height: 80px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
@@ -75,6 +75,14 @@ ul li a svg {
 }
 .mainBtnContainer button:hover {
 	box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mainBtnContainer form input {
+	margin: 5px 0;
+}
+
+.mainBtnContainer form label {
+	color: #fff;
 }
 
 .mainBtnContainer .addworkout span {

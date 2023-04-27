@@ -1,8 +1,10 @@
 const Workout = require("../models/Workout")
 const User = require("../models/User")
+const { request, response } = require("express")
 
 module.exports = {
 	createWorkout: async (request, response) => {
+		console.log(request.body)
 		const { title, exercise, sets, reps, lbs, date } = request.body
 		console.log(date)
 		console.log(typeof date)
@@ -35,6 +37,20 @@ module.exports = {
 			response.json(workouts)
 		} catch (err) {
 			console.log(err)
+		}
+	},
+
+	getWorkoutsByDate: async (request, response) => {
+		const { date } = request.params
+		// console.log(new Date(date))
+		// date = date.split("-")
+
+		try {
+			//prettier-ignore
+			const workouts = await Workout.find({created:{$gte:date,$lte:date}})
+			response.json(workouts)
+		} catch (error) {
+			console.log(error)
 		}
 	},
 	deleteWorkout: async (request, response) => {

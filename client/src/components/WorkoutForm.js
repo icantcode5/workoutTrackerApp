@@ -12,6 +12,21 @@ import { createWorkout } from "../features/workouts/workoutsSlice"
 export function WorkoutForm(props) {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const { date } = props
+
+	//date helper function
+	function formatDate(date) {
+		console.log(date)
+		const todaysDate = new Date(date).getDate().toString()
+		let month = (new Date(date).getMonth() + 1).toString()
+		const year = new Date(date).getFullYear().toString()
+
+		if (month < 10) {
+			month = "0" + month
+		}
+		const formattedDate = year + "-" + month + "-" + todaysDate
+		return formattedDate
+	}
 
 	const [workout, setWorkout] = useState({
 		title: "",
@@ -19,11 +34,12 @@ export function WorkoutForm(props) {
 		sets: "",
 		reps: "",
 		lbs: "",
-		date: "",
+		date: formatDate(date),
 	})
 
 	function handleChange(event) {
 		const { name, value } = event.target
+		console.log(value)
 		setWorkout((prevWorkout) => {
 			return {
 				...prevWorkout,
@@ -40,6 +56,15 @@ export function WorkoutForm(props) {
 
 	return (
 		<form className={styles.form} onSubmit={handleSubmit}>
+			<label htmlFor="date">Date</label>
+			<input
+				id="date"
+				required
+				type="date"
+				name="date"
+				value={workout.date}
+				onChange={handleChange}
+			/>
 			<label htmlFor="workout">Body-Part</label>
 			<input
 				id="workout"
@@ -92,15 +117,7 @@ export function WorkoutForm(props) {
 				onChange={handleChange}
 				autoComplete="off"
 			/>
-			<label htmlFor="date">Date</label>
-			<input
-				id="date"
-				required
-				type="date"
-				name="date"
-				value={workout.date}
-				onChange={handleChange}
-			/>
+
 			<button>Add Workout +</button>
 		</form>
 	)

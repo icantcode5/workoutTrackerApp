@@ -149,7 +149,6 @@ export const workoutsSlice = createSlice({
 				state.isSuccess = true
 				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
 				state.workouts = action.payload
-				console.log(typeof action.payload[1].created)
 			})
 			.addCase(getWorkouts.rejected, (state, action) => {
 				state.isLoading = false

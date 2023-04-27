@@ -1,4 +1,5 @@
-import { useNavigate } from "react-router-dom"
+import axios from "axios"
+import { useNavigate, useParams } from "react-router-dom"
 import { FaSignOutAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { Workout } from "../components/Workout"
@@ -7,13 +8,17 @@ import { useDispatch, useSelector } from "react-redux"
 //prettier-ignore
 import {getWorkouts,deleteWorkout,reset} from "../features/workouts/workoutsSlice"
 import { removeUserData } from "../features/auth/authSlice"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Spinner from "../components/Spinner"
 import styles from "../components/styles/ViewWorkouts.module.css"
 
 export function ViewWorkouts() {
 	const navigate = useNavigate()
+	const { date } = useParams()
+	const [calendarDate, setCalendarDate] = useState(date)
+
 	const dispatch = useDispatch()
+	const [dateWorkouts, setDateWorkouts] = useState([])
 
 	const { userData } = useSelector((state) => state.auth)
 	const { workouts, isLoading, isError, message } = useSelector((state) => {
@@ -53,7 +58,40 @@ export function ViewWorkouts() {
 		return <Spinner />
 	}
 
+	//Retrive by date selected
+	const handleDate = async (event) => {
+		const { value } = event.target
+		setCalendarDate(value)
+		//prettier-ignore
+		try {
+			if(value){
+				navigate(`/viewWorkouts/${value}`)
+				const response = await axios.get(`http://localhost:5000/workout/getWorkoutsByDate/${value}`)
+				setDateWorkouts(response.data)
+			}else{
+				navigate("/viewWorkouts")
+			}
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
 	const currentWorkouts = workouts.map((workout, i) => {
+		return (
+			<Workout
+				key={workout._id}
+				title={workout.title}
+				created={workout.created}
+				exercise={workout.exercise}
+				sets={workout.sets}
+				reps={workout.reps}
+				lbs={workout.lbs}
+				workoutId={workout._id}
+				handleDelete={handleDelete}
+			/>
+		)
+	})
+	const workoutsByDate = dateWorkouts.map((workout, i) => {
 		return (
 			<Workout
 				key={workout._id}
@@ -86,6 +124,18 @@ export function ViewWorkouts() {
 				<Link to="/">
 					<button>Go to Home Page</button>
 				</Link>
+
+				<form placeholder="View by Date">
+					<label htmlFor="viewByDate">View By Date</label>
+					<input
+						value={calendarDate}
+						type="date"
+						name="date"
+						id="viewByDate"
+						onChange={handleDate}
+					/>
+				</form>
+
 				<Link to="/addWorkout">
 					<button className={styles.addworkout}>
 						Add a Workout <span>+</span>
@@ -94,7 +144,9 @@ export function ViewWorkouts() {
 			</section>
 
 			<div className={styles.workoutsFlex}>
-				{currentWorkouts.length ? (
+				{date ? (
+					workoutsByDate
+				) : currentWorkouts ? (
 					currentWorkouts
 				) : (
 					<h2 className={styles.noWorkouts}>

@@ -9,7 +9,7 @@ This application is a functioning workout logging application that helps "fitfoc
 ## How to install
 
 1. Clone this Project
-2. Assuming you have Node.js and npm installed, run `npm install` to install all the dependencies needed.
+2. Assuming you have Node.js and npm installed, run `npm install` in the root directory to install all the dependencies needed.
 3. Create a MongoDB account and set up your client connection string in the .env file - https://account.mongodb.com/account/login
 4. Create a JWT account and set up the JWT token secret in the .env file to allow authorization/authentication - https://auth0.com/signup?_ga=2.186242795.357770778.1682114575-778080090.1675400718&_gl=1*b8p4u8*rollup_ga*Nzc4MDgwMDkwLjE2NzU0MDA3MTg.*rollup_ga_F1G3E656YZ*MTY4MjExNDU3NC40LjEuMTY4MjExNDYwMS4zMy4wLjA.
 5. In the root directory run `npm run dev` to get the server up and running on your selected port.
