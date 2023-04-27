@@ -1,10 +1,14 @@
-*{
-  box-sizing: border-box;
+* {
+	box-sizing: border-box;
 }
 
-body{
-  background : white;
-  /* browser default font size is 16px so 1em  = 16px */
-  font-size : 1em;
-  margin : 0px
+body {
+	background: white;
+	/* browser default font size is 16px so 1em  = 16px */
+	font-size: 1em;
+	margin: 0px;
+}
+
+html {
+	overflow-y: scroll;
 }

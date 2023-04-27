@@ -64,9 +64,10 @@
 	padding: 30px 10px 0px 10px;
 	border-radius: 10px;
 	background-color: white;
+	position: relative;
 }
 
-form input {
+.form input {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	width: 100%;
@@ -78,13 +79,13 @@ form input {
 	box-shadow: 0 0 20px 4px rgba(0, 0, 0, 0.1);
 }
 
-form label {
+.form label {
 	color: black;
 	margin-left: 5px;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-form button {
+.form button {
 	background-color: black;
 	color: white;
 	border-radius: 999px;
@@ -95,9 +96,22 @@ form button {
 	width: 100%;
 }
 
-form input:hover {
+.form input:hover {
 	border: 1px solid black;
 }
+
+/* .form input[type="date"]::-webkit-calendar-picker-indicator {
+	background: transparent;
+	bottom: 0;
+	color: transparent;
+	cursor: pointer;
+	height: auto;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: auto;
+} */
 
 /* Calendar */
 
