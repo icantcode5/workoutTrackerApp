@@ -1,13 +1,10 @@
 const Workout = require("../models/Workout")
 const User = require("../models/User")
-const { request, response } = require("express")
 
 module.exports = {
 	createWorkout: async (request, response) => {
-		console.log(request.body)
 		const { title, exercise, sets, reps, lbs, date } = request.body
-		console.log(date)
-		console.log(typeof date)
+
 		try {
 			const workout = await Workout.create({
 				title: title,
@@ -42,8 +39,6 @@ module.exports = {
 
 	getWorkoutsByDate: async (request, response) => {
 		const { date } = request.params
-		// console.log(new Date(date))
-		// date = date.split("-")
 
 		try {
 			//prettier-ignore
