@@ -93,6 +93,26 @@ export const deleteWorkout = createAsyncThunk(
 	}
 )
 
+//Get workouts by date
+export const getWorkoutsByDate = createAsyncThunk(
+	"workouts/getWorkoutsByDate",
+	async (date, thunkAPI) => {
+		try {
+			const token = thunkAPI.getState().auth.userData.token
+
+			return await workoutsService.getWorkoutsByDate(date, token)
+		} catch (error) {
+			const message =
+				(error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				error.message ||
+				error.toString()
+			return thunkAPI.rejectWithValue(message)
+		}
+	}
+)
+
 //holds the inital state, any changes we want to make to the state such as using the reset function to reset multiple states. Then we have the extra reducers which handle the asynchronous promises state and their responses. We can change our state based on the response we get under "action.payload." Redux also lets us mutate our state here unlike React
 export const workoutsSlice = createSlice({
 	name: "workouts",
@@ -147,7 +167,6 @@ export const workoutsSlice = createSlice({
 			.addCase(getWorkouts.fulfilled, (state, action) => {
 				state.isLoading = false
 				state.isSuccess = true
-				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
 				state.workouts = action.payload
 			})
 			.addCase(getWorkouts.rejected, (state, action) => {
@@ -172,6 +191,20 @@ export const workoutsSlice = createSlice({
 				})
 			})
 			.addCase(editWorkout.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
+				state.message = action.payload
+			})
+			.addCase(getWorkoutsByDate.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(getWorkoutsByDate.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				state.workouts = action.payload
+			})
+			.addCase(getWorkoutsByDate.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user

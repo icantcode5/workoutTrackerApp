@@ -16,7 +16,6 @@ export function WorkoutForm(props) {
 
 	//date helper function
 	function formatDate(date) {
-		console.log(date)
 		const todaysDate = new Date(date).getDate().toString()
 		let month = (new Date(date).getMonth() + 1).toString()
 		const year = new Date(date).getFullYear().toString()
@@ -39,7 +38,6 @@ export function WorkoutForm(props) {
 
 	function handleChange(event) {
 		const { name, value } = event.target
-		console.log(value)
 		setWorkout((prevWorkout) => {
 			return {
 				...prevWorkout,

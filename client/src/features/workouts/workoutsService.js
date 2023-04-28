@@ -100,11 +100,37 @@ const deleteWorkout = async (workoutId, token) => {
 	}
 }
 
+//Get Workout(s) by Date
+const getWorkoutsByDate = async (date, token) => {
+	const config = {
+		headers: {
+			authorization: `Bearer ${token}`,
+		},
+	}
+
+	if (process.env.NODE_ENV === "development") {
+		const response = await axios.get(
+			`http://localhost:5000/workout/getWorkoutsByDate/${date}`,
+			config
+		)
+
+		return response.data
+	} else {
+		const response = await axios.get(
+			`https://fitfocus.onrender.com/workout/getWorkoutsByDate/${date}`,
+			config
+		)
+
+		return response.data
+	}
+}
+
 const workoutService = {
 	getWorkouts,
 	createWorkout,
 	editWorkout,
 	deleteWorkout,
+	getWorkoutsByDate,
 }
 
 export default workoutService
