@@ -68,6 +68,12 @@ module.exports = {
 			const user = await User.findOne({ email })
 
 			if (user && (await bcrypt.compare(password, user.password))) {
+				response.cookie("jwt", generateToken(user._id), {
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: "strict",
+					maxAge: 7 * 24 * 60 * 60,
+				})
 				response.json({
 					_id: user.id,
 					name: user.name,
@@ -85,6 +91,17 @@ module.exports = {
 			response.status(400)
 			console.log(err)
 		}
+	},
+
+	//Logout User
+	//POST METHOD
+
+	logoutUser: async (request, response) => {
+		response.cookie("jwt", "", {
+			httpOnly: true,
+			expires: new Date(0),
+		})
+		response.status(200).json({ message: "user logged out" })
 	},
 
 	//Get user data

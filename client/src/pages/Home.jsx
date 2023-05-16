@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import image1 from "../assets/workoutImage1.jpg"
 import image2 from "../assets/workoutImage2.jpg"
 import image3 from "../assets/workoutImage3.jpg"
@@ -7,7 +7,6 @@ import { HomeHeader } from "../components/HomeHeader.js"
 import { HomePoints } from "../components/HomePoints"
 
 export function Home() {
-	// process.env.NODE_ENV
 	return (
 		<div className={styles.backgroundImage}>
 			<HomeHeader />

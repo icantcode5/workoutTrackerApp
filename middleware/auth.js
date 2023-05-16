@@ -25,7 +25,7 @@ module.exports = {
 				next()
 			} catch (err) {
 				console.log(err)
-				response.status(401).send("Not Authorized")
+				response.status(401).json({ error: "token not verified" })
 				throw new Error("Not Authorized!")
 			}
 		}

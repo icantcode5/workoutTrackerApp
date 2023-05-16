@@ -18,6 +18,7 @@ export const getWorkouts = createAsyncThunk(
 
 			return await workoutsService.getWorkouts(token)
 		} catch (error) {
+			console.log("Error from thunk " + error)
 			const message =
 				(error.response &&
 					error.response.data &&
@@ -174,6 +175,7 @@ export const workoutsSlice = createSlice({
 				state.isError = true
 				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
 				state.message = action.payload
+				// console.log("Error from workout slice " + action.payload)
 			})
 			.addCase(editWorkout.pending, (state) => {
 				state.isLoading = true
