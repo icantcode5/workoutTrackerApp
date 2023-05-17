@@ -45,6 +45,7 @@ const logout = async () => {
 		response = await axios.post("https://fitfocus.onrender.com/users/logout")
 	}
 
+	//most likely don't need this, just destroying cookie jwt token in the backend
 	if (response.data) {
 		localStorage.setItem("user", JSON.stringify(response.data))
 	}

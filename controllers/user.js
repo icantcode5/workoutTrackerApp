@@ -68,11 +68,14 @@ module.exports = {
 			const user = await User.findOne({ email })
 
 			if (user && (await bcrypt.compare(password, user.password))) {
+				//ignore-prettier
+				//We can add as many "Set-Cookie" to the response header by chaining mulitiple ".cookie()" to the response.
 				response.cookie("jwt", generateToken(user._id), {
 					httpOnly: true,
 					secure: process.env.NODE_ENV !== "development",
 					sameSite: "strict",
-					maxAge: 7 * 24 * 60 * 60,
+					maxAge: 7 * 24 * 60 * 60 * 1000,
+					path: "/",
 				})
 				response.json({
 					_id: user.id,
