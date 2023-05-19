@@ -1,4 +1,3 @@
-import React, { useEffect } from "react"
 import image1 from "../assets/workoutImage1.jpg"
 import image2 from "../assets/workoutImage2.jpg"
 import image3 from "../assets/workoutImage3.jpg"

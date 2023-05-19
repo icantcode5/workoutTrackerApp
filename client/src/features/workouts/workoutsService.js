@@ -2,49 +2,33 @@ import axios from "axios"
 axios.defaults.withCredentials = true
 
 //Get Workouts
-const getWorkouts = async (token) => {
-	const config = {
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-	}
-
+const getWorkouts = async () => {
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.get(
-			"http://localhost:5000/workout/viewWorkouts",
-			config
+			"http://localhost:5000/workout/viewWorkouts"
 		)
 		return response.data
 	} else {
 		const response = await axios.get(
-			"https://fitfocus.onrender.com/workout/viewWorkouts",
-			config
+			"https://fitfocus.onrender.com/workout/viewWorkouts"
 		)
 		return response.data
 	}
 }
 
 //Create workout
-const createWorkout = async (workoutData, token) => {
-	const config = {
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-	}
-
+const createWorkout = async (workoutData) => {
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.post(
 			"http://localhost:5000/workout/createWorkout",
-			workoutData,
-			config
+			workoutData
 		)
 
 		return response.data
 	} else {
 		const response = await axios.post(
 			"https://fitfocus.onrender.com/workout/createWorkout",
-			workoutData,
-			config
+			workoutData
 		)
 
 		return response.data
@@ -52,49 +36,33 @@ const createWorkout = async (workoutData, token) => {
 }
 
 //Edit a workout
-const editWorkout = async (workoutId, workoutData, token) => {
-	const config = {
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-	}
-
+const editWorkout = async (workoutId, workoutData) => {
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.put(
 			`http://localhost:5000/workout/editWorkout/${workoutId}`,
-			workoutData,
-			config
+			workoutData
 		)
 		return response.data
 	} else {
 		const response = await axios.put(
 			`https://fitfocus.onrender.com/workout/editWorkout/${workoutId}`,
-			workoutData,
-			config
+			workoutData
 		)
 		return response.data
 	}
 }
 
 //Delete a workout
-const deleteWorkout = async (workoutId, token) => {
-	const config = {
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-	}
-
+const deleteWorkout = async (workoutId) => {
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.delete(
-			`http://localhost:5000/workout/deleteWorkout/${workoutId}`,
-			config
+			`http://localhost:5000/workout/deleteWorkout/${workoutId}`
 		)
 
 		return response.data
 	} else {
 		const response = await axios.delete(
-			`https://fitfocus.onrender.com/workout/deleteWorkout/${workoutId}`,
-			config
+			`https://fitfocus.onrender.com/workout/deleteWorkout/${workoutId}`
 		)
 
 		return response.data
@@ -102,24 +70,16 @@ const deleteWorkout = async (workoutId, token) => {
 }
 
 //Get Workout(s) by Date
-const getWorkoutsByDate = async (date, token) => {
-	const config = {
-		headers: {
-			authorization: `Bearer ${token}`,
-		},
-	}
-
+const getWorkoutsByDate = async (date) => {
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.get(
-			`http://localhost:5000/workout/getWorkoutsByDate/${date}`,
-			config
+			`http://localhost:5000/workout/getWorkoutsByDate/${date}`
 		)
 
 		return response.data
 	} else {
 		const response = await axios.get(
-			`https://fitfocus.onrender.com/workout/getWorkoutsByDate/${date}`,
-			config
+			`https://fitfocus.onrender.com/workout/getWorkoutsByDate/${date}`
 		)
 
 		return response.data
