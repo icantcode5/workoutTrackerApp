@@ -2,13 +2,13 @@ import image1 from "../assets/workoutImage1.jpg"
 import image2 from "../assets/workoutImage2.jpg"
 import image3 from "../assets/workoutImage3.jpg"
 import styles from "../components/styles/Home.module.css"
-import { HomeHeader } from "../components/HomeHeader.js"
+import { Header } from "../components/Header.js"
 import { HomePoints } from "../components/HomePoints"
 
 export function Home() {
 	return (
 		<div className={styles.backgroundImage}>
-			<HomeHeader />
+			<Header />
 			<main className={styles.main}>
 				<div className={styles.imagesContainer}>
 					<img

@@ -2,7 +2,7 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { FaSignInAlt } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
-import { HomeHeader } from "../components/HomeHeader"
+import { Header } from "../components/Header"
 import styles from "../components/styles/Login.module.css"
 //redux imports
 import { useSelector, useDispatch } from "react-redux"
@@ -79,7 +79,7 @@ export function Login() {
 
 	return (
 		<>
-			<HomeHeader />
+			<Header />
 			<section className={styles.formSection}>
 				<p className={styles.loginFormSymbol}>
 					<FaSignInAlt /> Login

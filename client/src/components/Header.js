@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { FaSignInAlt, FaUser, FaSignOutAlt } from "react-icons/fa"
 import styles from "./styles/Header.module.css"
 import { MdOutlineFitnessCenter } from "react-icons/md"
@@ -9,6 +9,8 @@ import { logout } from "../features/auth/authSlice"
 import { useNavigate } from "react-router-dom"
 
 export function Header() {
+	const location = useLocation()
+	console.log(location)
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
@@ -26,31 +28,41 @@ export function Header() {
 					FitFocus <MdOutlineFitnessCenter />
 				</h1>
 				<ul>
-					{localStorage.getItem("user") ? (
-						<>
-							<li>
-								<Link to="/viewWorkouts">View Workouts</Link>
-							</li>
+					<>
+						{location.pathname.startsWith("/viewWorkouts") && (
 							<li>
 								<Link to="/login" onClick={logoutHandler}>
 									<FaSignOutAlt /> Logout
 								</Link>
 							</li>
-						</>
-					) : (
-						<>
-							<li>
-								<Link to="/login">
-									<FaSignInAlt /> Login
-								</Link>
-							</li>
-							<li>
-								<Link to="/register">
-									<FaUser /> Register
-								</Link>
-							</li>
-						</>
-					)}
+						)}
+						{!location.pathname.startsWith("/viewWorkouts") && (
+							<>
+								<li>
+									<Link to="/viewWorkouts">View Workouts</Link>
+								</li>
+								<li>
+									<Link to="/login" onClick={logoutHandler}>
+										<FaSignOutAlt /> Logout
+									</Link>
+								</li>
+							</>
+						)}
+						{!localStorage.getItem("user") && (
+							<>
+								<li>
+									<Link to="/login">
+										<FaSignInAlt /> Login
+									</Link>
+								</li>
+								<li>
+									<Link to="/register">
+										<FaUser /> Register
+									</Link>
+								</li>
+							</>
+						)}
+					</>
 				</ul>
 			</header>
 		</>
