@@ -5,4 +5,9 @@ const PrivateRoutes = () => {
 	return localStorage.getItem("user") ? <Outlet /> : <Navigate to="/login" />
 }
 
-export default PrivateRoutes
+const PrivateLoginRegisterRoute = () => {
+	//prettier-ignore
+	return localStorage.getItem("user") ? <Navigate to="/" /> : <Outlet />
+}
+
+export { PrivateRoutes, PrivateLoginRegisterRoute }
