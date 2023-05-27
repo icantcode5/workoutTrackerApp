@@ -1,5 +1,4 @@
 import React from "react"
-import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styles from "./styles/AddWorkout.module.css"
 //import redux state manage.
@@ -12,16 +11,16 @@ import { yupResolver } from "@hookform/resolvers/yup"
 //In AddWorkout Page, remove react-calendar and add it to view workouts to start implementing a "view workouts by date" feature.
 //Look over add workouts css
 
-export function WorkoutForm(props) {
+export function WorkoutForm() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
-	const { date } = props
+	// const { date } = props
 
 	//use yup library for form validation by creating a schema
 	//prettier-ignore
 	const workoutDataSchema = yup.object().shape({
 		date: yup.string().required("Select a date"),
-		title: yup.string().required("Enter A Body-Part"),
+		title: yup.string().max(25).required("Enter A Body-Part"), //fix title css to expand when long input is given in order to delete "max" validation.
 		exercise: yup.string().required("Enter an exercise"),
 		sets: yup.number().positive().min(1).required().typeError("Enter a number"),
 		reps: yup.number().positive().min(1).required("Enter a number").typeError("Enter a number"),
@@ -32,41 +31,7 @@ export function WorkoutForm(props) {
 		resolver: yupResolver(workoutDataSchema),
 	})
 
-	//date helper function that formats date as "#-#-####"
-	function formatDate(date) {
-		const todaysDate = new Date(date).getDate().toString()
-		let month = (new Date(date).getMonth() + 1).toString()
-		const year = new Date(date).getFullYear().toString()
-
-		if (month < 10) {
-			month = "0" + month
-		}
-		const formattedDate = year + "-" + month + "-" + todaysDate
-		return formattedDate
-	}
-
-	const [workout, setWorkout] = useState({
-		title: "",
-		exercise: "",
-		sets: "",
-		reps: "",
-		lbs: "",
-		date: formatDate(date),
-	})
-
-	function handleChange(event) {
-		const { name, value } = event.target
-		setWorkout((prevWorkout) => {
-			return {
-				...prevWorkout,
-				[name]: value,
-			}
-		})
-	}
-
-	const formSubmit = (data, event) => {
-		console.log(data)
-		console.log(workout)
+	const formSubmit = (data) => {
 		dispatch(createWorkout(data))
 		navigate("/viewWorkouts")
 	}
@@ -74,23 +39,13 @@ export function WorkoutForm(props) {
 	return (
 		<form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
 			<label htmlFor="date">Date</label>
-			<input
-				id="date"
-				type="date"
-				name="date"
-				// value={workout.date} //delete after setting up react-hook-form?
-				onChange={handleChange} //delete after setting up react-hook-form?
-				{...register("date")}
-			/>
+			<input id="date" type="date" name="date" {...register("date")} />
 			<p>{errors.date?.message}</p>
 
 			<label htmlFor="workout">Body-Part</label>
 			<input
 				id="workout"
 				type="text"
-				name="title"
-				onChange={handleChange}
-				// value={workout.title}
 				autoComplete="off"
 				// required
 				{...register("title")}
@@ -101,9 +56,6 @@ export function WorkoutForm(props) {
 			<input
 				id="exercise"
 				type="text"
-				name="exercise"
-				// value={workout.exercise}
-				onChange={handleChange}
 				autoComplete="off"
 				{...register("exercise")}
 			/>
@@ -113,9 +65,6 @@ export function WorkoutForm(props) {
 			<input
 				id="sets"
 				type="telephone"
-				name="sets"
-				// value={workout.sets}
-				onChange={handleChange}
 				autoComplete="off"
 				{...register("sets")}
 			/>
@@ -125,9 +74,6 @@ export function WorkoutForm(props) {
 			<input
 				id="reps"
 				type="telephone"
-				name="reps"
-				// value={workout.reps}
-				onChange={handleChange}
 				autoComplete="off"
 				{...register("reps")}
 			/>
@@ -137,9 +83,6 @@ export function WorkoutForm(props) {
 			<input
 				id="lbs"
 				type="telephone"
-				name="lbs"
-				// value={workout.lbs}
-				onChange={handleChange}
 				autoComplete="off"
 				{...register("lbs")}
 			/>

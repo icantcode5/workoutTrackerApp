@@ -4,12 +4,12 @@ import { QuoteApi } from "../components/QuoteApi"
 import { WorkoutForm } from "../components/WorkoutForm"
 import styles from "../components/styles/AddWorkout.module.css"
 
-export function AddWorkout(props) {
+export function AddWorkout() {
 	return (
 		<>
-			<AddWorkoutHeader date={props.date} />
+			<AddWorkoutHeader />
 			<QuoteApi />
-			<WorkoutForm date={props.date} />
+			<WorkoutForm />
 		</>
 	)
 }

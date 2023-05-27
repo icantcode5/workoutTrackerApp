@@ -21,7 +21,7 @@ export function Workout(props) {
 	return (
 		<>
 			<div className={styles.workoutContainer}>
-				<h2>Workout: {props.title}</h2>
+				<h2>Body Part: {props.title}</h2>
 				<p>
 					Date completed: <span>{formatLocal}</span>
 				</p>
