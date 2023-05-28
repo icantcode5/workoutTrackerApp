@@ -1,5 +1,5 @@
 import React from "react"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { FaSignInAlt } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { Header } from "../components/Header"
@@ -9,14 +9,22 @@ import { useSelector, useDispatch } from "react-redux"
 import { login, reset } from "../features/auth/authSlice"
 import { toast } from "react-toastify"
 import Spinner from "../components/Spinner"
+//Form validation
+import { useForm } from "react-hook-form"
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 export function Login() {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 
-	const [user, setUser] = useState({
-		email: "",
-		password: "",
+	const loginSchema = yup.object().shape({
+		email: yup.string().email().required(),
+		password: yup.string().min(4).max(20).required(),
+	})
+	//prettier-ignore
+	const {register, handleSubmit, formState : {errors}}  = useForm({
+		resolver: yupResolver(loginSchema)
 	})
 
 	//useSelector is how we grab the state we are keeping track of from the auth slice
@@ -58,19 +66,9 @@ export function Login() {
 		dispatch(reset())
 	}, [userData, isError, isSuccess, message, dispatch, navigate])
 
-	function handleSubmit(event) {
-		event.preventDefault()
-		dispatch(login(user))
-	}
-
-	function handleChange(event) {
-		const { name, value } = event.target
-		setUser((user) => {
-			return {
-				...user,
-				[name]: value,
-			}
-		})
+	function formSubmit(data) {
+		console.log(data)
+		dispatch(login(data))
 	}
 
 	if (isLoading) {
@@ -84,22 +82,21 @@ export function Login() {
 				<p className={styles.loginFormSymbol}>
 					<FaSignInAlt /> Login
 				</p>
-				<form className={styles.form} onSubmit={handleSubmit}>
+				<form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
 					<input
 						type="email"
 						placeholder="Enter email"
-						value={user.email}
-						name="email"
-						onChange={handleChange}
+						autoComplete="off"
+						{...register("email")}
 					/>
+					<p>{errors.email?.message}</p>
 					<input
 						type="password"
 						placeholder="Enter Password"
 						autoComplete="off"
-						value={user.password}
-						name="password"
-						onChange={handleChange}
+						{...register("password")}
 					/>
+					{errors.password?.message}
 					<button>Login</button>
 				</form>
 			</section>
