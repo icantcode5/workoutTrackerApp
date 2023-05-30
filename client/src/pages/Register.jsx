@@ -8,10 +8,26 @@ import styles from "../components/styles/Register.module.css"
 import { useSelector, useDispatch } from "react-redux"
 import { register, reset } from "../features/auth/authSlice"
 import { toast } from "react-toastify"
+//Form validation
+import { useForm } from "react-hook-form"
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 export function Register() {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
+
+	//prettier-ignore
+	const registerSchema = yup.object().shape({
+		name: yup.string().required().min(3).max(20),
+		email: yup.string().email().required(),
+		password: yup.string().min(4).max(20).required(),
+		confirmPassword: yup.string().oneOf([yup.ref("password"), null]).min(4).max(20).required()
+	})
+	//prettier-ignore
+	const {register, handleSubmit, formState : {errors}}  = useForm({
+		resolver: yupResolver(registerSchema)
+	})
 
 	const { userData, isError, isSuccess, message } = useSelector((state) => {
 		return state.auth
@@ -30,31 +46,9 @@ export function Register() {
 		dispatch(reset())
 	}, [userData, isError, isSuccess, message, navigate, dispatch])
 
-	const [user, setUser] = useState({
-		name: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-	})
-
-	function handleChange(event) {
-		const { name, value } = event.target
-		setUser((user) => {
-			return {
-				...user,
-				[name]: value,
-			}
-		})
-	}
-
-	function handleSubmit(event) {
-		event.preventDefault()
-
-		if (user.password !== user.confirmPassword) {
-			toast.error("Passwords do not match!")
-		} else {
-			dispatch(register(user))
-		}
+	//Register User
+	function formSubmit(data) {
+		dispatch(register(data))
 	}
 
 	return (
@@ -66,39 +60,40 @@ export function Register() {
 				</h1>
 				<p>Please Create an Account</p>
 
-				<form className={styles.form} onSubmit={handleSubmit}>
+				<form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
 					<input
+						id="name"
 						type="text"
 						placeholder="Enter name"
-						name="name"
-						value={user.name}
 						required
-						onChange={handleChange}
+						{...register("name")}
 					/>
+					<p>{errors.name?.message}</p>
+
 					<input
+						id="email"
 						type="email"
+						{...register("email")}
 						placeholder="Enter email"
-						name="email"
-						value={user.email}
-						required
-						onChange={handleChange}
 					/>
+					<p>{errors.email?.message}</p>
+
 					<input
+						id="pasword"
 						type="password"
 						placeholder="Enter password"
-						name="password"
-						value={user.password}
-						required
-						onChange={handleChange}
+						{...register("password")}
 					/>
+					<p>{errors.password?.message}</p>
+
 					<input
+						id="confirmPassword"
 						type="password"
 						placeholder="Confirm Password"
-						name="confirmPassword"
-						value={user.confirmPassword}
-						required
-						onChange={handleChange}
+						{...register("confirmPassword")}
 					/>
+					<p>{errors.confirmPassword?.message}</p>
+
 					<button>Register</button>
 				</form>
 			</section>

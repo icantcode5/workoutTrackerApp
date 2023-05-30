@@ -23,8 +23,8 @@ export function WorkoutForm() {
 		title: yup.string().max(25).required("Enter A Body-Part"), //fix title css to expand when long input is given in order to delete "max" validation.
 		exercise: yup.string().required("Enter an exercise"),
 		sets: yup.number().positive().min(1).required().typeError("Enter a number"),
-		reps: yup.number().positive().min(1).required("Enter a number").typeError("Enter a number"),
-		lbs: yup.number().positive().min(1).required("Enter a number").typeError("Enter a number"),
+		reps: yup.number().positive().min(1).required().typeError("Enter a number"),
+		lbs: yup.number().positive().min(1).required().typeError("Enter a number"),
 	})
 	//prettier-ignore
 	const {register, handleSubmit, formState: { errors }} = useForm({
