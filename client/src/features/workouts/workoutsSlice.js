@@ -136,8 +136,11 @@ export const workoutsSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				//for the action payload that returns the response from the thunk function that makes our request, we can just take that response and .push() it into out workout state. We CAN'T normally do this in react because that would be mutating state, but we can with "redux toolkit"
-				// console.log(action.payload)
-				state.workouts = [action.payload, ...state.workouts]
+
+				//Since I changed the createworkout dipatch function to wait before it returns a successful promise before navigating to viewWorkouts page, we might not need to sort below. We can probably get away with just spreading and adding to the new array which will be sorted after the navigating occurs since the we make a GET request for the workouts and the backend send them sorted by date already. Probably don't need to make it happen in both places.
+
+				//prettier-ignore
+				state.workouts = [action.payload, ...state.workouts].slice().sort((a, b) => a.created - b.created)
 			})
 			.addCase(createWorkout.rejected, (state, action) => {
 				state.isLoading = false

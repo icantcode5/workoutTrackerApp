@@ -32,8 +32,10 @@ export function WorkoutForm() {
 	})
 
 	const formSubmit = (data) => {
-		dispatch(createWorkout(data))
-		navigate("/viewWorkouts")
+		//prettier-ignore
+		dispatch(createWorkout(data)).then(() => {
+			navigate("/viewWorkouts")
+		})
 	}
 
 	return (
