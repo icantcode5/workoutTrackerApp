@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import { FaSignOutAlt } from "react-icons/fa"
 import { Link } from "react-router-dom"
@@ -11,6 +10,8 @@ import { removeUserData } from "../features/auth/authSlice"
 import { useEffect, useState } from "react"
 import Spinner from "../components/Spinner"
 import styles from "../components/styles/ViewWorkouts.module.css"
+
+// Uninstall calendar from our dependencies!!!!
 
 export function ViewWorkouts() {
 	//when the user goes back to the view workouts page, the calendar shows the date they chose but the workouts aren't being shown any more. This is because the workouts by date are only retrieved when the date changes, so if we want the workouts to be shown when the user goes back, we have to make a request based on if there is a date parameter in the URL i think instead of onChange???? THE SOLUTION WAS TO MAKE A GET REQUEST OF THE WORKOUTS BY DATE IF THERE IS A DATE IN THE URL PARAMETER ALONG WITH PUTTING IT INSIDE OF A USEEFFECT THAT WAY THE WORKOUTS BY DATE LOAD ON HITTING THE BACK BUTTON AS USEEFFECT RUNS ONCE ON COMPONENT LOAD AND DEP. ARRAY VALUES CHANGING.
