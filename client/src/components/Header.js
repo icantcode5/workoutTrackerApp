@@ -20,7 +20,6 @@ export function Header() {
 		navigate("/login")
 	}
 
-	//FIX LOGIC, ITS NOT SHOWING CORRECT BUTTONS FOR VIEWING HOME PAGE AND BEING LOGGED IN
 	return (
 		<>
 			<header className={styles.header}>
@@ -29,11 +28,6 @@ export function Header() {
 				</h1>
 				<ul>
 					<>
-						{/* {(() => {
-						if(location.pathname.startsWith("/viewWorkouts") && localStorage.getItem("user")){
-
-						}
-					})} */}
 						{location.pathname.startsWith("/viewWorkouts") ? (
 							<li>
 								<Link to="/login" onClick={logoutHandler}>

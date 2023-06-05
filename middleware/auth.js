@@ -18,17 +18,15 @@ module.exports = {
 
 				//request.user now holds the logged in user's information so we can use it in our REST API endpoint to select the currently logged in User's unique id, and other properties
 				request.user = await User.findById(decoded.id).select("-password")
-
 				next()
 			} catch (err) {
-				console.log(err)
-				response.status(401).json({ error: "token not verified" })
+				console.log(err.message)
+				response.status(401).json({ error: err.message })
 				throw new Error("Not Authorized!")
 			}
 		}
 
 		if (!cookie) {
-			console.log(request.headers.authorization)
 			response.status(400).send("No cookie found, not Authorized")
 			throw new Error("No cookie found, Not Authorized")
 		}
