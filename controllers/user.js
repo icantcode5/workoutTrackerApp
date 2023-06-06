@@ -5,7 +5,13 @@ const bcrypt = require("bcrypt") // hash password to be unknown to anyone
 //generate an encrypted token to keep logged in user online for x amount of days before destroying the token and logging them out. Also keep registered users logged in too
 function generateToken(id) {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
-		expiresIn: "7d",
+		expiresIn: "30m",
+	})
+}
+
+function generateRefreshToken(id) {
+	return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: "1hr",
 	})
 }
 
@@ -45,11 +51,29 @@ module.exports = {
 
 			//once the user is created, we are sending the user's info (document) back as the response to the frontend which we'll need to store the token in local storage to be able to make protected requests
 			if (user) {
+				//Once User is created, create http header cookie token
+				//maxAge is the amount of the time the token will be recongized by browser (expired or not)
+				// When we create the token and sign it, expiresIn property determines how much time the token is valid for authorization.
+				response.cookie("jwt", generateToken(user._id), {
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: "strict",
+					maxAge: 7 * 24 * 60 * 60 * 1000,
+					path: "/",
+				})
+
+				response.cookie("refreshToken", generateToken(user._id), {
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: "strict",
+					maxAge: 7 * 24 * 60 * 60 * 1000,
+					path: "/",
+				})
+
 				response.status(201).json({
 					_id: user.id,
 					name: user.name,
 					email: user.email,
-					tokenExpiration: user.tokenExpiration,
 				})
 			} else {
 				response.status(400).send("Invalid User, Please try again")
@@ -79,6 +103,7 @@ module.exports = {
 					maxAge: 7 * 24 * 60 * 60 * 1000,
 					path: "/",
 				})
+
 				response.json({
 					_id: user.id,
 					name: user.name,

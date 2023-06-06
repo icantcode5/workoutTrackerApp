@@ -7,6 +7,7 @@ const connectDB = require("./config/database")
 //const mainRoutes = require("./routes/main");
 const workoutRoutes = require("./routes/workout")
 const userRoutes = require("./routes/user")
+const refreshTokenRoutes = require("./routes/refreshToken")
 const path = require("path")
 const cookieParser = require("cookie-parser")
 
@@ -42,6 +43,7 @@ app.use(
 //Setup Routes For Which The Server Is Listening
 app.use("/users", userRoutes)
 app.use("/workout", workoutRoutes)
+app.use("/api/session", refreshTokenRoutes)
 
 if (process.env.NODE_ENV === "production") {
 	app.get("*", (req, res) => {
