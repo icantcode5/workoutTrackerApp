@@ -1,4 +1,5 @@
 import axios from "axios"
+axios.defaults.withCredentials = true
 
 //Get Workouts
 const getWorkouts = async (token) => {

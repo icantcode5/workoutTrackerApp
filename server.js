@@ -8,6 +8,7 @@ const connectDB = require("./config/database")
 const workoutRoutes = require("./routes/workout")
 const userRoutes = require("./routes/user")
 const path = require("path")
+const cookieParser = require("cookie-parser")
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" })
@@ -21,9 +22,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 //Body Parsing, data in body is sent as a string so we need to parse it to json
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(cors())
+//prettier-ignore
+app.use(cors({credentials: true, origin: "http://localhost:3000",}))
 
 // Setup Sessions - stored in MongoDB
 app.use(

@@ -4,6 +4,11 @@ const User = require("../models/User")
 module.exports = {
 	protect: async (request, response, next) => {
 		let token
+
+		//The problem was that axios wasn't sending the cookies header we had set by the server on our requests after logging in so we had to directly set the axios default to include the cookies in every request which now allows us to grab the jwt token value we set in the cookie header (added "withCredentials" to axios.defaults). We also had to set our cors middleware to "{origin: "the domain the request is coming from", credentials : true}". cookie-parser middleware dep. allows us to read the "request.cookies" object
+
+		let cookie = request.cookies.jwt
+		console.log(cookie)
 		//convention is to send token with the word "Bearer" before it to identify the type of authorization we are sending
 		if (
 			request.headers.authorization &&
