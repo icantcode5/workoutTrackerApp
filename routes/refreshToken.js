@@ -4,6 +4,7 @@ const refreshTokenController = require("../controllers/refreshToken")
 const { protect } = require("../middleware/auth")
 
 //Routes to determine which controller gets used
-router.post("/storeRefreshToken", refreshTokenController.storeRefreshToken)
+//prettier-ignore
+router.post("/", protect, refreshTokenController.getRefreshToken)
 
 module.exports = router
