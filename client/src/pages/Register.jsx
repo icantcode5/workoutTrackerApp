@@ -6,7 +6,7 @@ import { Header } from "../components/Header"
 import styles from "../components/styles/Register.module.css"
 //Redux imports
 import { useSelector, useDispatch } from "react-redux"
-import { register, reset } from "../features/auth/authSlice"
+import { register, reset } from "../features/auth/authSlice" //TAKE A LOOK AT THIS, REGISTER MIGHT BE BROKEN, HAVE TO RENAME
 import { toast } from "react-toastify"
 //Form validation
 import { useForm } from "react-hook-form"
