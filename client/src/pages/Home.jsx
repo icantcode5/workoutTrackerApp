@@ -16,10 +16,21 @@ export function Home() {
 						src={image1}
 						alt="girl working out"
 						className={styles.imageOne}
+						loading="lazy"
 					/>
 					<div className={styles.imagesTwoThreeContainer}>
-						<img src={image2} alt="back shot" className={styles.imageTwo} />
-						<img src={image3} alt="ropes" className={styles.imageThree} />
+						<img
+							src={image2}
+							alt="back shot"
+							className={styles.imageTwo}
+							loading="lazy"
+						/>
+						<img
+							src={image3}
+							alt="ropes"
+							className={styles.imageThree}
+							loading="lazy"
+						/>
 					</div>
 				</div>
 
