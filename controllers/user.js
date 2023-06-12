@@ -49,7 +49,6 @@ module.exports = {
 					_id: user.id,
 					name: user.name,
 					email: user.email,
-					token: generateToken(user._id),
 				})
 			} else {
 				response.status(400).send("Invalid User, Please try again")
@@ -81,7 +80,6 @@ module.exports = {
 					_id: user.id,
 					name: user.name,
 					email: user.email,
-					token: generateToken(user._id),
 					authorized: true,
 				})
 			} else {
