@@ -9,7 +9,7 @@ import "./App.module.css"
 //redux imports
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import PrivateRoutes from "./utils/PrivateRoutes"
+import { PrivateRoutes, PrivateLoginRegisterRoute } from "./utils/PrivateRoutes"
 
 const options = {
 	weekday: "long",
@@ -29,8 +29,10 @@ function App() {
 					<Route path="/viewWorkouts/:date" element={<ViewWorkouts exact />} />
 					<Route path="/editWorkout/:id" element={<EditWorkout />} />
 				</Route>
-				<Route path="/register" element={<Register />} />
-				<Route path="/login" element={<Login />} />
+				<Route element={<PrivateLoginRegisterRoute />}>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+				</Route>
 				<Route path="/" element={<Home />} />
 			</Routes>
 			<ToastContainer />
