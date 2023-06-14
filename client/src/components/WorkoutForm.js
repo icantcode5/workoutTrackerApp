@@ -18,20 +18,21 @@ export function WorkoutForm(props) {
 	const { date } = props
 
 	//use yup library for form validation by creating a schema
+	//prettier-ignore
 	const workoutDataSchema = yup.object().shape({
-		date: yup.string().required(),
-		title: yup.string().required(),
-		exercise: yup.string().required(),
-		sets: yup.number().positive().min(1).required(),
-		reps: yup.number().positive().min(1).required(),
-		lbs: yup.number().positive().min(1).required(),
+		date: yup.string().required("Select a date"),
+		title: yup.string().required("Enter A Body-Part"),
+		exercise: yup.string().required("Enter an exercise"),
+		sets: yup.number().positive().min(1).required().typeError("Enter a number"),
+		reps: yup.number().positive().min(1).required("Enter a number").typeError("Enter a number"),
+		lbs: yup.number().positive().min(1).required("Enter a number").typeError("Enter a number"),
 	})
-
-	const { register, handleSubmit } = useForm({
+	//prettier-ignore
+	const {register, handleSubmit, formState: { errors }} = useForm({
 		resolver: yupResolver(workoutDataSchema),
 	})
 
-	//date helper function that formats date as "#-#-###"
+	//date helper function that formats date as "#-#-####"
 	function formatDate(date) {
 		const todaysDate = new Date(date).getDate().toString()
 		let month = (new Date(date).getMonth() + 1).toString()
@@ -64,10 +65,10 @@ export function WorkoutForm(props) {
 	}
 
 	const formSubmit = (data, event) => {
-		// event.preventDefault() maybe react-hook-form takes care of this?
 		console.log(data)
-		// dispatch(createWorkout(workout))
-		// navigate("/viewWorkouts")
+		console.log(workout)
+		dispatch(createWorkout(data))
+		navigate("/viewWorkouts")
 	}
 
 	return (
@@ -75,13 +76,14 @@ export function WorkoutForm(props) {
 			<label htmlFor="date">Date</label>
 			<input
 				id="date"
-				required
 				type="date"
 				name="date"
 				// value={workout.date} //delete after setting up react-hook-form?
 				onChange={handleChange} //delete after setting up react-hook-form?
 				{...register("date")}
 			/>
+			<p>{errors.date?.message}</p>
+
 			<label htmlFor="workout">Body-Part</label>
 			<input
 				id="workout"
@@ -90,9 +92,10 @@ export function WorkoutForm(props) {
 				onChange={handleChange}
 				// value={workout.title}
 				autoComplete="off"
-				required
+				// required
 				{...register("title")}
 			/>
+			<p>{errors.title?.message}</p>
 
 			<label htmlFor="exercise">Exercise</label>
 			<input
@@ -102,12 +105,12 @@ export function WorkoutForm(props) {
 				// value={workout.exercise}
 				onChange={handleChange}
 				autoComplete="off"
-				required
 				{...register("exercise")}
 			/>
+			<p>{errors.exercise?.message}</p>
+
 			<label htmlFor="sets"># of Sets</label>
 			<input
-				required
 				id="sets"
 				type="telephone"
 				name="sets"
@@ -116,10 +119,10 @@ export function WorkoutForm(props) {
 				autoComplete="off"
 				{...register("sets")}
 			/>
+			<p>{errors.sets?.message}</p>
 
 			<label htmlFor="reps"># of Reps</label>
 			<input
-				required
 				id="reps"
 				type="telephone"
 				name="reps"
@@ -128,9 +131,10 @@ export function WorkoutForm(props) {
 				autoComplete="off"
 				{...register("reps")}
 			/>
+			<p>{errors.reps?.message}</p>
+
 			<label htmlFor="lbs">lbs</label>
 			<input
-				required
 				id="lbs"
 				type="telephone"
 				name="lbs"
@@ -139,6 +143,7 @@ export function WorkoutForm(props) {
 				autoComplete="off"
 				{...register("lbs")}
 			/>
+			<p>{errors.lbs?.message}</p>
 
 			<button>Add Workout +</button>
 		</form>
