@@ -5,6 +5,9 @@ import styles from "./styles/AddWorkout.module.css"
 //import redux state manage.
 import { useDispatch } from "react-redux"
 import { createWorkout } from "../features/workouts/workoutsSlice"
+import { useForm } from "react-hook-form"
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 //In AddWorkout Page, remove react-calendar and add it to view workouts to start implementing a "view workouts by date" feature.
 //Look over add workouts css
@@ -14,7 +17,21 @@ export function WorkoutForm(props) {
 	const dispatch = useDispatch()
 	const { date } = props
 
-	//date helper function
+	//use yup library for form validation by creating a schema
+	const workoutDataSchema = yup.object().shape({
+		date: yup.string().required(),
+		title: yup.string().required(),
+		exercise: yup.string().required(),
+		sets: yup.number().positive().min(1).required(),
+		reps: yup.number().positive().min(1).required(),
+		lbs: yup.number().positive().min(1).required(),
+	})
+
+	const { register, handleSubmit } = useForm({
+		resolver: yupResolver(workoutDataSchema),
+	})
+
+	//date helper function that formats date as "#-#-###"
 	function formatDate(date) {
 		const todaysDate = new Date(date).getDate().toString()
 		let month = (new Date(date).getMonth() + 1).toString()
@@ -46,22 +63,24 @@ export function WorkoutForm(props) {
 		})
 	}
 
-	const handleSubmit = (event) => {
-		event.preventDefault()
-		dispatch(createWorkout(workout))
-		navigate("/viewWorkouts")
+	const formSubmit = (data, event) => {
+		// event.preventDefault() maybe react-hook-form takes care of this?
+		console.log(data)
+		// dispatch(createWorkout(workout))
+		// navigate("/viewWorkouts")
 	}
 
 	return (
-		<form className={styles.form} onSubmit={handleSubmit}>
+		<form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
 			<label htmlFor="date">Date</label>
 			<input
 				id="date"
 				required
 				type="date"
 				name="date"
-				value={workout.date}
-				onChange={handleChange}
+				// value={workout.date} //delete after setting up react-hook-form?
+				onChange={handleChange} //delete after setting up react-hook-form?
+				{...register("date")}
 			/>
 			<label htmlFor="workout">Body-Part</label>
 			<input
@@ -69,9 +88,10 @@ export function WorkoutForm(props) {
 				type="text"
 				name="title"
 				onChange={handleChange}
-				value={workout.title}
+				// value={workout.title}
 				autoComplete="off"
 				required
+				{...register("title")}
 			/>
 
 			<label htmlFor="exercise">Exercise</label>
@@ -79,10 +99,11 @@ export function WorkoutForm(props) {
 				id="exercise"
 				type="text"
 				name="exercise"
-				value={workout.exercise}
+				// value={workout.exercise}
 				onChange={handleChange}
 				autoComplete="off"
 				required
+				{...register("exercise")}
 			/>
 			<label htmlFor="sets"># of Sets</label>
 			<input
@@ -90,9 +111,10 @@ export function WorkoutForm(props) {
 				id="sets"
 				type="telephone"
 				name="sets"
-				value={workout.sets}
+				// value={workout.sets}
 				onChange={handleChange}
 				autoComplete="off"
+				{...register("sets")}
 			/>
 
 			<label htmlFor="reps"># of Reps</label>
@@ -101,9 +123,10 @@ export function WorkoutForm(props) {
 				id="reps"
 				type="telephone"
 				name="reps"
-				value={workout.reps}
+				// value={workout.reps}
 				onChange={handleChange}
 				autoComplete="off"
+				{...register("reps")}
 			/>
 			<label htmlFor="lbs">lbs</label>
 			<input
@@ -111,9 +134,10 @@ export function WorkoutForm(props) {
 				id="lbs"
 				type="telephone"
 				name="lbs"
-				value={workout.lbs}
+				// value={workout.lbs}
 				onChange={handleChange}
 				autoComplete="off"
+				{...register("lbs")}
 			/>
 
 			<button>Add Workout +</button>
