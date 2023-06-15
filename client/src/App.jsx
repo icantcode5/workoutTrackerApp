@@ -11,20 +11,12 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { PrivateRoutes, PrivateLoginRegisterRoute } from "./utils/PrivateRoutes"
 
-const options = {
-	weekday: "long",
-	month: "short",
-	year: "numeric",
-	day: "numeric",
-}
-const date = new Date().toLocaleDateString("en-us", options)
-
 function App() {
 	return (
 		<>
 			<Routes>
 				<Route element={<PrivateRoutes />}>
-					<Route path="/addWorkout" element={<AddWorkout date={date} />} />
+					<Route path="/addWorkout" element={<AddWorkout />} />
 					<Route path="/viewWorkouts" element={<ViewWorkouts />} />
 					<Route path="/viewWorkouts/:date" element={<ViewWorkouts exact />} />
 					<Route path="/editWorkout/:id" element={<EditWorkout />} />
