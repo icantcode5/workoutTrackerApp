@@ -45,7 +45,7 @@ const logout = async () => {
 	return
 }
 
-const getNewAcessToken = async () => {
+const getNewAccessToken = async () => {
 	let response
 	if (process.env.NODE_ENV === "development") {
 		response = await axios.get("http://localhost:5000/api/refreshToken")
@@ -68,7 +68,7 @@ const authService = {
 	register,
 	login,
 	logout,
-	getNewAcessToken,
+	getNewAccessToken,
 }
 
 export default authService

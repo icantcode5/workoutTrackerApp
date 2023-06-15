@@ -20,7 +20,7 @@ export function ViewWorkouts() {
 	const dispatch = useDispatch()
 	const [calendarDate, setCalendarDate] = useState(date)
 
-	const { workouts, isLoading, isError } = useSelector((state) => {
+	const { workouts, isLoading, isError, message } = useSelector((state) => {
 		return state.workouts
 	})
 
@@ -31,11 +31,30 @@ export function ViewWorkouts() {
 		} else {
 			navigate("/viewWorkouts")
 			dispatch(getWorkouts())
-			dispatch(getNewAccessToken())
+			// dispatch(getNewAccessToken())
 		}
 
-		if (isError) {
-			toast.error("Please login again, session has timed out.", {
+		if (isError && message === 403) {
+			// toast.error(message, {
+			// 	position: "top-right",
+			// 	autoClose: 5000,
+			// 	hideProgressBar: false,
+			// 	closeOnClick: true,
+			// 	pauseOnHover: true,
+			// 	draggable: true,
+			// 	progress: undefined,
+			// 	theme: "light",
+			// })
+
+			//TO DO : WHEN THE TOKEN REFRESHES, THERE ARE MORE THAN 2 CALLS MADE TO VIEW WORKOUTS API (PROBABLY AN ASYNC ERROR) : FIX ERROR HANDLING IN WORKOUTSLICE : ONCE IT ALL WORKS SMOOTHLY, FIND A WAY TO DO THIS IN THE API SLICES IF POSSIBLE AND MAYBE FIND A BETTER WAY TO DO THIS!!
+			dispatch(getNewAccessToken()).then(() => {
+				dispatch(reset())
+				dispatch(getWorkouts())
+			})
+			// dispatch(logout())
+			// navigate("/login")
+		} else if (isError) {
+			toast.error(message, {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -45,13 +64,10 @@ export function ViewWorkouts() {
 				progress: undefined,
 				theme: "light",
 			})
-
-			// dispatch(logout())
-			// navigate("/login")
 		}
 
-		dispatch(reset()) // isSuccess state persists even when we call the dispatch function #bug
-	}, [dispatch, navigate, isError, calendarDate])
+		// dispatch(reset()) // isSuccess state persists even when we call the dispatch function #bug
+	}, [dispatch, navigate, isError, message, calendarDate])
 
 	const handleDelete = (id) => {
 		dispatch(deleteWorkout(id))

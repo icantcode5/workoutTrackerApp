@@ -3,12 +3,12 @@ import authService from "./authService"
 
 //Get user from localStorage
 const userData = JSON.parse(localStorage.getItem("user")) // update token first
-const accessToken = userData.accessToken
+// const accessToken = userData ? userData.accessToken : null
 
 //Initial state is created to check if the user has been successfully created/logged in or display and deal with errors
 const initialState = {
 	userData: userData ? userData : null,
-	accessToken: accessToken ? accessToken : null,
+	accessToken: userData ? userData.accessToken : null,
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
@@ -55,9 +55,12 @@ export const getNewAccessToken = createAsyncThunk(
 	"auth/getNewAccessToken",
 	async (_, thunkAPI) => {
 		try {
-			return await authService.getNewAcessToken()
+			console.log("hello from resfreshTokenAPI") //THIS ISN'T BEING HIT WHEN I CALL IT FROM THE WORKOUT SLICE....
+
+			return await authService.getNewAccessToken()
 		} catch (error) {
 			const message = error.response.data || error.message || error.toString()
+			console.log("Hello from refreshTokenAPI error")
 			return thunkAPI.rejectWithValue(message)
 		}
 	}
@@ -100,7 +103,7 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = action.payload
-				state.token = action.payload.accessToken
+				state.accessToken = action.payload.accessToken
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false
@@ -116,6 +119,7 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = null
+				state.accessToken = null
 			})
 			.addCase(logout.rejected, (state, action) => {
 				state.isLoading = false
@@ -132,7 +136,7 @@ export const authSlice = createSlice({
 				state.isSuccess = true
 				//prettier-ignore
 				state.userData = { ...state.userData, accessToken : action.payload.accessToken }
-				state.token = action.payload.accessToken
+				state.accessToken = action.payload.accessToken
 			})
 			.addCase(getNewAccessToken.rejected, (state, action) => {
 				state.isLoading = false

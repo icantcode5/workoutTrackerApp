@@ -17,8 +17,7 @@ module.exports = {
 
 					//Generate a new access token since old one has expired. (This route is only hit once we need a new access token and the refresh token is still valid)
 					const accessToken = generateToken(decoded.id)
-
-					console.log(accessToken)
+					
 					response.cookie("accessToken", accessToken, {
 						httpOnly: true,
 						secure: process.env.NODE_ENV !== "development",

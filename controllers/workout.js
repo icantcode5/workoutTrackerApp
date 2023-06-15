@@ -23,6 +23,7 @@ module.exports = {
 	},
 	getWorkouts: async (request, response) => {
 		try {
+			console.log("get workouts hit")
 			//since the routes are protected, we are able to use the user's unique id decoded from the token upon any request made while logged in
 
 			//grab only the workouts made by logged in user with their unique id (user's id is attached to the Workout schema)

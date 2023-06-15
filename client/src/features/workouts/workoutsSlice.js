@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import workoutsService from "./workoutsService"
+import authService from "../auth/authService"
+import { useDispatch } from "react-redux"
 
 const initialState = {
 	workouts: [],
@@ -13,18 +15,47 @@ const initialState = {
 export const getWorkouts = createAsyncThunk(
 	"workouts/getWorkouts",
 	async (_, thunkAPI) => {
+		let response
+		let token
+		let message
 		try {
-			const token = thunkAPI.getState().auth.userData.token
+			token = thunkAPI.getState().auth.userData.accessToken
 
 			return await workoutsService.getWorkouts(token)
 		} catch (error) {
-			const message =
+			message =
 				(error.response &&
 					error.response.data &&
 					error.response.data.message) ||
 				error.message ||
+				error?.response?.status ||
 				error.toString()
-			return thunkAPI.rejectWithValue(message)
+			console.log(error?.response?.status)
+
+			if (error?.response?.status === 403) {
+				return thunkAPI.rejectWithValue(403)
+			} else {
+				return thunkAPI.rejectWithValue(message)
+			}
+			// 	console.log("Sending refresh token...")
+
+			// 	const refreshTokenResponse = await authService.getNewAccessToken()
+			// 	console.log(refreshTokenResponse) // This works so the code above is getting ran
+			// 	console.log(thunkAPI.getState().auth.accessToken)
+
+			// 	if (refreshTokenResponse?.accessToken) {
+			// 		//This isn't being hit atm...
+			// 		dispatch()
+			// 		console.log(response)
+			// 	} else {
+			// 		if (refreshTokenResponse?.error?.status === 403) {
+			// 			message = "Your login has expired"
+			// 		}
+			// 		return refreshTokenResponse
+			// 	}
+			// }
+			// console.log("hi from thinkAPI error message")
+			// return thunkAPI.rejectWithValue(message)
 		}
 	}
 )
