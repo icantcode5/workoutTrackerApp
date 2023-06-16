@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useNavigate } from "react-router-dom"
 import { AddWorkout } from "./pages/AddWorkout"
 import { Home } from "./pages/Home"
 import { ViewWorkouts } from "./pages/ViewWorkouts"

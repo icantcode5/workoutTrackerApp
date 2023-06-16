@@ -8,7 +8,6 @@ const userData = JSON.parse(localStorage.getItem("user")) // update token first
 //Initial state is created to check if the user has been successfully created/logged in or display and deal with errors
 const initialState = {
 	userData: userData ? userData : null,
-	accessToken: userData ? userData.accessToken : null,
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
@@ -55,12 +54,10 @@ export const getNewAccessToken = createAsyncThunk(
 	"auth/getNewAccessToken",
 	async (_, thunkAPI) => {
 		try {
-			console.log("hello from resfreshTokenAPI") //THIS ISN'T BEING HIT WHEN I CALL IT FROM THE WORKOUT SLICE....
-
+			console.log("get new accessToken api hit")
 			return await authService.getNewAccessToken()
 		} catch (error) {
 			const message = error.response.data || error.message || error.toString()
-			console.log("Hello from refreshTokenAPI error")
 			return thunkAPI.rejectWithValue(message)
 		}
 	}
@@ -76,6 +73,9 @@ export const authSlice = createSlice({
 			state.isSuccess = false
 			state.isError = false
 			state.message = ""
+		},
+		resetUserData: (state) => {
+			state.userData = null
 		},
 	},
 	// place for thunk functions/async calls
@@ -134,9 +134,9 @@ export const authSlice = createSlice({
 			.addCase(getNewAccessToken.fulfilled, (state, action) => {
 				state.isLoading = false
 				state.isSuccess = true
+				// state.isError = false
 				//prettier-ignore
 				state.userData = { ...state.userData, accessToken : action.payload.accessToken }
-				state.accessToken = action.payload.accessToken
 			})
 			.addCase(getNewAccessToken.rejected, (state, action) => {
 				state.isLoading = false
@@ -149,7 +149,7 @@ export const authSlice = createSlice({
 
 //When we have a reducer inside our slice, such as the reset reducer, we have
 //to export it from "authSlice.actions" which is how we have to write it in redux since it's opiniated. We can use the reset reducer in all our app now
-export const { reset } = authSlice.actions
+export const { reset, resetUserData } = authSlice.actions
 export default authSlice.reducer
 
 //1. change all navs to sit on all pages that way we can have 1 single logout button / api call to remove cookies

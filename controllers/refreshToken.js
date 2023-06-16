@@ -12,7 +12,8 @@ module.exports = {
 				//prettier-ignore
 				const refreshTokenValidated = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
 					if(err){
-						return response.status(403)
+						console.log(err)
+						return response.status(403).json({error:err})
 					}
 
 					//Generate a new access token since old one has expired. (This route is only hit once we need a new access token and the refresh token is still valid)

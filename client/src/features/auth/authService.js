@@ -35,11 +35,17 @@ const login = async (userData) => {
 
 //Added logout API call to remove jwt from cookie headers.
 const logout = async () => {
+	let response
+
 	if (process.env.NODE_ENV === "development") {
-		await axios.post("http://localhost:5000/users/logout")
+		response = await axios.post("http://localhost:5000/users/logout")
 	} else {
 		//prettier-ignore
-		await axios.post("https://fitfocus.onrender.com/users/logout")
+		response = await axios.post("https://fitfocus.onrender.com/users/logout")
+	}
+
+	if (response.data) {
+		localStorage.removeItem("user")
 	}
 
 	return
