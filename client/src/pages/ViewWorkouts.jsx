@@ -33,7 +33,6 @@ export function ViewWorkouts() {
 		}
 
 		if (isError) {
-			console.log(isError)
 			toast.error(message, {
 				position: "top-right",
 				autoClose: 5000,
