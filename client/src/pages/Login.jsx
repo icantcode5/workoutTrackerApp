@@ -67,7 +67,6 @@ export function Login() {
 	}, [userData, isError, isSuccess, message, dispatch, navigate])
 
 	function formSubmit(data) {
-		console.log(data)
 		dispatch(login(data))
 	}
 
@@ -83,20 +82,25 @@ export function Login() {
 					<FaSignInAlt /> Login
 				</p>
 				<form className={styles.form} onSubmit={handleSubmit(formSubmit)}>
+					{/* <label htmlFor="email">Email</label> */}
 					<input
+						id="email"
 						type="email"
-						placeholder="Enter email"
-						autoComplete="off"
+						placeholder="Enter Email"
+						autoComplete="on"
 						{...register("email")}
 					/>
 					<p>{errors.email?.message}</p>
+
+					{/* <label htmlFor="password">Password</label> */}
 					<input
+						id="password"
 						type="password"
 						placeholder="Enter Password"
 						autoComplete="off"
 						{...register("password")}
 					/>
-					{errors.password?.message}
+					<p>{errors.password?.message}</p>
 					<button>Login</button>
 				</form>
 			</section>
