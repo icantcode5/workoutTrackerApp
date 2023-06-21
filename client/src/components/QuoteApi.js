@@ -8,11 +8,15 @@ export function QuoteApi() {
 
 	useEffect(() => {
 		//since we change the code to send the cookies in the header by default, "withCredentials : true" we have to now not send them to the 3rd party API here since it's being blocked because the API is looking for authentication since the credentials are trying to be sent by default.
-		axios
-			.get("https://type.fit/api/quotes", { withCredentials: false })
-			.then((response) =>
-				setQuote(response.data[Math.floor(Math.random() * 1600)].text)
-			)
+		async function fitnessQuote() {
+			const quote = await axios.get("https://type.fit/api/quotes", {
+				withCredentials: false,
+			})
+
+			setQuote(quote.data[Math.floor(Math.random() * 16)].text) //api changed to 16 quotes instead of 1600....
+		}
+
+		fitnessQuote()
 	}, [])
 
 	return <p className={styles.quote}>{quote}</p>
