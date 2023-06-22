@@ -39,9 +39,7 @@ export const getWorkouts = createAsyncThunk(
 	"workouts/getWorkouts",
 	async (_, thunkAPI) => {
 		try {
-			const token = thunkAPI.getState().auth.userData.accessToken
-
-			return await workoutsService.getWorkouts(token)
+			return await workoutsService.getWorkouts()
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -55,19 +53,18 @@ export const getWorkouts = createAsyncThunk(
 				//If we get a forbidden error, we know that we can't access the request because our access token expired so we have to get a new refresh token and then retry the call again. THE PROBLEM WAS THAT I DIDN'T KNOW HOW TO USE THE "DISPATCH" METHOD IN THIS WORKOUT SLICE TO MAKE A REFRESH ACCESS TOKEN API CALL. THE SOLUTION WAS THAT THE "THUNKAPI" OBJECT ACTUALLY HAS THE DISPATCH METHOD WHICH ALLOWS US TO CALL THE REFRESH TOKEN API CALL FROM OUR AUTH SLICE
 				try {
 					await thunkAPI.dispatch(getNewAccessToken())
-					const newToken = thunkAPI.getState().auth.userData.accessToken
 
-					return await workoutsService.getWorkouts(newToken)
+					return await workoutsService.getWorkouts()
 				} catch (error) {
 					if (error?.response?.status === 403) {
 						//PROBLEMS TO SOLVE :
 						//1. ON LOGIN, THE USER ISN'T REDIRECT TO VIEWWORKOUTS BC THE LOGIN API REQUEST COMPLETES AFTER THE LOGIN COMPONENT LOADS
 						//2. ON REFRESH TOKEN EXPIRATION FORCED LOGOUT, THE REQUEST TO GET A NEW ACCESS TOKEN FAILS AND THE VIEW WORKOUT REQUEST FAILS AFTER THE LOGOUT API CALL AND THE SUBSEQUENT DISPATCHES SO THE WORKOUT STATE "ISERROR" IS TRUE AFTER LOGGING OUT AND ITS STATE ISN'T RESET TO FALSE
-						// await thunkAPI.dispatch(logout())
-						// thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
-						// thunkAPI.dispatch(authReset()) //reset auth state object back to false
-						// thunkAPI.dispatch(reset()) // reset workout state object to false
-						// thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
+						await thunkAPI.dispatch(logout())
+						thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
+						thunkAPI.dispatch(authReset()) //reset auth state object back to false
+						thunkAPI.dispatch(reset()) // reset workout state object to false
+						thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
 						// console.log(window.location)
 
 						return thunkAPI.rejectWithValue(message)
@@ -105,11 +102,10 @@ export const editWorkout = createAsyncThunk(
 	"workouts/editWorkout",
 	async ([...rest], thunkAPI) => {
 		try {
-			const token = thunkAPI.getState().auth.userData.token
 			// console.log(thunkAPI.getState().auth)
 			const [workoutId, workoutData] = rest
 
-			return await workoutsService.editWorkout(workoutId, workoutData, token)
+			return await workoutsService.editWorkout(workoutId, workoutData)
 		} catch (error) {
 			console.log(error)
 			const message =
@@ -128,9 +124,7 @@ export const deleteWorkout = createAsyncThunk(
 	"workouts/delete",
 	async (workoutId, thunkAPI) => {
 		try {
-			const token = thunkAPI.getState().auth.userData.token
-
-			return await workoutsService.deleteWorkout(workoutId, token)
+			return await workoutsService.deleteWorkout(workoutId)
 		} catch (error) {
 			const message =
 				(error.response &&
@@ -148,9 +142,7 @@ export const getWorkoutsByDate = createAsyncThunk(
 	"workouts/getWorkoutsByDate",
 	async (date, thunkAPI) => {
 		try {
-			const token = thunkAPI.getState().auth.userData.token
-
-			return await workoutsService.getWorkoutsByDate(date, token)
+			return await workoutsService.getWorkoutsByDate(date)
 		} catch (error) {
 			const message =
 				(error.response &&
