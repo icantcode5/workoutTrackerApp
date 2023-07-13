@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Header } from "../components/Header"
 import { Link } from "react-router-dom"
 import { Workout } from "../components/Workout"
+import { toast } from "react-toastify"
 //redux components
 import { useDispatch, useSelector } from "react-redux"
 //prettier-ignore
@@ -9,6 +10,7 @@ import {getWorkouts,deleteWorkout, getWorkoutsByDate, reset} from "../features/w
 import { useEffect, useState } from "react"
 import Spinner from "../components/Spinner"
 import styles from "../components/styles/ViewWorkouts.module.css"
+import { logout } from "../features/auth/authSlice"
 
 export function ViewWorkouts() {
 	//when the user goes back to the view workouts page, the calendar shows the date they chose but the workouts aren't being shown any more. This is because the workouts by date are only retrieved when the date changes, so if we want the workouts to be shown when the user goes back, we have to make a request based on if there is a date parameter in the URL i think instead of onChange???? THE SOLUTION WAS TO MAKE A GET REQUEST OF THE WORKOUTS BY DATE IF THERE IS A DATE IN THE URL PARAMETER ALONG WITH PUTTING IT INSIDE OF A USEEFFECT THAT WAY THE WORKOUTS BY DATE LOAD ON HITTING THE BACK BUTTON AS USEEFFECT RUNS ONCE ON COMPONENT LOAD AND DEP. ARRAY VALUES CHANGING.
@@ -18,7 +20,7 @@ export function ViewWorkouts() {
 	const dispatch = useDispatch()
 	const [calendarDate, setCalendarDate] = useState(date)
 
-	const { workouts, isLoading, isError, message } = useSelector((state) => {
+	const { workouts, isLoading, isError } = useSelector((state) => {
 		return state.workouts
 	})
 
@@ -32,11 +34,23 @@ export function ViewWorkouts() {
 		}
 
 		if (isError) {
-			console.log(message)
+			toast.error("Please login again, session has timed out.", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			})
+
+			// dispatch(logout())
+			// navigate("/login")
 		}
 
 		dispatch(reset()) // isSuccess state persists even when we call the dispatch function #bug
-	}, [dispatch, navigate, isError, message, calendarDate])
+	}, [dispatch, navigate, isError, calendarDate])
 
 	const handleDelete = (id) => {
 		dispatch(deleteWorkout(id))

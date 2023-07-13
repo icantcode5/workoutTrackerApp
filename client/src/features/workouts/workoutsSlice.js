@@ -18,7 +18,6 @@ export const getWorkouts = createAsyncThunk(
 
 			return await workoutsService.getWorkouts(token)
 		} catch (error) {
-			console.log("Error from thunk " + error)
 			const message =
 				(error.response &&
 					error.response.data &&

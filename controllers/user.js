@@ -49,6 +49,7 @@ module.exports = {
 					_id: user.id,
 					name: user.name,
 					email: user.email,
+					tokenExpiration: user.tokenExpiration,
 				})
 			} else {
 				response.status(400).send("Invalid User, Please try again")
@@ -58,13 +59,15 @@ module.exports = {
 			console.log(err)
 		}
 	},
-	//Authenticate user
+
+	//Login/Authenticate user
 	//POST METHOD
 	loginUser: async (request, response) => {
 		try {
 			const { email, password } = request.body
 
 			const user = await User.findOne({ email })
+			const tokenExpiration = jwt.decode(generateToken(user._id)).exp
 
 			if (user && (await bcrypt.compare(password, user.password))) {
 				//ignore-prettier
@@ -81,6 +84,7 @@ module.exports = {
 					name: user.name,
 					email: user.email,
 					authorized: true,
+					tokenExpiration: tokenExpiration,
 				})
 			} else {
 				response
