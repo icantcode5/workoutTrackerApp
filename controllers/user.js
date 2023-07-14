@@ -1,19 +1,8 @@
 const User = require("../models/User")
-const jwt = require("jsonwebtoken")
+const Token = require("../models/Token")
 const bcrypt = require("bcrypt") // hash password to be unknown to anyone
-
-//generate an encrypted token to keep logged in user online for x amount of days before destroying the token and logging them out. Also keep registered users logged in too
-function generateToken(id) {
-	return jwt.sign({ id }, process.env.JWT_SECRET, {
-		expiresIn: "30m",
-	})
-}
-
-function generateRefreshToken(id) {
-	return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-		expiresIn: "1hr",
-	})
-}
+//prettier-ignore
+const { generateToken, generateRefreshToken } = require("../utils/generateTokens")
 
 module.exports = {
 	//register new user
@@ -54,15 +43,7 @@ module.exports = {
 				//Once User is created, create http header cookie token
 				//maxAge is the amount of the time the token will be recongized by browser (expired or not)
 				// When we create the token and sign it, expiresIn property determines how much time the token is valid for authorization.
-				response.cookie("jwt", generateToken(user._id), {
-					httpOnly: true,
-					secure: process.env.NODE_ENV !== "development",
-					sameSite: "strict",
-					maxAge: 7 * 24 * 60 * 60 * 1000,
-					path: "/",
-				})
-
-				response.cookie("refreshToken", generateToken(user._id), {
+				response.cookie("accessToken", generateToken(user._id), {
 					httpOnly: true,
 					secure: process.env.NODE_ENV !== "development",
 					sameSite: "strict",
@@ -91,25 +72,37 @@ module.exports = {
 			const { email, password } = request.body
 
 			const user = await User.findOne({ email })
-			const tokenExpiration = jwt.decode(generateToken(user._id)).exp
 
 			if (user && (await bcrypt.compare(password, user.password))) {
+				const refreshToken = generateRefreshToken(user._id)
+				const addRefreshTokentoDB = await Token.create({
+					userId: user._id,
+					token: refreshToken,
+				})
 				//ignore-prettier
 				//We can add as many "Set-Cookie" to the response header by chaining mulitiple ".cookie()" to the response.
-				response.cookie("jwt", generateToken(user._id), {
-					httpOnly: true,
-					secure: process.env.NODE_ENV !== "development",
-					sameSite: "strict",
-					maxAge: 7 * 24 * 60 * 60 * 1000,
-					path: "/",
-				})
+				response
+					.cookie("accessToken", generateToken(user._id), {
+						httpOnly: true,
+						secure: process.env.NODE_ENV !== "development",
+						sameSite: "strict",
+						maxAge: 7 * 24 * 60 * 60 * 1000,
+						path: "/",
+					})
+					.cookie("refreshToken", refreshToken, {
+						httpOnly: true,
+						secure: process.env.NODE_ENV !== "development",
+						sameSite: "strict",
+						maxAge: 7 * 24 * 60 * 60 * 1000,
+						path: "/",
+					})
 
 				response.json({
 					_id: user.id,
 					name: user.name,
 					email: user.email,
 					authorized: true,
-					tokenExpiration: tokenExpiration,
+					// addRefreshTokentoDB,
 				})
 			} else {
 				response
@@ -125,13 +118,30 @@ module.exports = {
 
 	//Logout User
 	//POST METHOD
-
+	//Remove refreshToken from DB
 	logoutUser: async (request, response) => {
-		response.cookie("jwt", "", {
-			httpOnly: true,
-			expires: new Date(0),
-		})
-		response.status(200).json({ message: "user logged out" })
+		try {
+			const refreshToken = request.cookies.refreshToken
+			//prettier-ignore
+			const deleteRefreshTokenFromDB = await Token.deleteOne({token : refreshToken})
+
+			response
+				.clearCookie("refreshToken", {
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: "strict",
+					maxAge: 7 * 24 * 60 * 60 * 1000,
+					path: "/",
+				})
+				.clearCookie("accessToken", {
+					httpOnly: true,
+					secure: process.env.NODE_ENV !== "development",
+					sameSite: "strict",
+					maxAge: 7 * 24 * 60 * 60 * 1000,
+					path: "/",
+				})
+			response.status(200).json({ message: "user logged out" })
+		} catch (error) {}
 	},
 
 	//Get user data

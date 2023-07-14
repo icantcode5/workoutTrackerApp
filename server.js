@@ -43,7 +43,7 @@ app.use(
 //Setup Routes For Which The Server Is Listening
 app.use("/users", userRoutes)
 app.use("/workout", workoutRoutes)
-app.use("/api/session", refreshTokenRoutes)
+app.use("/api/refreshToken", refreshTokenRoutes)
 
 if (process.env.NODE_ENV === "production") {
 	app.get("*", (req, res) => {
