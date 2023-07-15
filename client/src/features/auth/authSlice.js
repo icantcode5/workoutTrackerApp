@@ -3,10 +3,12 @@ import authService from "./authService"
 
 //Get user from localStorage
 const userData = JSON.parse(localStorage.getItem("user")) // update token first
+const accessToken = userData.accessToken
 
 //Initial state is created to check if the user has been successfully created/logged in or display and deal with errors
 const initialState = {
 	userData: userData ? userData : null,
+	accessToken: accessToken ? accessToken : null,
 	isError: false,
 	isSuccess: false,
 	isLoading: false,
@@ -48,6 +50,19 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 	}
 })
 
+//Request a new Access token to replace expired one
+export const getNewAccessToken = createAsyncThunk(
+	"auth/getNewAccessToken",
+	async (_, thunkAPI) => {
+		try {
+			return await authService.getNewAcessToken()
+		} catch (error) {
+			const message = error.response.data || error.message || error.toString()
+			return thunkAPI.rejectWithValue(message)
+		}
+	}
+)
+
 export const authSlice = createSlice({
 	name: "auth",
 	initialState,
@@ -58,13 +73,6 @@ export const authSlice = createSlice({
 			state.isSuccess = false
 			state.isError = false
 			state.message = ""
-		},
-		removeUserData: (state) => {
-			state.isLoading = false
-			state.isSuccess = false
-			state.isError = false
-			state.message = ""
-			state.userData = null
 		},
 	},
 	// place for thunk functions/async calls
@@ -92,6 +100,7 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = action.payload
+				state.token = action.payload.accessToken
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false
@@ -115,12 +124,28 @@ export const authSlice = createSlice({
 				state.message = action.payload
 				state.userData = null
 			})
+			.addCase(getNewAccessToken.pending, (state) => {
+				state.isLoading = true
+			})
+			.addCase(getNewAccessToken.fulfilled, (state, action) => {
+				state.isLoading = false
+				state.isSuccess = true
+				//prettier-ignore
+				state.userData = { ...state.userData, accessToken : action.payload.accessToken }
+				state.token = action.payload.accessToken
+			})
+			.addCase(getNewAccessToken.rejected, (state, action) => {
+				state.isLoading = false
+				state.isError = true
+				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
+				state.message = action.payload
+			})
 	},
 })
 
 //When we have a reducer inside our slice, such as the reset reducer, we have
 //to export it from "authSlice.actions" which is how we have to write it in redux since it's opiniated. We can use the reset reducer in all our app now
-export const { reset, removeUserData } = authSlice.actions
+export const { reset } = authSlice.actions
 export default authSlice.reducer
 
 //1. change all navs to sit on all pages that way we can have 1 single logout button / api call to remove cookies

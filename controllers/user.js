@@ -75,6 +75,7 @@ module.exports = {
 
 			if (user && (await bcrypt.compare(password, user.password))) {
 				const refreshToken = generateRefreshToken(user._id)
+				const accessToken = generateToken(user._id)
 				const addRefreshTokentoDB = await Token.create({
 					userId: user._id,
 					token: refreshToken,
@@ -82,7 +83,7 @@ module.exports = {
 				//ignore-prettier
 				//We can add as many "Set-Cookie" to the response header by chaining mulitiple ".cookie()" to the response.
 				response
-					.cookie("accessToken", generateToken(user._id), {
+					.cookie("accessToken", accessToken, {
 						httpOnly: true,
 						secure: process.env.NODE_ENV !== "development",
 						sameSite: "strict",
@@ -102,7 +103,7 @@ module.exports = {
 					name: user.name,
 					email: user.email,
 					authorized: true,
-					// addRefreshTokentoDB,
+					accessToken,
 				})
 			} else {
 				response
