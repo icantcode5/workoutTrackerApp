@@ -13,11 +13,12 @@ This application is a functioning workout logging application that helps "fitfoc
 3. Create a MongoDB account and set up your client connection string in the .env file - https://account.mongodb.com/account/login
 4. Create a JWT account and set up the JWT token secret in the .env file to allow authorization/authentication - https://auth0.com/signup?_ga=2.186242795.357770778.1682114575-778080090.1675400718&_gl=1*b8p4u8*rollup_ga*Nzc4MDgwMDkwLjE2NzU0MDA3MTg.*rollup_ga_F1G3E656YZ*MTY4MjExNDU3NC40LjEuMTY4MjExNDYwMS4zMy4wLjA.
 5. In the root directory run `npm run dev` to get the server up and running on your selected port.
-6. In the root directory, cd into the client folder and run `npm start` to get your frontend running on port 5173.
+6. In the root directory, cd into the client folder and run `npm start` to get your frontend running on port 3000.
+<!-- change to running on port 3000 above -->
 
 ## Currently working on
 
-1. Set up a calendar feature to add workouts retroactively.
-2. Include conversion to kilograms
+1. Finish refresh token implementation on frontend
+2. Adding Nav layout to switch between pages easier
 3. Update UI to make viewing workouts easier
 4. Add responsive layout
