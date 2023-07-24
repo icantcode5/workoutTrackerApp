@@ -142,7 +142,9 @@ module.exports = {
 					path: "/",
 				})
 			response.status(200).json({ message: "user logged out" })
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	},
 
 	//Get user data

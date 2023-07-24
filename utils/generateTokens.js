@@ -11,7 +11,7 @@ module.exports = {
 	//Refresh Token
 	generateRefreshToken: (id) => {
 		return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-			expiresIn: "1d",
+			expiresIn: "15s",
 		})
 	},
 }

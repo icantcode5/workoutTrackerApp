@@ -10,7 +10,6 @@ import {getWorkouts,deleteWorkout, getWorkoutsByDate, reset} from "../features/w
 import { useEffect, useState } from "react"
 import Spinner from "../components/Spinner"
 import styles from "../components/styles/ViewWorkouts.module.css"
-import { getNewAccessToken, logout } from "../features/auth/authSlice"
 
 export function ViewWorkouts() {
 	//when the user goes back to the view workouts page, the calendar shows the date they chose but the workouts aren't being shown any more. This is because the workouts by date are only retrieved when the date changes, so if we want the workouts to be shown when the user goes back, we have to make a request based on if there is a date parameter in the URL i think instead of onChange???? THE SOLUTION WAS TO MAKE A GET REQUEST OF THE WORKOUTS BY DATE IF THERE IS A DATE IN THE URL PARAMETER ALONG WITH PUTTING IT INSIDE OF A USEEFFECT THAT WAY THE WORKOUTS BY DATE LOAD ON HITTING THE BACK BUTTON AS USEEFFECT RUNS ONCE ON COMPONENT LOAD AND DEP. ARRAY VALUES CHANGING.
@@ -31,29 +30,10 @@ export function ViewWorkouts() {
 		} else {
 			navigate("/viewWorkouts")
 			dispatch(getWorkouts())
-			// dispatch(getNewAccessToken())
 		}
 
-		if (isError && message === 403) {
-			// toast.error(message, {
-			// 	position: "top-right",
-			// 	autoClose: 5000,
-			// 	hideProgressBar: false,
-			// 	closeOnClick: true,
-			// 	pauseOnHover: true,
-			// 	draggable: true,
-			// 	progress: undefined,
-			// 	theme: "light",
-			// })
-
-			//TO DO : WHEN THE TOKEN REFRESHES, THERE ARE MORE THAN 2 CALLS MADE TO VIEW WORKOUTS API (PROBABLY AN ASYNC ERROR) : FIX ERROR HANDLING IN WORKOUTSLICE : ONCE IT ALL WORKS SMOOTHLY, FIND A WAY TO DO THIS IN THE API SLICES IF POSSIBLE AND MAYBE FIND A BETTER WAY TO DO THIS!!
-			dispatch(getNewAccessToken()).then(() => {
-				dispatch(reset())
-				dispatch(getWorkouts())
-			})
-			// dispatch(logout())
-			// navigate("/login")
-		} else if (isError) {
+		if (isError) {
+			console.log(isError)
 			toast.error(message, {
 				position: "top-right",
 				autoClose: 5000,

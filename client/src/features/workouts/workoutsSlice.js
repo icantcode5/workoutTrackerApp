@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import workoutsService from "./workoutsService"
-import authService from "../auth/authService"
-import { useDispatch } from "react-redux"
+import {
+	getNewAccessToken,
+	logout,
+	resetUserData,
+	reset as authReset,
+} from "../auth/authSlice"
 
 const initialState = {
 	workouts: [],
@@ -15,47 +19,41 @@ const initialState = {
 export const getWorkouts = createAsyncThunk(
 	"workouts/getWorkouts",
 	async (_, thunkAPI) => {
-		let response
-		let token
-		let message
 		try {
-			token = thunkAPI.getState().auth.userData.accessToken
+			const token = thunkAPI.getState().auth.userData.accessToken
 
 			return await workoutsService.getWorkouts(token)
 		} catch (error) {
-			message =
+			const message =
 				(error.response &&
 					error.response.data &&
 					error.response.data.message) ||
 				error.message ||
 				error?.response?.status ||
 				error.toString()
-			console.log(error?.response?.status)
 
 			if (error?.response?.status === 403) {
-				return thunkAPI.rejectWithValue(403)
+				//If we get a forbidden error, we know that we can't access the request because our access token expired so we have to get a new refresh token and then retry the call again. THE PROBLEM WAS THAT I DIDN'T KNOW HOW TO USE THE "DISPATCH" METHOD IN THIS WORKOUT SLICE TO MAKE A REFRESH ACCESS TOKEN API CALL. THE SOLUTION WAS THAT THE "THUNKAPI" OBJECT ACTUALLY HAS THE DISPATCH METHOD WHICH ALLOWS US TO CALL THE REFRESH TOKEN API CALL FROM OUR AUTH SLICE
+				try {
+					await thunkAPI.dispatch(getNewAccessToken())
+					const newToken = thunkAPI.getState().auth.userData.accessToken
+
+					return await workoutsService.getWorkouts(newToken)
+				} catch (error) {
+					if (error?.response?.status === 403) {
+						thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
+						thunkAPI.dispatch(authReset()) //reset auth state object back to false
+						thunkAPI.dispatch(reset()) // reset workout state object to false
+						thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
+
+						await thunkAPI.dispatch(logout())
+						return thunkAPI.rejectWithValue(message)
+					}
+					return thunkAPI.rejectWithValue(message)
+				}
 			} else {
 				return thunkAPI.rejectWithValue(message)
 			}
-			// 	console.log("Sending refresh token...")
-
-			// 	const refreshTokenResponse = await authService.getNewAccessToken()
-			// 	console.log(refreshTokenResponse) // This works so the code above is getting ran
-			// 	console.log(thunkAPI.getState().auth.accessToken)
-
-			// 	if (refreshTokenResponse?.accessToken) {
-			// 		//This isn't being hit atm...
-			// 		dispatch()
-			// 		console.log(response)
-			// 	} else {
-			// 		if (refreshTokenResponse?.error?.status === 403) {
-			// 			message = "Your login has expired"
-			// 		}
-			// 		return refreshTokenResponse
-			// 	}
-			// }
-			// console.log("hi from thinkAPI error message")
-			// return thunkAPI.rejectWithValue(message)
 		}
 	}
 )
@@ -155,6 +153,9 @@ export const workoutsSlice = createSlice({
 			state.isSuccess = false
 			state.message = ""
 		},
+		resetWorkouts: (state) => {
+			state.workouts = []
+		},
 	},
 	extraReducers: (builder) => {
 		//builder cases take care of the return from the thunk function's promise. Whether it rejects or fulfills the promise.
@@ -197,6 +198,8 @@ export const workoutsSlice = createSlice({
 			})
 			.addCase(getWorkouts.pending, (state) => {
 				state.isLoading = true
+				// state.isError = false
+				state.isSuccess = false
 			})
 			.addCase(getWorkouts.fulfilled, (state, action) => {
 				state.isLoading = false
@@ -248,5 +251,5 @@ export const workoutsSlice = createSlice({
 	},
 })
 
-export const { reset } = workoutsSlice.actions
+export const { reset, resetWorkouts } = workoutsSlice.actions
 export default workoutsSlice.reducer

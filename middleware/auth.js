@@ -21,7 +21,7 @@ module.exports = {
 				request.user = await User.findById(decodedAccessToken.id).select("-password")
 				next()
 			} catch (err) {
-				console.log(err.message)
+				// console.log(err.message)
 				response.status(403).json({ error: err.message })
 				// throw new Error("Not Authorized!")  //THIS LINE OF CODE STOPS THE SERVER FROM RUNNING WHICH IS NOT WHAT WE WANT WHEN WE WANT TO GET A NEW REFRESH TOKEN AFTER AN EXPIRED ONE COMES THROUGH THE MIDDLEWARE
 
@@ -30,7 +30,7 @@ module.exports = {
 			}
 		}
 
-		if (!request.header("Authorization") && refreshTokenCookie) {
+		if (!request.header("Authorization") && !refreshTokenCookie) {
 			response.status(400).send("No cookie found, not Authorized")
 			throw new Error("No cookie found, Not Authorized")
 		}

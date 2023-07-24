@@ -5,7 +5,7 @@ import styles from "./styles/Header.module.css"
 import { MdOutlineFitnessCenter } from "react-icons/md"
 //redux imports
 import { useDispatch } from "react-redux"
-import { logout } from "../features/auth/authSlice"
+import { logout, resetUserData } from "../features/auth/authSlice"
 import { useNavigate } from "react-router-dom"
 
 export function Header() {
@@ -15,8 +15,8 @@ export function Header() {
 
 	//Logout function
 	const logoutHandler = () => {
-		localStorage.removeItem("user")
 		dispatch(logout())
+		dispatch(resetUserData())
 		navigate("/login")
 	}
 
