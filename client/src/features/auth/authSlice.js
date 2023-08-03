@@ -54,7 +54,6 @@ export const getNewAccessToken = createAsyncThunk(
 	"auth/getNewAccessToken",
 	async (_, thunkAPI) => {
 		try {
-			console.log("get new accessToken api hit")
 			return await authService.getNewAccessToken()
 		} catch (error) {
 			const message = error.response.data || error.message || error.toString()
@@ -103,14 +102,13 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = action.payload
-				state.accessToken = action.payload.accessToken
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoading = false
 				state.isError = true
 				//when the thunk function returns an error bc of the async function promise failing, we can pass the returned error to our message state to be later displayed for the user
 				state.message = action.payload
-				state.userData = null
+				// state.userData = null
 			})
 			.addCase(logout.pending, (state) => {
 				state.isLoading = true
@@ -119,7 +117,6 @@ export const authSlice = createSlice({
 				state.isLoading = false
 				state.isSuccess = true
 				state.userData = null
-				state.accessToken = null
 			})
 			.addCase(logout.rejected, (state, action) => {
 				state.isLoading = false

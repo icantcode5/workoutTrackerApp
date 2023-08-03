@@ -5,7 +5,10 @@ import styles from "./styles/Header.module.css"
 import { MdOutlineFitnessCenter } from "react-icons/md"
 //redux imports
 import { useDispatch } from "react-redux"
-import { logout, resetUserData } from "../features/auth/authSlice"
+//prettier-ignore
+import { logout, resetUserData, reset as authReset } from "../features/auth/authSlice"
+//prettier-ignore
+import {resetWorkouts, reset as workoutStatusReset } from "../features/workouts/workoutsSlice"
 import { useNavigate } from "react-router-dom"
 
 export function Header() {
@@ -14,9 +17,12 @@ export function Header() {
 	const dispatch = useDispatch()
 
 	//Logout function
-	const logoutHandler = () => {
-		dispatch(logout())
+	const logoutHandler = async () => {
+		await dispatch(logout()) // await is needed so that logout state finishes before resetting auth and workout states
 		dispatch(resetUserData())
+		dispatch(authReset())
+		dispatch(resetWorkouts())
+		dispatch(workoutStatusReset())
 		navigate("/login")
 	}
 

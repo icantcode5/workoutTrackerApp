@@ -41,12 +41,17 @@ export const getWorkouts = createAsyncThunk(
 					return await workoutsService.getWorkouts(newToken)
 				} catch (error) {
 					if (error?.response?.status === 403) {
+						//PROBLEMS TO SOLVE :
+						//1. ON LOGIN, THE USER ISN'T REDIRECT TO VIEWWORKOUTS BC THE LOGIN API REQUEST COMPLETES AFTER THE LOGIN COMPONENT LOADS
+						//2. ON REFRESH TOKEN EXPIRATION FORCED LOGOUT, THE REQUEST TO GET A NEW ACCESS TOKEN FAILS AND THE VIEW WORKOUT REQUEST FAILS AFTER THE LOGOUT API CALL AND THE SUBSEQUENT DISPATCHES SO THE WORKOUT STATE "ISERROR" IS TRUE AFTER LOGGING OUT AND ITS STATE ISN'T RESET TO FALSE
+						console.log(thunkAPI.abort())
+						await thunkAPI.dispatch(logout())
 						thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
 						thunkAPI.dispatch(authReset()) //reset auth state object back to false
 						thunkAPI.dispatch(reset()) // reset workout state object to false
 						thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
+						// console.log(window.location)
 
-						await thunkAPI.dispatch(logout())
 						return thunkAPI.rejectWithValue(message)
 					}
 					return thunkAPI.rejectWithValue(message)
