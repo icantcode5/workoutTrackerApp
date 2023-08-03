@@ -76,6 +76,7 @@ module.exports = {
 			if (user && (await bcrypt.compare(password, user.password))) {
 				const refreshToken = generateRefreshToken(user._id)
 				const accessToken = generateToken(user._id)
+
 				const addRefreshTokentoDB = await Token.create({
 					userId: user._id,
 					token: refreshToken,
@@ -103,7 +104,6 @@ module.exports = {
 					name: user.name,
 					email: user.email,
 					authorized: true,
-					accessToken,
 				})
 			} else {
 				response
