@@ -7,6 +7,10 @@ import {
 	reset as authReset,
 } from "../auth/authSlice"
 
+//RTQ Implementation
+
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+
 const initialState = {
 	workouts: [],
 	isLoading: false,
@@ -14,6 +18,21 @@ const initialState = {
 	isError: false,
 	message: "",
 }
+
+//RTQ Implementation
+
+export const apiSlice = createApi({
+	reducerPath: "api",
+	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+	endpoints: (builder) => ({
+		getWorkouts: builder.query({
+			query: () => "/workout/viewWorkouts",
+		}),
+	}),
+})
+
+//A hook based on what we call our "endpoints" query property is automatically created for use. In our case it's "useGetWorkoutsQuery"
+export const { useGetWorkoutsQuery } = apiSlice
 
 //Get workouts
 export const getWorkouts = createAsyncThunk(
@@ -44,12 +63,11 @@ export const getWorkouts = createAsyncThunk(
 						//PROBLEMS TO SOLVE :
 						//1. ON LOGIN, THE USER ISN'T REDIRECT TO VIEWWORKOUTS BC THE LOGIN API REQUEST COMPLETES AFTER THE LOGIN COMPONENT LOADS
 						//2. ON REFRESH TOKEN EXPIRATION FORCED LOGOUT, THE REQUEST TO GET A NEW ACCESS TOKEN FAILS AND THE VIEW WORKOUT REQUEST FAILS AFTER THE LOGOUT API CALL AND THE SUBSEQUENT DISPATCHES SO THE WORKOUT STATE "ISERROR" IS TRUE AFTER LOGGING OUT AND ITS STATE ISN'T RESET TO FALSE
-						console.log(thunkAPI.abort())
-						await thunkAPI.dispatch(logout())
-						thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
-						thunkAPI.dispatch(authReset()) //reset auth state object back to false
-						thunkAPI.dispatch(reset()) // reset workout state object to false
-						thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
+						// await thunkAPI.dispatch(logout())
+						// thunkAPI.dispatch(resetUserData()) //set userData from auth state to null
+						// thunkAPI.dispatch(authReset()) //reset auth state object back to false
+						// thunkAPI.dispatch(reset()) // reset workout state object to false
+						// thunkAPI.dispatch(resetWorkouts()) // set workouts from workouts state to empty
 						// console.log(window.location)
 
 						return thunkAPI.rejectWithValue(message)
@@ -68,10 +86,8 @@ export const createWorkout = createAsyncThunk(
 	"workouts/createWorkout",
 	async (workoutData, thunkAPI) => {
 		try {
-			//we are getting the current userState's token which we saved in our "auth's" state. We can also get the token from our localeStorage too!
-			const token = thunkAPI.getState().auth.userData.token
-			// console.log(thunkAPI.getState())
-			return await workoutsService.createWorkout(workoutData, token)
+			//Updated to send access token, which is in the headers, on every request to our backend
+			return await workoutsService.createWorkout(workoutData)
 		} catch (error) {
 			const message =
 				(error.response &&

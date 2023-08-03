@@ -3,16 +3,9 @@ axios.defaults.withCredentials = true
 
 //Get Workouts
 const getWorkouts = async (accessToken) => {
-	const config = {
-		headers: {
-			Authorization: `Bearer ${accessToken}`,
-		},
-	}
-
 	if (process.env.NODE_ENV === "development") {
 		const response = await axios.get(
-			"http://localhost:5000/workout/viewWorkouts",
-			config
+			"http://localhost:5000/workout/viewWorkouts"
 		)
 		return response.data
 	} else {

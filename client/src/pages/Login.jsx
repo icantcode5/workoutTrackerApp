@@ -13,6 +13,7 @@ import Spinner from "../components/Spinner"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { useGetWorkoutsQuery } from "../features/workouts/workoutsSlice"
 
 export function Login() {
 	const dispatch = useDispatch()
@@ -27,20 +28,22 @@ export function Login() {
 		resolver: yupResolver(loginSchema)
 	})
 
-	//useSelector is how we grab the state we are keeping track of from the auth slice
+	// useSelector is how we grab the state we are keeping track of from the auth slice
 	const { userData, isLoading, isError, isSuccess, message } = useSelector(
 		(state) => {
 			return state.auth
 		}
 	)
 
-	console.log(isSuccess)
-	console.log(userData)
+	// const { data, isLoading, isError, isSuccess, error } = useGetWorkoutsQuery()
+	// console.log(error)
+	// console.log(data)
+	// console.log(isError)
 
 	//If the user successfully signs in and the token in stored in the localStorage from the dispatch(login()) function, the useEffect fires and the user can see his/her workouts or the "toast" error is displayed. Otherwise the dispatch function is called to reset all the state
 	useEffect(() => {
 		if (isError) {
-			toast.error(message, {
+			toast.error("hello, signed in", {
 				position: "top-right",
 				autoClose: 5000,
 				hideProgressBar: false,
@@ -71,7 +74,7 @@ export function Login() {
 
 		console.log("hello from login useEffect")
 		// dispatch(reset())
-	}, [userData, isError, isSuccess, message, dispatch, navigate])
+	}, [userData, isError, isSuccess, dispatch, navigate])
 
 	async function formSubmit(data) {
 		dispatch(login(data))
